@@ -11,9 +11,9 @@ namespace EHentaiAPI.Client.Parser
 {
     public static class EventPaneParser
     {
-        public static String parse(String body)
+        public static string parse(string body)
         {
-            String @event = null;
+            string @event = null;
             try
             {
                 Document d = Document.parse(body);

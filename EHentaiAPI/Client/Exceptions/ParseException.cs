@@ -10,12 +10,12 @@ namespace EHentaiAPI.Client.Exceptions
     {
         private string mBody;
 
-        public ParseException(String detailMessage, String body) : base(detailMessage)
+        public ParseException(string detailMessage, string body) : base(detailMessage)
         {
             mBody = body;
         }
 
-        public ParseException(String detailMessage, String body, Exception cause) : base(detailMessage, cause)
+        public ParseException(string detailMessage, string body, Exception cause) : base(detailMessage, cause)
         {
             mBody = body;
         }

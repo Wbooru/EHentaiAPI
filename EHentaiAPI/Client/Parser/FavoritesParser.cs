@@ -13,13 +13,13 @@ namespace EHentaiAPI.Client.Parser
 {
     public class FavoritesParser
     {
-        public static Result parse(Settings settings, String body)
+        public static Result parse(Settings settings, string body)
         {
             if (body.Contains("This page requires you to log on.</p>"))
             {
                 throw new EhException("Signing in is required");
             }
-            String[] catArray = new String[10];
+            string[] catArray = new string[10];
             int[] countArray = new int[10];
 
             try
@@ -58,7 +58,7 @@ namespace EHentaiAPI.Client.Parser
 
         public class Result
         {
-            public String[] catArray; // Size 10
+            public string[] catArray; // Size 10
             public int[] countArray; // Size 10
             public int pages;
             public int nextPage;

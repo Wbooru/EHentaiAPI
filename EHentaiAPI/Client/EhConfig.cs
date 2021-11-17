@@ -505,7 +505,7 @@ namespace EHentaiAPI.Client
          * key: {@link #KEY_LOAD_FROM_HAH}<br/>
          * value: {@link #LOAD_FROM_HAH_YES}, {@link #LOAD_FROM_HAH_NO}
          */
-        public String loadFromHAH = LOAD_FROM_HAH_YES;
+        public string loadFromHAH = LOAD_FROM_HAH_YES;
 
         /**
          * Image Size<br/>
@@ -513,7 +513,7 @@ namespace EHentaiAPI.Client
          * value: {@link #IMAGE_SIZE_AUTO}, {@link #IMAGE_SIZE_780X}, {@link #IMAGE_SIZE_980X},
          * {@link #IMAGE_SIZE_1280X}, {@link #IMAGE_SIZE_1600X}, {@link #IMAGE_SIZE_2400X}
          */
-        public String imageSize = IMAGE_SIZE_AUTO;
+        public string imageSize = IMAGE_SIZE_AUTO;
 
         /**
          * Scale width<br/>
@@ -534,7 +534,7 @@ namespace EHentaiAPI.Client
          * key: {@link #KEY_GALLERY_TITLE}<br/>
          * value: {@link #GALLERY_TITLE_DEFAULT}, {@link #GALLERY_TITLE_JAPANESE}
          */
-        public String galleryTitle = GALLERY_TITLE_DEFAULT;
+        public string galleryTitle = GALLERY_TITLE_DEFAULT;
 
         /**
          * The default behavior for downloading an archiver<br/>
@@ -542,7 +542,7 @@ namespace EHentaiAPI.Client
          * value: {@link #ARCHIVER_DOWNLOAD_MAMS}, {@link #ARCHIVER_DOWNLOAD_AAMS},
          * {@link #ARCHIVER_DOWNLOAD_MAAS}, {@link #ARCHIVER_DOWNLOAD_AAAS}
          */
-        public String archiverDownload = ARCHIVER_DOWNLOAD_MAMS;
+        public string archiverDownload = ARCHIVER_DOWNLOAD_MAMS;
 
         /**
          * Display mode used on the front and search pages<br/>
@@ -550,14 +550,14 @@ namespace EHentaiAPI.Client
          * key: {@link #KEY_LAYOUT_MODE}<br/>
          * value: {@link #LAYOUT_MODE_LIST}, {@link #LAYOUT_MODE_THUMB}
          */
-        public String layoutMode = LAYOUT_MODE_LIST;
+        public string layoutMode = LAYOUT_MODE_LIST;
 
         /**
          * Show popular or not<br/>
          * key: {@link #KEY_POPULAR}<br/>
          * value: {@link #POPULAR_YES}, {@link #POPULAR_NO}
          */
-        public String popular = POPULAR_YES;
+        public string popular = POPULAR_YES;
 
         /**
          * Default categories on the front page<br/>
@@ -572,7 +572,7 @@ namespace EHentaiAPI.Client
          * key: {@link #KEY_FAVORITES_SORT}<br/>
          * value: {@link #FAVORITES_SORT_GALLERY_UPDATE_TIME}, {@link #FAVORITES_SORT_FAVORITED_TIME}
          */
-        public String favoritesSort = FAVORITES_SORT_FAVORITED_TIME;
+        public string favoritesSort = FAVORITES_SORT_FAVORITED_TIME;
 
         /**
          * Certain namespaces excluded from a default tag search<br/>
@@ -588,7 +588,7 @@ namespace EHentaiAPI.Client
          * value: {@link #JAPANESE_TRANSLATED}, {@link #JAPANESE_REWRITE} ...
          * For multiple languages, use <code>x<code/> to combine them, like 1x1024x2048
          */
-        public String excludedLanguages = "";
+        public string excludedLanguages = "";
 
         /**
          * How many results would you like per page for the index/search page
@@ -598,21 +598,21 @@ namespace EHentaiAPI.Client
          * {@link #RESULT_COUNT_100}, {@link #RESULT_COUNT_200}<br/>
          * Require <code>Hath Perk:Paging Enlargement</code>
          */
-        public String resultCount = RESULT_COUNT_25;
+        public string resultCount = RESULT_COUNT_25;
 
         /**
          * mouse-over thumb<br/>
          * key: {@link #KEY_MOUSE_OVER}<br/>
          * value: {@link #MOUSE_OVER_YES}, {@link #MOUSE_OVER_NO}
          */
-        public String mouseOver = MOUSE_OVER_YES;
+        public string mouseOver = MOUSE_OVER_YES;
 
         /**
          * Default preview mode<br/>
          * key: {@link #KEY_PREVIEW_SIZE}<br/>
          * value: {@link #PREVIEW_SIZE_NORMAL}, {@link #PREVIEW_SIZE_LARGE}
          */
-        public String previewSize = PREVIEW_SIZE_LARGE;
+        public string previewSize = PREVIEW_SIZE_LARGE;
 
         /**
          * Preview row<br/>
@@ -620,7 +620,7 @@ namespace EHentaiAPI.Client
          * value: {@link #PREVIEW_ROW_4}, {@link #PREVIEW_ROW_10},
          * {@link #PREVIEW_ROW_20}, {@link #PREVIEW_ROW_40}
          */
-        public String previewRow = PREVIEW_ROW_4;
+        public string previewRow = PREVIEW_ROW_4;
 
         /**
          * Sort order for gallery comments<br/>
@@ -628,14 +628,14 @@ namespace EHentaiAPI.Client
          * value: {@link #COMMENTS_SORT_OLDEST_FIRST}, {@link #COMMENTS_SORT_RECENT_FIRST},
          * {@link #COMMENTS_SORT_HIGHEST_SCORE_FIRST}
          */
-        public String commentSort = COMMENTS_SORT_OLDEST_FIRST;
+        public string commentSort = COMMENTS_SORT_OLDEST_FIRST;
 
         /**
          * Show gallery comment votes mode<br/>
          * key: {@link #KEY_COMMENTS_VOTES}<br/>
          * value: {@link #COMMENTS_VOTES_POP}, {@link #COMMENTS_VOTES_ALWAYS}
          */
-        public String commentVotes = COMMENTS_VOTES_POP;
+        public string commentVotes = COMMENTS_VOTES_POP;
 
 
         /**
@@ -643,21 +643,21 @@ namespace EHentaiAPI.Client
          * key: {@link #KEY_TAGS_SORT}<br/>
          * value: {@link #TAGS_SORT_ALPHABETICAL}, {@link #TAGS_SORT_POWER}
          */
-        public String tagSort = TAGS_SORT_ALPHABETICAL;
+        public string tagSort = TAGS_SORT_ALPHABETICAL;
 
         /**
          * Show gallery page numbers<br/>
          * key: {@link #KEY_SHOW_GALLERY_INDEX}<br/>
          * value: {@link #SHOW_GALLERY_INDEX_YES}, {@link #SHOW_GALLERY_INDEX_NO}
          */
-        public String showGalleryIndex = SHOW_GALLERY_INDEX_YES;
+        public string showGalleryIndex = SHOW_GALLERY_INDEX_YES;
 
         /**
          * The IP of a proxy-enabled Hentai@Home Client
          * to load all images<br/>
          * key: {@link #KEY_HAH_CLIENT_IP_PORT}<br/>
          */
-        public String hahClientIp = "";
+        public string hahClientIp = "";
 
         /**
          * The PORT of a proxy-enabled Hentai@Home Client
@@ -671,7 +671,7 @@ namespace EHentaiAPI.Client
          * to load all images<br/>
          * key: {@link #KEY_HAH_CLIENT_PASSKEY}<br/>
          */
-        public String hahClientPasskey = "";
+        public string hahClientPasskey = "";
 
         /**
          * Enable tag flagging
@@ -679,7 +679,7 @@ namespace EHentaiAPI.Client
          * value: {@link #ENABLE_TAG_FLAGGING_YES}, {@link #ENABLE_TAG_FLAGGING_NO}<br/>
          * <code>Bronze Star</code> or <code>Hath Perk: Tag Flagging</code> Required
          */
-        public String enableTagFlagging = ENABLE_TAG_FLAGGING_NO;
+        public string enableTagFlagging = ENABLE_TAG_FLAGGING_NO;
 
         /**
          * Always display the original images instead of the resampled versions<br/>
@@ -687,7 +687,7 @@ namespace EHentaiAPI.Client
          * value: {@link #ALWAYS_ORIGINAL_YES}, {@link #ALWAYS_ORIGINAL_NO}<br/>
          * <code>Silver Star</code> or <code>Hath Perk: Source Nexus</code> Required
          */
-        public String alwaysOriginal = ALWAYS_ORIGINAL_NO;
+        public string alwaysOriginal = ALWAYS_ORIGINAL_NO;
 
         /**
          * Enable the multi-Page Viewer<br/>
@@ -695,7 +695,7 @@ namespace EHentaiAPI.Client
          * value: {@link #MULTI_PAGE_YES}, {@link #MULTI_PAGE_NO}<br/>
          * <code>Gold Star</code> or <code>Hath Perk: Multi-Page Viewer</code> Required
          */
-        public String multiPage = MULTI_PAGE_NO;
+        public string multiPage = MULTI_PAGE_NO;
 
         /**
          * Multi-Page Viewer Display Style<br/>
@@ -704,7 +704,7 @@ namespace EHentaiAPI.Client
          * {@link #MULTI_PAGE_STYLE_Y}<br/>
          * <code>Gold Star</code> or <code>Hath Perk: Multi-Page Viewer</code> Required
          */
-        public String multiPageStyle = MULTI_PAGE_STYLE_N;
+        public string multiPageStyle = MULTI_PAGE_STYLE_N;
 
         /**
          * Multi-Page Viewer Thumbnail Pane<br/>
@@ -712,7 +712,7 @@ namespace EHentaiAPI.Client
          * value: {@link #MULTI_PAGE_THUMB_SHOW}, {@link #MULTI_PAGE_THUMB_HIDE}<br/>
          * <code>Gold Star</code> or <code>Hath Perk: Multi-Page Viewer</code> Required
          */
-        public String multiPageThumb = MULTI_PAGE_THUMB_SHOW;
+        public string multiPageThumb = MULTI_PAGE_THUMB_SHOW;
 
         /**
          * Lofi resolution
@@ -720,13 +720,13 @@ namespace EHentaiAPI.Client
          * value: {@link #LOFI_RESOLUTION_460X}, {@link #LOFI_RESOLUTION_780X},
          * {@link #LOFI_RESOLUTION_980X}
          */
-        public String lofiResolution = LOFI_RESOLUTION_980X;
+        public string lofiResolution = LOFI_RESOLUTION_980X;
 
         /**
          * Show content warning
          * key: {@link #KEY_CONTENT_WARNING}<br/>
          * value: {@link #CONTENT_WARNING_SHOW}, {@link #CONTENT_WARNING_NOT_SHOW}
          */
-        public String contentWarning = CONTENT_WARNING_NOT_SHOW;
+        public string contentWarning = CONTENT_WARNING_NOT_SHOW;
     }
 }

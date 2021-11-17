@@ -17,7 +17,7 @@ namespace EHentaiAPI.Client.Parser
         private static readonly Regex PATTERN_ORIGIN_IMAGE_URL = new Regex("<a href=\"([^\"]+)fullimg.php([^\"]+)\">");
 
 
-        public static Result parse(String body)
+        public static Result parse(string body)
         {
             try
             {
@@ -30,19 +30,19 @@ namespace EHentaiAPI.Client.Parser
                     throw new ParseException(jo.getString("error"), body);
                 }
 
-                String i3 = jo.getString("i3");
+                string i3 = jo.getString("i3");
                 m = PATTERN_IMAGE_URL.Match(i3);
                 if (m.Success)
                 {
                     result.imageUrl = ParserUtils.unescapeXml(ParserUtils.trim(m.Groups[(1)].Value));
                 }
-                String i6 = jo.getString("i6");
+                string i6 = jo.getString("i6");
                 m = PATTERN_SKIP_HATH_KEY.Match(i6);
                 if (m.Success)
                 {
                     result.skipHathKey = ParserUtils.unescapeXml(ParserUtils.trim(m.Groups[(1)].Value));
                 }
-                String i7 = jo.getString("i7");
+                string i7 = jo.getString("i7");
                 m = PATTERN_ORIGIN_IMAGE_URL.Match(i7);
                 if (m.Success)
                 {
@@ -66,9 +66,9 @@ namespace EHentaiAPI.Client.Parser
 
         public class Result
         {
-            public String imageUrl;
-            public String skipHathKey;
-            public String originImageUrl;
+            public string imageUrl;
+            public string skipHathKey;
+            public string originImageUrl;
         }
     }
 }

@@ -12,9 +12,9 @@ namespace EHentaiAPI.Client.Parser
 {
     public class ProfileParser
     {
-        private const String TAG = nameof(ProfileParser);
+        private const string TAG = nameof(ProfileParser);
 
-        public static Result parse(String body)
+        public static Result parse(string body)
         {
             try
             {
@@ -50,8 +50,8 @@ namespace EHentaiAPI.Client.Parser
 
         public class Result
         {
-            public String displayName;
-            public String avatar;
+            public string displayName;
+            public string avatar;
         }
     }
 }

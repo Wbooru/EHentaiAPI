@@ -17,10 +17,10 @@ namespace EHentaiAPI.Client.Data
         public bool voteDownAble;
         public bool voteDownEd;
         public bool uploader;
-        public String voteState;
+        public string voteState;
         public long time;
-        public String user;
-        public String comment;
+        public string user;
+        public string comment;
         public long lastEdited;
 
         public GalleryComment()

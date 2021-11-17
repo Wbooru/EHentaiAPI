@@ -9,15 +9,15 @@ namespace EHentaiAPI.Client.Data
     public class GalleryDetail : GalleryInfo
     {
         public long apiUid = -1L;
-        public String apiKey;
+        public string apiKey;
         public int torrentCount;
-        public String torrentUrl;
-        public String archiveUrl;
-        public String parent;
+        public string torrentUrl;
+        public string archiveUrl;
+        public string parent;
         public List<GalleryInfo> newerVersions = new();
-        public String visible;
-        public String language;
-        public String size;
+        public string visible;
+        public string language;
+        public string size;
         public int favoriteCount;
         public bool isFavorited;
         public int ratingCount;

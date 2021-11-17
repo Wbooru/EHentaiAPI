@@ -11,7 +11,7 @@ namespace EHentaiAPI.Client.Parser
     public class VoteTagParser
     {
         // {"error":"The tag \"neko\" is not allowed. Use character:neko or artist:neko"}
-        public static Result parse(String body)
+        public static Result parse(string body)
         {
             var result = new Result();
             var jo = JsonConvert.DeserializeObject<JObject>(body);

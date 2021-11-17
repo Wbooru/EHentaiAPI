@@ -9,18 +9,18 @@ namespace EHentaiAPI.Client.Data
     public class NormalPreviewSet : PreviewSet
     {
         private List<int> mPositionList = new List<int>();
-        private List<String> mImageKeyList = new();
-        private List<String> mImageUrlList = new();
+        private List<string> mImageKeyList = new();
+        private List<string> mImageUrlList = new();
         private List<int> mOffsetXList = new List<int>();
         private List<int> mOffsetYList = new List<int>();
         private List<int> mClipWidthList = new List<int>();
         private List<int> mClipHeightList = new List<int>();
-        private List<String> mPageUrlList = new();
+        private List<string> mPageUrlList = new();
 
         public NormalPreviewSet()
         {
         }
-        private String getImageKey(String imageUrl)
+        private string getImageKey(string imageUrl)
         {
             int index = imageUrl.IndexOf('/');
             if (index >= 0)
@@ -33,8 +33,8 @@ namespace EHentaiAPI.Client.Data
             }
         }
 
-        public void addItem(int position, String imageUrl, int xOffset, int yOffset, int width,
-                            int height, String pageUrl)
+        public void addItem(int position, string imageUrl, int xOffset, int yOffset, int width,
+                            int height, string pageUrl)
         {
             mPositionList.Add(position);
             mImageKeyList.Add(getImageKey(imageUrl));
@@ -59,7 +59,7 @@ namespace EHentaiAPI.Client.Data
         }
 
 
-        public override String getPageUrlAt(int index)
+        public override string getPageUrlAt(int index)
         {
             return mPageUrlList[(index)];
         }

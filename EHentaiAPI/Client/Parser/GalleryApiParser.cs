@@ -12,7 +12,7 @@ namespace EHentaiAPI.Client.Parser
     public class GalleryApiParser
     {
 
-        public static void parse(Settings settings, String body, List<GalleryInfo> galleryInfoList)
+        public static void parse(Settings settings, string body, List<GalleryInfo> galleryInfoList)
         {
             var jo = JsonConvert.DeserializeObject<JObject>(body);
             var ja = jo.GetValue("gmetadata") as JArray;
@@ -34,7 +34,7 @@ namespace EHentaiAPI.Client.Parser
                 // tags
                 var tagJa = g.getJSONArray("tags");
                 int tagLength = tagJa.Count;
-                String[] tags = new String[tagLength];
+                string[] tags = new string[tagLength];
                 for (int j = 0; j < tagLength; j++)
                 {
                     tags[j] = tagJa.getString(j.ToString());

@@ -8,9 +8,9 @@ namespace EHentaiAPI.Client.Data
 {
     public class GalleryPreview
     {
-        public String imageKey;
-        public String imageUrl;
-        public String pageUrl;
+        public string imageKey;
+        public string imageUrl;
+        public string pageUrl;
         public int position;
 
         public GalleryPreview()

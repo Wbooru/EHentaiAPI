@@ -12,7 +12,7 @@ namespace EHentaiAPI.Client.Data
 
         public abstract int getPosition(int index);
 
-        public abstract String getPageUrlAt(int index);
+        public abstract string getPageUrlAt(int index);
 
         public abstract GalleryPreview getGalleryPreview(long gid, int index);
     }

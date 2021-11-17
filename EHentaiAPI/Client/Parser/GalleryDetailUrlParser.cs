@@ -17,13 +17,13 @@ namespace EHentaiAPI.Client.Parser
                 "(\\d+)/([0-9a-f]{10})(?:[^0-9a-f]|$)");
 
 
-        public static Result parse(String url)
+        public static Result parse(string url)
         {
             return parse(url, true);
         }
 
 
-        public static Result parse(String url, bool strict)
+        public static Result parse(string url, bool strict)
         {
             if (url == null)
             {
@@ -52,7 +52,7 @@ namespace EHentaiAPI.Client.Parser
         public class Result
         {
             public long gid;
-            public String token;
+            public string token;
         }
     }
 }
