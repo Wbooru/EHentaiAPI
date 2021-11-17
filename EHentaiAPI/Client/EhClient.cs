@@ -111,10 +111,20 @@ namespace EHentaiAPI.Client
                 .setArgs(apiUid, apiKey, gid, token, commentId, commentVote)
                 .setMethod(Method.METHOD_VOTE_COMMENT));
 
-        public Task<Dictionary<string, string>> GetTorrentList(string url, long gid, string token)
+        public Task<Dictionary<string, string>> GetTorrentList(string torrentUrl, long gid, string token)
             => execute<Dictionary<string, string>>(new EhRequest()
-                .setArgs(url, gid, token)
+                .setArgs(torrentUrl, gid, token)
                 .setMethod(Method.METHOD_GET_TORRENT_LIST));
+
+        public Task<KeyValuePair<string, KeyValuePair<string, string>[]>> GetArchiveList(string archiveUrl, long gid, string token)
+            => execute<KeyValuePair<string, KeyValuePair<string, string>[]>>(new EhRequest()
+                .setArgs(archiveUrl, gid, token)
+                .setMethod(Method.METHOD_ARCHIVE_LIST));
+
+        public Task<VoteTagParser.Result> VoteTag(long apiUid, string apiKey, long gid, string token, string tags, int vote)
+            => execute<VoteTagParser.Result>(new EhRequest()
+                .setArgs(apiUid, apiKey, gid, token, tags, vote)
+                .setMethod(Method.METHOD_VOTE_TAG));
 
         #endregion
     }
