@@ -50,7 +50,7 @@ namespace EHentaiAPI.Client
                     case Method.METHOD_GET_GALLERY_TOKEN:
                         return EhEngine.getGalleryToken(this, mCookieContainer, (long)@params[0], (string)@params[1], (int)@params[2]);
                     case Method.METHOD_GET_FAVORITES:
-                        return EhEngine.getFavorites(this, mCookieContainer, (string)@params[0], (bool)@params[1]);
+                        return EhEngine.getFavorites(this, mCookieContainer, (string)@params[0]);
                     case Method.METHOD_ADD_FAVORITES:
                         EhEngine.addFavorites(this, mCookieContainer, (long)@params[0], (string)@params[1], (int)@params[2], (string)@params[3]);
                         break;
@@ -58,7 +58,7 @@ namespace EHentaiAPI.Client
                         EhEngine.addFavoritesRange(this, mCookieContainer, (long[])@params[0], (string[])@params[1], (int)@params[2]);
                         break;
                     case Method.METHOD_MODIFY_FAVORITES:
-                        return EhEngine.modifyFavorites(this, mCookieContainer, (string)@params[0], (long[])@params[1], (int)@params[2], (bool)@params[3]);
+                        return EhEngine.modifyFavorites(this, mCookieContainer, (string)@params[0], (long[])@params[1], (int)@params[2]);
                     case Method.METHOD_GET_TORRENT_LIST:
                         return EhEngine.getTorrentList(this, mCookieContainer, (string)@params[0], (long)@params[1], (string)@params[2]);
                     case Method.METHOD_GET_PROFILE:

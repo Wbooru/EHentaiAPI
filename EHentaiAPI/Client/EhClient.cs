@@ -199,6 +199,40 @@ namespace EHentaiAPI.Client
                 .setArgs(gid, gtoken, page)
                 .setMethod(Method.METHOD_GET_GALLERY_TOKEN));
 
+        /// <summary>
+        /// 获取指定的收藏列表
+        /// </summary>
+        /// <param name="url">获取列表的url地址,比如https://e-hentai.org/favorites.php?favcat=all&page=2 ,可通过<class>FavListUrlBuilder</class>快速构造</param>
+        /// <returns></returns>
+        public Task<FavoritesParser.Result> GetFavorites(string url)
+            => execute<FavoritesParser.Result>(new EhRequest()
+                .setArgs(url)
+                .setMethod(Method.METHOD_GET_FAVORITES));
+
+        public Task<FavoritesParser.Result> GetFavorites(FavListUrlBuilder urlBuilder)
+            => GetFavorites(urlBuilder.build());
+
+        public Task AddFavorite(GalleryDetail detail, int dstCat, string note)
+            => AddFavorite(detail.gid, detail.token, dstCat, note);
+
+        public Task AddFavorite(long gid, string token, int dstCat, string note)
+            => execute(new EhRequest()
+                .setArgs(gid, token, dstCat, note)
+                .setMethod(Method.METHOD_ADD_FAVORITES));
+
+        public Task AddFavoritesRange(long[] gidArray, string[] tokenArray, int dstCat)
+            => execute(new EhRequest()
+                .setArgs(gidArray, tokenArray, dstCat)
+                .setMethod(Method.METHOD_ADD_FAVORITES_RANGE));
+
+        public Task ModifyFavorites(FavListUrlBuilder urlBuilder, long[] gidArray, int dstCat)
+            => ModifyFavorites(urlBuilder.build(), gidArray, dstCat);
+
+        public Task ModifyFavorites(string url, long[] gidArray, int dstCat)
+            => execute(new EhRequest()
+                .setArgs(url, gidArray, dstCat)
+                .setMethod(Method.METHOD_MODIFY_FAVORITES));
+
         #endregion
     }
 }
