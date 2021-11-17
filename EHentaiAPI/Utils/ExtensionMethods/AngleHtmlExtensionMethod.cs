@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EHentaiAPI
+namespace EHentaiAPI.Utils.ExtensionMethods
 {
-    internal static class AngleHtmlExtendMethod
+    internal static class AngleHtmlExtensionMethod
     {
         public static IElement GetElementByIdRecursive(this IElement d, string id)
         {
