@@ -18,7 +18,7 @@ namespace EHentaiAPI.Client.Parser
                 var document = Utils.Document.parse(body);
                 var d = document.getElementByClass("d");
                 //noinspection ConstantConditions
-                error = d.Children[(0)].Html();
+                error = d.Children[0].Html();
                 error = error.Replace("<br>", "\n");
             }
             catch (Exception e)

@@ -21,10 +21,10 @@ namespace EHentaiAPI.Client.Parser
                 var result = new Result();
                 var d = Utils.Document.parse(body);
                 var profilename = d.getElementById("profilename");
-                result.displayName = profilename.Children[(0)].Text();
+                result.displayName = profilename.Children[0].Text();
                 try
                 {
-                    result.avatar = profilename.NextElementSibling.NextElementSibling.Children[(0)].GetAttributeEx("src");
+                    result.avatar = profilename.NextElementSibling.NextElementSibling.Children[0].GetAttributeEx("src");
                     if (string.IsNullOrWhiteSpace(result.avatar))
                     {
                         result.avatar = null;

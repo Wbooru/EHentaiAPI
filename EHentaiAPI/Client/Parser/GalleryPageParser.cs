@@ -25,22 +25,22 @@ namespace EHentaiAPI.Client.Parser
             m = PATTERN_IMAGE_URL.Match(body);
             if (m.Success)
             {
-                result.imageUrl = ParserUtils.unescapeXml(ParserUtils.trim(m.Groups[(1)].Value));
+                result.imageUrl = ParserUtils.unescapeXml(ParserUtils.trim(m.Groups[1].Value));
             }
             m = PATTERN_SKIP_HATH_KEY.Match(body);
             if (m.Success)
             {
-                result.skipHathKey = ParserUtils.unescapeXml(ParserUtils.trim(m.Groups[(1)].Value));
+                result.skipHathKey = ParserUtils.unescapeXml(ParserUtils.trim(m.Groups[1].Value));
             }
             m = PATTERN_ORIGIN_IMAGE_URL.Match(body);
             if (m.Success)
             {
-                result.originImageUrl = ParserUtils.unescapeXml(m.Groups[(1)].Value) + "fullimg.php" + ParserUtils.unescapeXml(m.Groups[(2)].Value);
+                result.originImageUrl = ParserUtils.unescapeXml(m.Groups[1].Value) + "fullimg.php" + ParserUtils.unescapeXml(m.Groups[2].Value);
             }
             m = PATTERN_SHOW_KEY.Match(body);
             if (m.Success)
             {
-                result.showKey = m.Groups[(1)].Value;
+                result.showKey = m.Groups[1].Value;
             }
 
             if (!string.IsNullOrWhiteSpace(result.imageUrl) && !string.IsNullOrWhiteSpace(result.showKey))

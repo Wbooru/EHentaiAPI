@@ -17,8 +17,8 @@ namespace EHentaiAPI.Client.Parser
             var m = PATTERN_TORRENT.Match(body);
             while (m.Success)
             {
-                string url = ParserUtils.trim(m.Groups[(1)].Value);
-                string name = ParserUtils.trim(m.Groups[(2)].Value);
+                string url = ParserUtils.trim(m.Groups[1].Value);
+                string name = ParserUtils.trim(m.Groups[2].Value);
                 var item = KeyValuePair.Create(url, name);
                 torrentList.Add(item);
                 m = m.NextMatch();

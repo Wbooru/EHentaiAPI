@@ -40,7 +40,7 @@ namespace EHentaiAPI.Client.Parser
         {
             try
             {
-                var es = d.getElementsByClass("ptt").FirstOrDefault().Children[(0)].Children[(0)].Children;
+                var es = d.getElementsByClass("ptt").FirstOrDefault().Children[0].Children[0].Children;
                 return int.Parse(es[(es.Length - 2)].Text().Trim());
             }
             catch (Exception)
@@ -59,11 +59,11 @@ namespace EHentaiAPI.Client.Parser
             string re;
             if (m.Success)
             {
-                num1 = ParserUtils.parseInt(m.Groups[(0)].Value.Replace("px", ""), int.MinValue);
+                num1 = ParserUtils.parseInt(m.Groups[0].Value.Replace("px", ""), int.MinValue);
             }
             if (m.Success)
             {
-                num2 = ParserUtils.parseInt(m.Groups[(0)].Value.Replace("px", ""), int.MinValue);
+                num2 = ParserUtils.parseInt(m.Groups[0].Value.Replace("px", ""), int.MinValue);
             }
             if (num1 == int.MinValue || num2 == int.MinValue)
             {
@@ -86,9 +86,9 @@ namespace EHentaiAPI.Client.Parser
             var m = PATTERN_FAVORITE_SLOT.Match(style);
             if (m.Success)
             {
-                string r = m.Groups[(1)].Value;
-                string g = m.Groups[(2)].Value;
-                string b = m.Groups[(3)].Value;
+                string r = m.Groups[1].Value;
+                string g = m.Groups[2].Value;
+                string b = m.Groups[3].Value;
                 int slot = 0;
                 foreach (string[] rgb in FAVORITE_SLOT_RGB)
                 {
@@ -133,7 +133,7 @@ namespace EHentaiAPI.Client.Parser
                 var children = glname.Children;
                 while (children.Length != 0)
                 {
-                    Children = children[(0)];
+                    Children = children[0];
                     children = Children.Children;
                 }
                 gi.title = Children.Text().Trim();
@@ -181,8 +181,8 @@ namespace EHentaiAPI.Client.Parser
                     var m = PATTERN_THUMB_SIZE.Match(img.GetAttributeEx("style"));
                     if (m.Success)
                     {
-                        gi.thumbWidth = ParserUtils.parseInt(m.Groups[(2)].Value, 0);
-                        gi.thumbHeight = ParserUtils.parseInt(m.Groups[(1)].Value, 0);
+                        gi.thumbWidth = ParserUtils.parseInt(m.Groups[2].Value, 0);
+                        gi.thumbHeight = ParserUtils.parseInt(m.Groups[1].Value, 0);
                     }
                     else
                     {
@@ -210,7 +210,7 @@ namespace EHentaiAPI.Client.Parser
                     var Match = PATTERN_PAGES.Match(div.Text());
                     if (Match.Success)
                     {
-                        gi.pages = ParserUtils.parseInt(Match.Groups[(1)].Value, 0);
+                        gi.pages = ParserUtils.parseInt(Match.Groups[1].Value, 0);
                     }
                 }
             }
@@ -233,8 +233,8 @@ namespace EHentaiAPI.Client.Parser
                         var m = PATTERN_THUMB_SIZE.Match(img.GetAttributeEx("style"));
                         if (m.Success)
                         {
-                            gi.thumbWidth = ParserUtils.parseInt(m.Groups[(2)].Value, 0);
-                            gi.thumbHeight = ParserUtils.parseInt(m.Groups[(1)].Value, 0);
+                            gi.thumbWidth = ParserUtils.parseInt(m.Groups[2].Value, 0);
+                            gi.thumbHeight = ParserUtils.parseInt(m.Groups[1].Value, 0);
                         }
                         else
                         {
@@ -293,7 +293,7 @@ namespace EHentaiAPI.Client.Parser
                     var Match = PATTERN_PAGES.Match(children[(pagesIndex)].Text());
                     if (Match.Success)
                     {
-                        gi.pages = ParserUtils.parseInt(Match.Groups[(1)].Value, 0);
+                        gi.pages = ParserUtils.parseInt(Match.Groups[1].Value, 0);
                     }
                 }
             }
@@ -307,7 +307,7 @@ namespace EHentaiAPI.Client.Parser
                     var Match = PATTERN_PAGES.Match(div.Text());
                     if (Match.Success)
                     {
-                        gi.pages = ParserUtils.parseInt(Match.Groups[(1)].Value, 0);
+                        gi.pages = ParserUtils.parseInt(Match.Groups[1].Value, 0);
                     }
                 }
             }
@@ -325,7 +325,7 @@ namespace EHentaiAPI.Client.Parser
             try
             {
                 var ptt = d.getElementsByClass("ptt").FirstOrDefault();
-                var es = ptt.Children[(0)].Children[(0)].Children;
+                var es = ptt.Children[0].Children[0].Children;
                 result.pages = int.Parse(es[(es.Length - 2)].Text().Trim());
 
                 var e = es[(es.Length - 1)];
@@ -338,7 +338,7 @@ namespace EHentaiAPI.Client.Parser
                         var Match = PATTERN_NEXT_PAGE.Match(href);
                         if (Match.Success)
                         {
-                            result.nextPage = ParserUtils.parseInt(Match.Groups[(1)].Value, 0);
+                            result.nextPage = ParserUtils.parseInt(Match.Groups[1].Value, 0);
                         }
                     }
                 }
@@ -370,7 +370,7 @@ namespace EHentaiAPI.Client.Parser
                 IHtmlCollection<IElement> es;
                 if ("table".Equals(itg.TagName, StringComparison.InvariantCultureIgnoreCase))
                 {
-                    es = itg.Children[(0)].Children;
+                    es = itg.Children[0].Children;
                 }
                 else
                 {
