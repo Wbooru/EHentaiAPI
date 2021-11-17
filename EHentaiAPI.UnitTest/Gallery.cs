@@ -78,9 +78,10 @@ namespace EHentaiAPI.UnitTest
         }
 
         [Fact, Order(3)]
-        public async void GetGalleryPreview()
+        public async void GetGalleryPreviewSet()
         {
             var info = await client.GetGalleryDetail("https://e-hentai.org/g/2062872/fb6abc76c6/");
+            Assert.True((await client.GetPreviewSet(info,0)).Key.size() > 0);
         }
     }
 }
