@@ -1,5 +1,6 @@
 ﻿using EHentaiAPI.Client.Exceptions;
 using EHentaiAPI.Utils;
+using EHentaiAPI.Utils.ExtensionMethods;
 using System;
 using System.Collections.Generic;
 using System.Linq;

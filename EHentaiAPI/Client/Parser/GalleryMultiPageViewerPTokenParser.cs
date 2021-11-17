@@ -1,4 +1,5 @@
 ﻿using EHentaiAPI.Client.Exceptions;
+using EHentaiAPI.Utils.ExtensionMethods;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;

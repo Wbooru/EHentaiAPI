@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EHentaiAPI
+namespace EHentaiAPI.Utils.ExtensionMethods
 {
-    internal static class ExceptionExtendMethod
+    internal static class ExceptionExtensionMethod
     {
         public static void printStackTrace(this Exception e)
         {

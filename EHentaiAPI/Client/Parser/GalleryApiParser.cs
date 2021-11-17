@@ -1,4 +1,5 @@
 ﻿using EHentaiAPI.Client.Data;
+using EHentaiAPI.Utils.ExtensionMethods;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;

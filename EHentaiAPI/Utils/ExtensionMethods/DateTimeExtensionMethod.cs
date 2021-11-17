@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EHentaiAPI
+namespace EHentaiAPI.Utils.ExtensionMethods
 {
-    public static class DateTimeExtendMethod
+    internal static class DateTimeExtensionMethod
     {
         public static long ToUnixTimestamp(this DateTime dateTime)
         {
