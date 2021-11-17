@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace EHentaiAPI.TestConsole
@@ -31,6 +32,9 @@ namespace EHentaiAPI.TestConsole
             var voteResult = await client.VoteComment(detail.apiUid, detail.apiKey, detail.gid, detail.token, detail.comments.comments[1].id, 1);
 
             var torrentList = await client.GetTorrentList(detail.torrentUrl, detail.gid, detail.token);
+            var archiveList = await client.GetArchiveList(detail.archiveUrl, detail.gid, detail.token);
+
+            var voteTagResult = await client.VoteTag(detail.apiUid, detail.apiKey, detail.gid, detail.token, detail.tags.First().getTagAt(0), 1);
 
             Console.ReadLine();
         }
