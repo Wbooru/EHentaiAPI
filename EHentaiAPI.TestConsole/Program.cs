@@ -17,7 +17,6 @@ namespace EHentaiAPI.TestConsole
         static async Task Main(string[] args)
         {
             var client = new EhClient();
-            client.Cookies.Add(new System.Net.Cookie("sl", "dm_1","/", "e-hentai.org"));
 
             client.Settings = new Settings()
             {
@@ -25,11 +24,11 @@ namespace EHentaiAPI.TestConsole
             };
             client.Settings.putGallerySite(EhUrl.SITE_E);
 
-            var req = new EhRequest();
-            req.setArgs("https://e-hentai.org");
-            req.setMethod(EhClient.Method.METHOD_GET_GALLERY_LIST);
+            await client.SignIn(TestSettings.UserName, TestSettings.Password);
 
-            var result = await client.execute<GalleryListParser.Result>(req);
+            var detail = await client.GetGalleryDetail("https://e-hentai.org/g/2062507/f4c499a82a/");
+
+            var voteResult = await client.VoteComment(detail.apiUid, detail.apiKey, detail.gid, detail.token, detail.comments.comments[1].id, 1);
 
             Console.ReadLine();
         }

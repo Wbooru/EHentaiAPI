@@ -7,18 +7,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
+using Xunit.Extensions.Ordering;
 
+[assembly: TestCaseOrderer("Xunit.Extensions.Ordering.TestCaseOrderer", "Xunit.Extensions.Ordering")]
 namespace EHentaiAPI.UnitTest
 {
-    public class Gallery
+    public class Gallery : IClassFixture<ShareClient>
     {
-        [Fact]
-        public async void GetGalleryList()
+        private readonly EhClient client;
+
+        public Gallery(ShareClient shareClient)
         {
-            var client = new EhClient();
+            client = shareClient.Client;
+
             client.Cookies.Add(new System.Net.Cookie("sl", "dm_1", "/", "e-hentai.org"));
             client.Settings.putGallerySite(EhUrl.SITE_E);
+        }
 
+        [Fact, Order(1)]
+        public async void GetGalleryList()
+        {
             var req = new EhRequest();
             req.setArgs("https://e-hentai.org");
             req.setMethod(EhClient.Method.METHOD_GET_GALLERY_LIST);
@@ -28,14 +36,10 @@ namespace EHentaiAPI.UnitTest
             Assert.NotEmpty(result.galleryInfoList);
         }
 
-        [Fact]
+        [Fact, Order(2)]
         public async void GetGalleryDetail()
         {
             const string myLove = "https://e-hentai.org/g/2062067/588c82702b/";
-
-            var client = new EhClient();
-            client.Cookies.Add(new System.Net.Cookie("sl", "dm_1", "/", "e-hentai.org"));
-            client.Settings.putGallerySite(EhUrl.SITE_E);
 
             var req = new EhRequest();
             req.setArgs(myLove);

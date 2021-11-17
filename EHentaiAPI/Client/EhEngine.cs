@@ -24,7 +24,7 @@ namespace EHentaiAPI.Client
     public class EhEngine
     {
 
-        public const string MEDIA_TYPE_JSON = "application/json; charset=utf-8";
+        public const string MEDIA_TYPE_JSON = "application/json";
         private const string TAG = nameof(EhEngine);
         private const string SAD_PANDA_DISPOSITION = "inline; filename=\"sadpanda.jpg\"";
         private const string SAD_PANDA_TYPE = "image/gif";
@@ -856,7 +856,6 @@ namespace EHentaiAPI.Client
                     .post(requestBody)
                     .cookies(cookieContainer)
                     .build();
-
 
             // Put call
             if (null != task)

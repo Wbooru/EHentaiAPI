@@ -5,8 +5,15 @@ using Xunit.Sdk;
 
 namespace EHentaiAPI.UnitTest
 {
-    public class LoginTest
+    public class LoginTest : IClassFixture<ShareClient>
     {
+        public ShareClient ShareClient { get; }
+
+        public LoginTest(ShareClient shareClient)
+        {
+            ShareClient = shareClient;
+        }
+
         private void CheckSettings()
         {
             //please fill your username/password into TestSettings.
@@ -19,11 +26,8 @@ namespace EHentaiAPI.UnitTest
         {
             CheckSettings();
 
-            var client = new EhClient();
-            var req = new EhRequest();
-            req.setArgs(TestSettings.UserName, TestSettings.Password);
-            req.setMethod(EhClient.Method.METHOD_SIGN_IN);
-            Assert.Equal(TestSettings.UserName, await client.execute<string>(req));
+            var userName = await ShareClient.Client.SignIn(TestSettings.UserName, TestSettings.Password);
+            Assert.Equal(TestSettings.UserName, userName);
         }
     }
 }
