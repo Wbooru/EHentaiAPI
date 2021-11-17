@@ -121,7 +121,7 @@ namespace EHentaiAPI.Client.Parser
                 }
                 if (a != null)
                 {
-                    GalleryDetailUrlParser.Result result = GalleryDetailUrlParser.parse(a.GetAttribute("href"));
+                    GalleryDetailUrlParser.Result result = GalleryDetailUrlParser.parse(a.GetAttributeEx("href"));
                     if (result != null)
                     {
                         gi.gid = result.gid;
@@ -174,11 +174,11 @@ namespace EHentaiAPI.Client.Parser
             var glthumb = e.GetElementByIdRecursive("glthumb");
             if (glthumb != null)
             {
-                var img = glthumb.QuerySelectorAll("div:nth-Children(1)>img").FirstOrDefault();
+                var img = glthumb.QuerySelectorAll("div:nth-child(1)>img").FirstOrDefault();
                 if (img != null)
                 {
                     // Thumb size
-                    var m = PATTERN_THUMB_SIZE.Match(img.GetAttribute("style"));
+                    var m = PATTERN_THUMB_SIZE.Match(img.GetAttributeEx("style"));
                     if (m.Success)
                     {
                         gi.thumbWidth = ParserUtils.parseInt(m.Groups[(2)].Value, 0);
@@ -191,10 +191,10 @@ namespace EHentaiAPI.Client.Parser
                         gi.thumbHeight = 0;
                     }
                     // Thumb url
-                    var url = img.GetAttribute("data-src");
+                    var url = img.GetAttributeEx("data-src");
                     if (string.IsNullOrWhiteSpace(url))
                     {
-                        url = img.GetAttribute("src");
+                        url = img.GetAttributeEx("src");
                     }
                     if (string.IsNullOrWhiteSpace(url))
                     {
@@ -204,7 +204,7 @@ namespace EHentaiAPI.Client.Parser
                 }
 
                 // Pages
-                var div = glthumb.QuerySelectorAll("div:nth-Children(2)>div:nth-Children(2)>div:nth-Children(2)").FirstOrDefault();
+                var div = glthumb.QuerySelectorAll("div:nth-child(2)>div:nth-child(2)>div:nth-child(2)").FirstOrDefault();
                 if (div != null)
                 {
                     var Match = PATTERN_PAGES.Match(div.Text());
@@ -230,7 +230,7 @@ namespace EHentaiAPI.Client.Parser
                     if (img != null)
                     {
                         // Thumb size
-                        var m = PATTERN_THUMB_SIZE.Match(img.GetAttribute("style"));
+                        var m = PATTERN_THUMB_SIZE.Match(img.GetAttributeEx("style"));
                         if (m.Success)
                         {
                             gi.thumbWidth = ParserUtils.parseInt(m.Groups[(2)].Value, 0);
@@ -242,7 +242,7 @@ namespace EHentaiAPI.Client.Parser
                             gi.thumbWidth = 0;
                             gi.thumbHeight = 0;
                         }
-                        gi.thumb = EhUtils.handleThumbUrlResolution(settings, img.GetAttribute("src"));
+                        gi.thumb = EhUtils.handleThumbUrlResolution(settings, img.GetAttributeEx("src"));
                     }
                 }
             }
@@ -254,20 +254,14 @@ namespace EHentaiAPI.Client.Parser
             if (posted != null)
             {
                 gi.posted = posted.Text().Trim();
-                gi.favoriteSlot = parseFavoriteSlot(posted.GetAttribute("style"));
-            }
-            else if (e.Children.ElementAtOrDefault(1)?.Children.ElementAtOrDefault(2)?.GetElementByIdRecursive(postedId) is IElement p)
-            {
-                //get posted from dms:Compact
-                posted = p;
-                gi.posted = posted.Text().Trim();
+                gi.favoriteSlot = parseFavoriteSlot(posted.GetAttributeEx("style"));
             }
 
             // Rating
             var ir = e.GetElementsByClassName("ir").FirstOrDefault();
             if (ir != null)
             {
-                gi.rating = ParserUtils.parseFloat(parseRating(ir.GetAttribute("style")), -1.0f);
+                gi.rating = ParserUtils.parseFloat(parseRating(ir.GetAttributeEx("style")), -1.0f);
                 // TODO The gallery may be rated even if it doesn't has one of these classes
                 gi.rated = ir.ClassList.Contains("irr") || ir.ClassList.Contains("irg") || ir.ClassList.Contains("irb");
             }
@@ -307,7 +301,7 @@ namespace EHentaiAPI.Client.Parser
             var gl5t = e.GetElementsByClassName("gl5t").FirstOrDefault();
             if (gl5t != null)
             {
-                var div = gl5t.QuerySelectorAll("div:nth-Children(2)>div:nth-Children(2)").FirstOrDefault();
+                var div = gl5t.QuerySelectorAll("div:nth-child(2)>div:nth-child(2)").FirstOrDefault();
                 if (div != null)
                 {
                     var Match = PATTERN_PAGES.Match(div.Text());
@@ -340,7 +334,7 @@ namespace EHentaiAPI.Client.Parser
                     e = e.Children.FirstOrDefault();
                     if (e != null)
                     {
-                        String href = e.GetAttribute("href");
+                        String href = e.GetAttributeEx("href");
                         var Match = PATTERN_NEXT_PAGE.Match(href);
                         if (Match.Success)
                         {

@@ -24,7 +24,7 @@ namespace EHentaiAPI.Client.Parser
                 result.displayName = profilename.Children[(0)].Text();
                 try
                 {
-                    result.avatar = profilename.NextElementSibling.NextElementSibling.Children[(0)].GetAttribute("src");
+                    result.avatar = profilename.NextElementSibling.NextElementSibling.Children[(0)].GetAttributeEx("src");
                     if (string.IsNullOrWhiteSpace(result.avatar))
                     {
                         result.avatar = null;

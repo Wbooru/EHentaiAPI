@@ -114,7 +114,7 @@ namespace EHentaiAPI.Client.Parser
                 var gd1 = gm.GetElementByIdRecursive("gd1");
                 try
                 {
-                    gd.thumb = parseCoverStyle(settings, ParserUtils.trim(gd1.Children[(0)].GetAttribute("style")));
+                    gd.thumb = parseCoverStyle(settings, ParserUtils.trim(gd1.Children[(0)].GetAttributeEx("style")));
                 }
                 catch
                 {
@@ -271,7 +271,7 @@ namespace EHentaiAPI.Client.Parser
                     {
                         var element = elements[(i)];
                         var gi = new GalleryInfo();
-                        var result = GalleryDetailUrlParser.parse(element.GetAttribute("href"));
+                        var result = GalleryDetailUrlParser.parse(element.GetAttributeEx("href"));
                         if (result != null)
                         {
                             gi.gid = result.gid;
@@ -322,7 +322,7 @@ namespace EHentaiAPI.Client.Parser
                 var a = es[(1)].Children.FirstOrDefault();
                 if (a != null)
                 {
-                    gd.parent = a.GetAttribute("href");
+                    gd.parent = a.GetAttributeEx("href");
                 }
             }
             else if (key.StartsWith("Visible"))
@@ -485,7 +485,7 @@ namespace EHentaiAPI.Client.Parser
                 var comment = new GalleryComment();
                 // Id
                 var a = element.PreviousElementSibling;
-                var name = a.GetAttribute("name");
+                var name = a.GetAttributeEx("name");
                 comment.id = int.Parse(ParserUtils.trim(name).Substring(1));
                 // Editable, vote up and vote down
                 var c4 = element.GetElementsByClassName("c4").FirstOrDefault();
@@ -501,11 +501,11 @@ namespace EHentaiAPI.Client.Parser
                         {
                             case "Vote+":
                                 comment.voteUpAble = true;
-                                comment.voteUpEd = !(ParserUtils.trim(e.GetAttribute("style")).Length == 0);
+                                comment.voteUpEd = !(ParserUtils.trim(e.GetAttributeEx("style")).Length == 0);
                                 break;
                             case "Vote-":
                                 comment.voteDownAble = true;
-                                comment.voteDownEd = !(ParserUtils.trim(e.GetAttribute("style")).Length == 0);
+                                comment.voteDownEd = !(ParserUtils.trim(e.GetAttributeEx("style")).Length == 0);
                                 break;
                             case "Edit":
                                 comment.editable = true;
@@ -737,14 +737,14 @@ namespace EHentaiAPI.Client.Parser
                 for (int i = 0; i < n; i++)
                 {
                     var element = gdtls[(i)].Children[(0)];
-                    var pageUrl = element.GetAttribute("href");
+                    var pageUrl = element.GetAttributeEx("href");
                     element = element.Children[(0)];
-                    var imageUrl = element.GetAttribute("src");
+                    var imageUrl = element.GetAttributeEx("src");
                     if (ehUrl.getSettings().getFixThumbUrl())
                     {
                         imageUrl = ehUrl.getFixedPreviewThumbUrl(imageUrl);
                     }
-                    int index = int.Parse(element.GetAttribute("alt")) - 1;
+                    int index = int.Parse(element.GetAttributeEx("alt")) - 1;
                     largePreviewSet.addItem(index, imageUrl, pageUrl);
                 }
                 return largePreviewSet;

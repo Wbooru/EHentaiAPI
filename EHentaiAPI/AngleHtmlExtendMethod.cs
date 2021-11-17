@@ -32,6 +32,7 @@ namespace EHentaiAPI
 
         public static string GetAttributeEx(this IElement d, string attr)
         {
+            //jousp 那边如果没有此attr则返回空字符串,兼容一下
             return d.GetAttribute(attr) ?? string.Empty;
         }
     }
