@@ -17,7 +17,7 @@ namespace EHentaiAPI.Client.Parser
                 Document d = Document.parse(body, EhUrl.URL_FORUMS);
                 var userlinks = d.getElementById("userlinks");
                 var child = userlinks.Children[0].Children[0].Children[0];
-                return child.GetAttribute("href");
+                return child.GetAttributeEx("href");
             }
             catch (Exception)
             {
