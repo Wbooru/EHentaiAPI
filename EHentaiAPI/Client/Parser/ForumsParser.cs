@@ -10,7 +10,7 @@ namespace EHentaiAPI.Client.Parser
 {
     public class ForumsParser
     {
-        public static String parse(String body)
+        public static string parse(string body)
         {
             try
             {

@@ -9,8 +9,8 @@ namespace EHentaiAPI.Client.Data
     public class LargePreviewSet : PreviewSet
     {
         private List<int> mPositionList;
-        private List<String> mImageUrlList;
-        private List<String> mPageUrlList;
+        private List<string> mImageUrlList;
+        private List<string> mPageUrlList;
 
         public LargePreviewSet()
         {
@@ -19,7 +19,7 @@ namespace EHentaiAPI.Client.Data
             mPageUrlList = new();
         }
 
-        public void addItem(int index, String imageUrl, String pageUrl)
+        public void addItem(int index, string imageUrl, string pageUrl)
         {
             mPositionList.Add(index);
             mImageUrlList.Add(imageUrl);
@@ -36,7 +36,7 @@ namespace EHentaiAPI.Client.Data
             return mPositionList[(index)];
         }
 
-        public override String getPageUrlAt(int index)
+        public override string getPageUrlAt(int index)
         {
             return mPageUrlList[(index)];
         }

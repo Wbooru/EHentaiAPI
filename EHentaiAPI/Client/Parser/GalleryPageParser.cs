@@ -18,7 +18,7 @@ namespace EHentaiAPI.Client.Parser
         private readonly static Regex PATTERN_SHOW_KEY = new Regex("var showkey=\"([0-9a-z]+)\";");
 
 
-        public static Result parse(String body)
+        public static Result parse(string body)
         {
             Match m;
             Result result = new Result();
@@ -55,10 +55,10 @@ namespace EHentaiAPI.Client.Parser
 
         public class Result
         {
-            public String imageUrl;
-            public String skipHathKey;
-            public String originImageUrl;
-            public String showKey;
+            public string imageUrl;
+            public string skipHathKey;
+            public string originImageUrl;
+            public string showKey;
         }
     }
 }

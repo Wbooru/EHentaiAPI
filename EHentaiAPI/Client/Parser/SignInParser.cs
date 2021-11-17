@@ -16,7 +16,7 @@ namespace EHentaiAPI.Client.Parser
                 "(?:<h4>The error returned was:</h4>\\s*<p>(.+?)</p>)"
                         + "|(?:<span class=\"postcolor\">(.+?)</span>)");
 
-        public static String parse(String body)
+        public static string parse(string body)
         {
             var m = NAME_PATTERN.Match(body);
             if (m.Success)

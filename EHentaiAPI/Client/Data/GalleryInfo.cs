@@ -13,23 +13,23 @@ namespace EHentaiAPI.Client.Data
         /**
          * ISO 639-1
          */
-        public const String S_LANG_JA = "JA";
-        public const String S_LANG_EN = "EN";
-        public const String S_LANG_ZH = "ZH";
-        public const String S_LANG_NL = "NL";
-        public const String S_LANG_FR = "FR";
-        public const String S_LANG_DE = "DE";
-        public const String S_LANG_HU = "HU";
-        public const String S_LANG_IT = "IT";
-        public const String S_LANG_KO = "KO";
-        public const String S_LANG_PL = "PL";
-        public const String S_LANG_PT = "PT";
-        public const String S_LANG_RU = "RU";
-        public const String S_LANG_ES = "ES";
-        public const String S_LANG_TH = "TH";
-        public const String S_LANG_VI = "VI";
+        public const string S_LANG_JA = "JA";
+        public const string S_LANG_EN = "EN";
+        public const string S_LANG_ZH = "ZH";
+        public const string S_LANG_NL = "NL";
+        public const string S_LANG_FR = "FR";
+        public const string S_LANG_DE = "DE";
+        public const string S_LANG_HU = "HU";
+        public const string S_LANG_IT = "IT";
+        public const string S_LANG_KO = "KO";
+        public const string S_LANG_PL = "PL";
+        public const string S_LANG_PT = "PT";
+        public const string S_LANG_RU = "RU";
+        public const string S_LANG_ES = "ES";
+        public const string S_LANG_TH = "TH";
+        public const string S_LANG_VI = "VI";
 
-        public readonly static String[] S_LANGS = {
+        public readonly static string[] S_LANGS = {
             S_LANG_EN,
             S_LANG_ZH,
             S_LANG_ES,
@@ -64,7 +64,7 @@ namespace EHentaiAPI.Client.Data
             new Regex("[(\\[]dutch[)\\]]|オランダ翻訳", RegexOptions.IgnoreCase),
     };
 
-        public readonly static String[] S_LANG_TAGS = {
+        public readonly static string[] S_LANG_TAGS = {
             "language:english",
             "language:chinese",
             "language:spanish",
@@ -82,16 +82,16 @@ namespace EHentaiAPI.Client.Data
     };
 
         public long gid;
-        public String token;
-        public String title;
-        public String titleJpn;
-        public String thumb;
+        public string token;
+        public string title;
+        public string titleJpn;
+        public string thumb;
         public int category;
-        public String posted;
-        public String uploader;
+        public string posted;
+        public string uploader;
         public float rating;
         public bool rated;
-        public String[] simpleTags;
+        public string[] simpleTags;
         public int pages;
         public int thumbWidth;
         public int thumbHeight;
@@ -101,9 +101,9 @@ namespace EHentaiAPI.Client.Data
         /**
          * language from title
          */
-        public String simpleLanguage;
+        public string simpleLanguage;
         public int favoriteSlot = -2;
-        public String favoriteName;
+        public string favoriteName;
 
         public GalleryInfo()
         {
@@ -122,7 +122,7 @@ namespace EHentaiAPI.Client.Data
 
         private void generateSLangFromTags()
         {
-            foreach (String tag in simpleTags)
+            foreach (string tag in simpleTags)
             {
                 for (int i = 0; i < S_LANGS.Length; i++)
                 {

@@ -11,7 +11,7 @@ namespace EHentaiAPI.Client.Parser
     public class VoteCommentParser
     {
         // {"comment_id":1253922,"comment_score":-19,"comment_vote":0}
-        public static Result parse(String body, int vote)
+        public static Result parse(string body, int vote)
         {
             var result = new Result();
             var jo = JsonConvert.DeserializeObject<JObject>(body);

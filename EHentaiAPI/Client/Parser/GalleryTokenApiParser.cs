@@ -22,7 +22,7 @@ namespace EHentaiAPI.Client.Parser
          * ]
          * }
          */
-        public static String parse(String body)
+        public static string parse(string body)
         {
             var jo = JsonConvert.DeserializeObject<JObject>(body).getJSONArray("tokenlist")[(0)];
             try

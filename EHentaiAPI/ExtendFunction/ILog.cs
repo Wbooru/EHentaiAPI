@@ -8,9 +8,9 @@ namespace EHentaiAPI.ExtendFunction
 {
     public interface ILog
     {
-        void d(String tag, String msg, Exception e);
-        void i(String tag, String msg);
-        void w(String tag, String msg);
-        void e(String tag, String msg);
+        void d(string tag, string msg, Exception e);
+        void i(string tag, string msg);
+        void w(string tag, string msg);
+        void e(string tag, string msg);
     }
 }

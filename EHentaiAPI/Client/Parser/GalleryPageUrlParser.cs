@@ -16,12 +16,12 @@ namespace EHentaiAPI.Client.Parser
         private static readonly Regex URL_PATTERN = new Regex(
                 "([0-9a-f]{10})/(\\d+)-(\\d+)");
 
-        public static Result parse(String url)
+        public static Result parse(string url)
         {
             return parse(url, true);
         }
 
-        public static Result parse(String url, bool strict)
+        public static Result parse(string url, bool strict)
         {
             if (url == null)
             {
@@ -51,7 +51,7 @@ namespace EHentaiAPI.Client.Parser
         public class Result
         {
             public long gid;
-            public String pToken;
+            public string pToken;
             public int page;
         }
     }

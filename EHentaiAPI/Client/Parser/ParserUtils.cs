@@ -8,7 +8,7 @@ namespace EHentaiAPI.Client.Parser
 {
     internal class ParserUtils
     {
-        private static readonly String[] ESCAPE_CHARATER_LIST = {
+        private static readonly string[] ESCAPE_CHARATER_LIST = {
             "&amp;",
             "&lt;",
             "&gt;",
@@ -18,7 +18,7 @@ namespace EHentaiAPI.Client.Parser
             "&nbsp;"
         };
 
-        private static readonly String[] UNESCAPE_CHARATER_LIST = {
+        private static readonly string[] UNESCAPE_CHARATER_LIST = {
             "&",
             "<",
             ">",
@@ -28,7 +28,7 @@ namespace EHentaiAPI.Client.Parser
             " "
         };
 
-        public static String unescapeXml(String str)
+        public static string unescapeXml(string str)
         {
             for (int i = 0; i < ESCAPE_CHARATER_LIST.Length; i++)
             {
@@ -37,7 +37,7 @@ namespace EHentaiAPI.Client.Parser
             return str;
         }
 
-        public static String trim(String str)
+        public static string trim(string str)
         {
             // Avoid null
             if (str == null)

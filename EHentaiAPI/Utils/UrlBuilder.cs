@@ -9,20 +9,20 @@ namespace EHentaiAPI.Utils
     public class UrlBuilder
     {
 
-        public String mRootUrl;
-        public Dictionary<String, Object> mQueryMap = new();
+        public string mRootUrl;
+        public Dictionary<string, Object> mQueryMap = new();
 
-        public UrlBuilder(String rootUrl)
+        public UrlBuilder(string rootUrl)
         {
             mRootUrl = rootUrl;
         }
 
-        public void addQuery(String key, Object value)
+        public void addQuery(string key, Object value)
         {
             mQueryMap.Add(key, value);
         }
 
-        public String build()
+        public string build()
         {
             if (mQueryMap.Count == 0)
             {

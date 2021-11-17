@@ -11,14 +11,14 @@ namespace EHentaiAPI.Client.Parser
     {
         private static readonly Regex PATTERN_TORRENT = new Regex("<td colspan=\"5\"> &nbsp; <a href=\".*\" onclick=\"document.location='([^\"]+)'[^<]+>([^<]+)</a></td>");
 
-        public static KeyValuePair<String, String>[] parse(String body)
+        public static KeyValuePair<string, string>[] parse(string body)
         {
-            List<KeyValuePair<String, String>> torrentList = new();
+            List<KeyValuePair<string, string>> torrentList = new();
             var m = PATTERN_TORRENT.Match(body);
             while (m.Success)
             {
-                String url = ParserUtils.trim(m.Groups[(1)].Value);
-                String name = ParserUtils.trim(m.Groups[(2)].Value);
+                string url = ParserUtils.trim(m.Groups[(1)].Value);
+                string name = ParserUtils.trim(m.Groups[(2)].Value);
                 var item = KeyValuePair.Create(url, name);
                 torrentList.Add(item);
                 m = m.NextMatch();

@@ -15,7 +15,7 @@ namespace EHentaiAPI.Client.Parser
     public class GalleryListParser
     {
 
-        private const String TAG = nameof(GalleryListParser);
+        private const string TAG = nameof(GalleryListParser);
 
         private static readonly Regex PATTERN_RATING = new Regex("\\d+px");
         private static readonly Regex PATTERN_THUMB_SIZE = new Regex("height:(\\d+)px;width:(\\d+)px");
@@ -23,20 +23,20 @@ namespace EHentaiAPI.Client.Parser
         private static readonly Regex PATTERN_PAGES = new Regex("(\\d+) page");
         private static readonly Regex PATTERN_NEXT_PAGE = new Regex("page=(\\d+)");
 
-        private static readonly String[][] FAVORITE_SLOT_RGB = new String[][]{
-            new String[]{"0", "0", "0"},
-            new String[]{"240", "0", "0"},
-            new String[] { "240", "160", "0" },
-            new String[] { "208", "208", "0" },
-            new String[] { "0", "128", "0" },
-            new String[] { "144", "240", "64" },
-            new String[] { "64", "176", "240" },
-            new String[] { "0", "0", "240" },
-            new String[] { "80", "0", "128" },
-            new String[] { "224", "128", "224" },
+        private static readonly string[][] FAVORITE_SLOT_RGB = new string[][]{
+            new string[]{"0", "0", "0"},
+            new string[]{"240", "0", "0"},
+            new string[] { "240", "160", "0" },
+            new string[] { "208", "208", "0" },
+            new string[] { "0", "128", "0" },
+            new string[] { "144", "240", "64" },
+            new string[] { "64", "176", "240" },
+            new string[] { "0", "0", "240" },
+            new string[] { "80", "0", "128" },
+            new string[] { "224", "128", "224" },
     };
 
-        private static int parsePages(Utils.Document d, String body)
+        private static int parsePages(Utils.Document d, string body)
         {
             try
             {
@@ -50,13 +50,13 @@ namespace EHentaiAPI.Client.Parser
             }
         }
 
-        private static String parseRating(String ratingStyle)
+        private static string parseRating(string ratingStyle)
         {
             var m = PATTERN_RATING.Match(ratingStyle);
             int num1 = int.MinValue;
             int num2 = int.MinValue;
             int rate = 5;
-            String re;
+            string re;
             if (m.Success)
             {
                 num1 = ParserUtils.parseInt(m.Groups[(0)].Value.Replace("px", ""), int.MinValue);
@@ -81,16 +81,16 @@ namespace EHentaiAPI.Client.Parser
             return re;
         }
 
-        private static int parseFavoriteSlot(String style)
+        private static int parseFavoriteSlot(string style)
         {
             var m = PATTERN_FAVORITE_SLOT.Match(style);
             if (m.Success)
             {
-                String r = m.Groups[(1)].Value;
-                String g = m.Groups[(2)].Value;
-                String b = m.Groups[(3)].Value;
+                string r = m.Groups[(1)].Value;
+                string g = m.Groups[(2)].Value;
+                string b = m.Groups[(3)].Value;
                 int slot = 0;
-                foreach (String[] rgb in FAVORITE_SLOT_RGB)
+                foreach (string[] rgb in FAVORITE_SLOT_RGB)
                 {
                     if (r.Equals(rgb[0]) && g.Equals(rgb[1]) && b.Equals(rgb[2]))
                     {
@@ -141,7 +141,7 @@ namespace EHentaiAPI.Client.Parser
                 var tbody = glname.GetElementsByTagName("tbody").FirstOrDefault();
                 if (tbody != null)
                 {
-                    List<String> tags = new();
+                    List<string> tags = new();
                     GalleryTagGroup[] groups = GalleryDetailParser.parseTagGroups(tbody.Children);
                     foreach (GalleryTagGroup Groups in groups)
                     {
@@ -317,7 +317,7 @@ namespace EHentaiAPI.Client.Parser
             return gi;
         }
 
-        public static Result parse(Settings settings, String body)
+        public static Result parse(Settings settings, string body)
         {
             var result = new Result();
             var d = Utils.Document.parse(body);
@@ -334,7 +334,7 @@ namespace EHentaiAPI.Client.Parser
                     e = e.Children.FirstOrDefault();
                     if (e != null)
                     {
-                        String href = e.GetAttributeEx("href");
+                        string href = e.GetAttributeEx("href");
                         var Match = PATTERN_NEXT_PAGE.Match(href);
                         if (Match.Success)
                         {

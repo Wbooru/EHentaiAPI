@@ -10,9 +10,9 @@ namespace EHentaiAPI.Client.Parser
 {
     public class GalleryNotAvailableParser
     {
-        public static String parse(String body)
+        public static string parse(string body)
         {
-            String error = null;
+            string error = null;
             try
             {
                 var document = Utils.Document.parse(body);

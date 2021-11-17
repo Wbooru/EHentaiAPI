@@ -18,7 +18,7 @@ namespace EHentaiAPI.Client.Exceptions
             mMessage = Enum.Parse<HttpStatusCode>(responseCode.ToString()).ToString();
         }
 
-        public StatusCodeException(int responseCode, String message)
+        public StatusCodeException(int responseCode, string message)
         {
             mResponseCode = responseCode;
             mMessage = message;
