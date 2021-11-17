@@ -646,7 +646,7 @@ namespace EHentaiAPI.Client
             return result;
         }
 
-        public static KeyValuePair<string, string>[] getTorrentList(EhTask task, CookieContainer cookieContainer,
+        public static Dictionary<string, string> getTorrentList(EhTask task, CookieContainer cookieContainer,
                                                             string url, long gid, string token)
         {
             string referer = task.mEhUrl.getGalleryDetailUrl(gid, token);
@@ -679,7 +679,7 @@ namespace EHentaiAPI.Client
                 throw;
             }
 
-            return result;
+            return result.ToDictionary(k => k.Key, v => v.Value);
         }
 
         public static KeyValuePair<string, KeyValuePair<string, string>[]> getArchiveList(EhTask task, CookieContainer cookieContainer,

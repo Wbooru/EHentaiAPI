@@ -30,6 +30,8 @@ namespace EHentaiAPI.TestConsole
 
             var voteResult = await client.VoteComment(detail.apiUid, detail.apiKey, detail.gid, detail.token, detail.comments.comments[1].id, 1);
 
+            var torrentList = await client.GetTorrentList(detail.torrentUrl, detail.gid, detail.token);
+
             Console.ReadLine();
         }
     }
