@@ -106,20 +106,32 @@ namespace EHentaiAPI.Client
                 .setArgs(detailUrl)
                 .setMethod(Method.METHOD_GET_GALLERY_DETAIL));
 
+        public Task<VoteCommentParser.Result> VoteComment(GalleryDetail detail, GalleryComment comment, int vote)
+            => VoteComment(detail.apiUid, detail.apiKey, detail.gid, detail.token, comment.id, vote);
+
         public Task<VoteCommentParser.Result> VoteComment(long apiUid, string apiKey, long gid, string token, long commentId, int commentVote)
             => execute<VoteCommentParser.Result>(new EhRequest()
                 .setArgs(apiUid, apiKey, gid, token, commentId, commentVote)
                 .setMethod(Method.METHOD_VOTE_COMMENT));
+
+        public Task<Dictionary<string, string>> GetTorrentList(GalleryDetail detail)
+            => GetTorrentList(detail.torrentUrl, detail.gid, detail.token);
 
         public Task<Dictionary<string, string>> GetTorrentList(string torrentUrl, long gid, string token)
             => execute<Dictionary<string, string>>(new EhRequest()
                 .setArgs(torrentUrl, gid, token)
                 .setMethod(Method.METHOD_GET_TORRENT_LIST));
 
+        public Task<KeyValuePair<string, KeyValuePair<string, string>[]>> GetArchiveList(GalleryDetail detail)
+            => GetArchiveList(detail.archiveUrl, detail.gid, detail.token);
+
         public Task<KeyValuePair<string, KeyValuePair<string, string>[]>> GetArchiveList(string archiveUrl, long gid, string token)
             => execute<KeyValuePair<string, KeyValuePair<string, string>[]>>(new EhRequest()
                 .setArgs(archiveUrl, gid, token)
                 .setMethod(Method.METHOD_ARCHIVE_LIST));
+
+        public Task<VoteTagParser.Result> VoteTag(GalleryDetail detail, string tags, int vote)
+            => VoteTag(detail.apiUid, detail.apiKey, detail.gid, detail.token, tags, vote);
 
         public Task<VoteTagParser.Result> VoteTag(long apiUid, string apiKey, long gid, string token, string tags, int vote)
             => execute<VoteTagParser.Result>(new EhRequest()
