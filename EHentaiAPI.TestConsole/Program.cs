@@ -27,14 +27,23 @@ namespace EHentaiAPI.TestConsole
 
             await client.SignIn(TestSettings.UserName, TestSettings.Password);
 
-            var detail = await client.GetGalleryDetail("https://e-hentai.org/g/2062507/f4c499a82a/");
+            var detail = await client.GetGalleryDetail("https://e-hentai.org/g/2062874/03037d8698/");
 
+            /*
             var voteResult = await client.VoteComment(detail.apiUid, detail.apiKey, detail.gid, detail.token, detail.comments.comments[1].id, 1);
 
             var torrentList = await client.GetTorrentList(detail.torrentUrl, detail.gid, detail.token);
             var archiveList = await client.GetArchiveList(detail.archiveUrl, detail.gid, detail.token);
 
             var voteTagResult = await client.VoteTag(detail.apiUid, detail.apiKey, detail.gid, detail.token, detail.tags.First().getTagAt(0), 1);
+
+            var rateResult = await client.RateGallery(detail, 3);
+            
+
+            //var newCommentList = await client.CommentNewGallery("https://e-hentai.org/g/2062874/03037d8698/","谢谢好兄弟:D");
+            //var newCommentList = await client.ModifyCommentGallery("https://e-hentai.org/g/2062874/03037d8698/", "谢谢好兄弟:D 233", detail.comments.comments.FirstOrDefault(x => x.user.Equals(TestSettings.UserName, StringComparison.InvariantCultureIgnoreCase)).id.ToString());
+            
+            */
 
             Console.ReadLine();
         }
