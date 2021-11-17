@@ -138,6 +138,36 @@ namespace EHentaiAPI.Client
                 .setArgs(apiUid, apiKey, gid, token, tags, vote)
                 .setMethod(Method.METHOD_VOTE_TAG));
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="detail"></param>
+        /// <param name="rating">1~5 , also 3.5,etc.</param>
+        /// <returns></returns>
+        public Task<RateGalleryParser.Result> RateGallery(GalleryDetail detail, float rating)
+            => RateGallery(detail.apiUid, detail.apiKey, detail.gid, detail.token, rating);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="detail"></param>
+        /// <param name="rating">1~5 , also 3.5,etc.</param>
+        /// <returns></returns>
+        public Task<RateGalleryParser.Result> RateGallery(long apiUid, string apiKey, long gid, string token, float rating)
+            => execute<RateGalleryParser.Result>(new EhRequest()
+                .setArgs(apiUid, apiKey, gid, token, rating)
+                .setMethod(Method.METHOD_GET_RATE_GALLERY));
+
+        public Task<GalleryCommentList> CommentNewGallery(string url, string commentContent)
+            => execute<GalleryCommentList>(new EhRequest()
+                .setArgs(url, commentContent, null)
+                .setMethod(Method.METHOD_GET_COMMENT_GALLERY));
+
+        public Task<GalleryCommentList> ModifyCommentGallery(string url, string commentContent, string commendId)
+            => execute<GalleryCommentList>(new EhRequest()
+                .setArgs(url, commentContent, commendId ?? throw new EhException("ModifyCommentGallery() must provide param commendId."))
+                .setMethod(Method.METHOD_GET_COMMENT_GALLERY));
+
         #endregion
     }
 }
