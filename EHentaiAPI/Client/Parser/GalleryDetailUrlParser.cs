@@ -35,8 +35,8 @@ namespace EHentaiAPI.Client.Parser
             if (m.Success)
             {
                 var result = new Result();
-                result.gid = ParserUtils.parseLong(m.Groups[(1)].Value, -1L);
-                result.token = m.Groups[(2)].Value;
+                result.gid = ParserUtils.parseLong(m.Groups[1].Value, -1L);
+                result.token = m.Groups[2].Value;
                 if (result.gid < 0)
                 {
                     return null;

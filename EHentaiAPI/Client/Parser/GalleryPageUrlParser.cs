@@ -33,9 +33,9 @@ namespace EHentaiAPI.Client.Parser
             if (m.Success)
             {
                 Result result = new Result();
-                result.gid = ParserUtils.parseLong(m.Groups[(2)].Value, -1L);
-                result.pToken = m.Groups[(1)].Value;
-                result.page = ParserUtils.parseInt(m.Groups[(3)].Value, 0) - 1;
+                result.gid = ParserUtils.parseLong(m.Groups[2].Value, -1L);
+                result.pToken = m.Groups[1].Value;
+                result.page = ParserUtils.parseInt(m.Groups[3].Value, 0) - 1;
                 if (result.gid < 0 || result.page < 0)
                 {
                     return null;

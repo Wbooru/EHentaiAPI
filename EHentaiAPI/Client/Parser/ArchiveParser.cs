@@ -19,7 +19,7 @@ namespace EHentaiAPI.Client.Parser
             {
                 return new ("", Array.Empty<KeyValuePair<string, string>>());
             }
-            string paramOr = m.Groups[(1)].Value;
+            string paramOr = m.Groups[1].Value;
             List<KeyValuePair<string, string>> archiveList = new();
             m = PATTERN_ARCHIVE.Match(body);
             while (m.Success)
