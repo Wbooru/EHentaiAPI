@@ -46,8 +46,6 @@ namespace EHentaiAPI.TestConsole
             
             var galleryToken = await client.GetGalleryToken("https://e-hentai.org/s/35142216f7/2062874-16");
             
-            */
-
             var favUrlBuilder = new FavListUrlBuilder(client.EhUrl);
             favUrlBuilder.setFavCat(FavListUrlBuilder.FAV_CAT_ALL);
             favUrlBuilder.setIndex(1);
@@ -60,6 +58,11 @@ namespace EHentaiAPI.TestConsole
             favUrlBuilder.setFavCat(5);
             getFavorites = await client.GetFavorites(favUrlBuilder);
             await client.ModifyFavorites(favUrlBuilder, getFavorites.galleryInfoList.Select(x => x.gid).ToArray(), 3);
+            
+            var profile = await client.GetProfile();
+
+            var previewSet = await client.GetPreviewSet(detail, 0);
+            */
 
             Console.ReadLine();
         }

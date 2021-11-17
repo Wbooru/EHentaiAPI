@@ -1,17 +1,18 @@
 using EHentaiAPI.Client;
 using System;
 using Xunit;
+using Xunit.Extensions.Ordering;
 using Xunit.Sdk;
 
 namespace EHentaiAPI.UnitTest
 {
     public class LoginTest : IClassFixture<ShareClient>
     {
-        public ShareClient ShareClient { get; }
+        private EhClient client;
 
         public LoginTest(ShareClient shareClient)
         {
-            ShareClient = shareClient;
+            client = shareClient.Client;
         }
 
         private void CheckSettings()
@@ -21,13 +22,21 @@ namespace EHentaiAPI.UnitTest
             Assert.False(string.IsNullOrWhiteSpace(TestSettings.Password));
         }
 
-        [Fact]
+        [Fact, Order(1)]
         public async void SignIn()
         {
             CheckSettings();
 
-            var userName = await ShareClient.Client.SignIn(TestSettings.UserName, TestSettings.Password);
+            var userName = await client.SignIn(TestSettings.UserName, TestSettings.Password);
             Assert.Equal(TestSettings.UserName, userName);
+        }
+
+        [Fact, Order(2)]
+        public async void GetProfile()
+        {
+            var userName = await client.SignIn(TestSettings.UserName, TestSettings.Password);
+            var profile = await client.GetProfile();
+            Assert.Equal(userName, profile.displayName);
         }
     }
 }

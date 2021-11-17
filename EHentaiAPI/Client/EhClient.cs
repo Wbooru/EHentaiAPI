@@ -233,6 +233,21 @@ namespace EHentaiAPI.Client
                 .setArgs(url, gidArray, dstCat)
                 .setMethod(Method.METHOD_MODIFY_FAVORITES));
 
+        public Task<ProfileParser.Result> GetProfile()
+            => execute<ProfileParser.Result>(new EhRequest()
+                .setMethod(Method.METHOD_GET_PROFILE));
+
+        public Task<KeyValuePair<PreviewSet, int>> GetPreviewSet(GalleryDetail detail, int index)
+            => GetPreviewSet(detail.gid, detail.token, index);
+
+        public Task<KeyValuePair<PreviewSet, int>> GetPreviewSet(long gid, string token, int index)
+            => GetPreviewSet(EhUrl.getGalleryDetailUrl(gid, token, index, false));
+
+        public Task<KeyValuePair<PreviewSet, int>> GetPreviewSet(string url)
+            => execute<KeyValuePair<PreviewSet, int>>(new EhRequest()
+                .setArgs(url)
+                .setMethod(Method.METHOD_GET_PREVIEW_SET));
+
         #endregion
     }
 }
