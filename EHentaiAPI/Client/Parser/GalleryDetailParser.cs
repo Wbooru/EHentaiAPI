@@ -818,6 +818,8 @@ namespace EHentaiAPI.Client.Parser
                 }
                 string pageUrl = ParserUtils.trim(m.Groups[(5)].Value);
                 normalPreviewSet.addItem(position, imageUrl, xOffset, yOffset, width, height, pageUrl);
+
+                m = m.NextMatch();
             }
 
             if (normalPreviewSet.size() == 0)
