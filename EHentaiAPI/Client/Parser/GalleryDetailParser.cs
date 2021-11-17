@@ -36,7 +36,7 @@ namespace EHentaiAPI.Client.Parser
         private const string PINING_STRING =
                 "<p>This gallery is pining for the fjords.</p>";
 
-        public static GalleryDetail parse(EhUrl ehUrl, string body,string url)
+        public static GalleryDetail parse(EhUrl ehUrl, string body, string url)
         {
             if (body.Contains(OFFENSIVE_STRING))
             {
@@ -466,6 +466,8 @@ namespace EHentaiAPI.Client.Parser
                 tagGroup.groupName = ParserUtils.trim(m.Groups[1].Value);
                 parseGroup(tagGroup, m.Groups[0].Value);
                 list.Add(tagGroup);
+
+                m = m.NextMatch();
             }
 
             return list.ToArray();
@@ -477,6 +479,7 @@ namespace EHentaiAPI.Client.Parser
             while (m.Success)
             {
                 tagGroup.addTag(ParserUtils.trim(m.Groups[1].Value));
+                m = m.NextMatch();
             }
         }
 
@@ -633,6 +636,8 @@ namespace EHentaiAPI.Client.Parser
                 comment.user = ParserUtils.trim(m.Groups[2].Value);
                 comment.comment = m.Groups[3].Value;
                 list.Add(comment);
+
+                m = m.NextMatch();
             }
 
             return list.ToArray();
@@ -781,6 +786,7 @@ namespace EHentaiAPI.Client.Parser
                     imageUrl = ehUrl.getFixedPreviewThumbUrl(imageUrl);
                 }
                 largePreviewSet.addItem(index, imageUrl, pageUrl);
+                m = m.NextMatch();
             }
 
             if (largePreviewSet.size() == 0)

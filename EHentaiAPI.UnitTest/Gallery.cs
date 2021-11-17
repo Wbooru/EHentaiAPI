@@ -76,5 +76,11 @@ namespace EHentaiAPI.UnitTest
         {
             Assert.Equal("03037d8698", await client.GetGalleryToken("https://e-hentai.org/s/35142216f7/2062874-16"));
         }
+
+        [Fact, Order(3)]
+        public async void GetGalleryPreview()
+        {
+            var info = await client.GetGalleryDetail("https://e-hentai.org/g/2062872/fb6abc76c6/");
+        }
     }
 }

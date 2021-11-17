@@ -28,6 +28,7 @@ namespace EHentaiAPI.Client.Parser
                 string name = ParserUtils.trim(m.Groups[2].Value);
                 var item = KeyValuePair.Create(res, name);
                 archiveList.Add(item);
+
                 m = m.NextMatch();
             }
             return KeyValuePair.Create(paramOr, archiveList.ToArray());
