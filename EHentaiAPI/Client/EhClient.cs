@@ -1,4 +1,6 @@
-﻿using EHentaiAPI.Client.Exceptions;
+﻿using EHentaiAPI.Client.Data;
+using EHentaiAPI.Client.Exceptions;
+using EHentaiAPI.Client.Parser;
 using System;
 using System.Net;
 using System.Threading;
@@ -85,5 +87,29 @@ namespace EHentaiAPI.Client
                 return default;
             }
         }
+
+        #region New API Usages
+
+        public Task<string> SignIn(string username, string password) 
+            => execute<string>(new EhRequest()
+                .setArgs(username, password)
+                .setMethod(Method.METHOD_SIGN_IN));
+
+        public Task<GalleryListParser.Result> GetGalleryList(string url) 
+            => execute<GalleryListParser.Result>(new EhRequest()
+                .setArgs(url)
+                .setMethod(Method.METHOD_GET_GALLERY_LIST));
+
+        public Task<GalleryDetail> GetGalleryDetail(string detailUrl) 
+            => execute<GalleryDetail>(new EhRequest()
+                .setArgs(detailUrl)
+                .setMethod(Method.METHOD_GET_GALLERY_DETAIL));
+
+        public Task<VoteCommentParser.Result> VoteComment(long apiUid, string apiKey, long gid, string token, long commentId, int commentVote) 
+            => execute<VoteCommentParser.Result>(new EhRequest()
+                .setArgs(apiUid, apiKey, gid, token, commentId, commentVote)
+                .setMethod(Method.METHOD_VOTE_COMMENT));
+
+        #endregion
     }
 }
