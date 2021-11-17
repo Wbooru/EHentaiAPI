@@ -33,19 +33,33 @@ namespace EHentaiAPI.TestConsole
             var voteResult = await client.VoteComment(detail.apiUid, detail.apiKey, detail.gid, detail.token, detail.comments.comments[1].id, 1);
 
             var torrentList = await client.GetTorrentList(detail.torrentUrl, detail.gid, detail.token);
+            
             var archiveList = await client.GetArchiveList(detail.archiveUrl, detail.gid, detail.token);
 
             var voteTagResult = await client.VoteTag(detail.apiUid, detail.apiKey, detail.gid, detail.token, detail.tags.First().getTagAt(0), 1);
 
             var rateResult = await client.RateGallery(detail, 3);
             
-
             //var newCommentList = await client.CommentNewGallery("https://e-hentai.org/g/2062874/03037d8698/","谢谢好兄弟:D");
+           
             //var newCommentList = await client.ModifyCommentGallery("https://e-hentai.org/g/2062874/03037d8698/", "谢谢好兄弟:D 233", detail.comments.comments.FirstOrDefault(x => x.user.Equals(TestSettings.UserName, StringComparison.InvariantCultureIgnoreCase)).id.ToString());
+            
+            var galleryToken = await client.GetGalleryToken("https://e-hentai.org/s/35142216f7/2062874-16");
             
             */
 
-            var galleryToken = await client.GetGalleryToken("https://e-hentai.org/s/35142216f7/2062874-16");
+            var favUrlBuilder = new FavListUrlBuilder(client.EhUrl);
+            favUrlBuilder.setFavCat(FavListUrlBuilder.FAV_CAT_ALL);
+            favUrlBuilder.setIndex(1);
+            var favReqUrl = favUrlBuilder.build();
+            var getFavorites = await client.GetFavorites(favReqUrl);
+
+            //await client.AddFavorites(detail.gid,detail.token,1,"Haha");
+
+            favUrlBuilder = new FavListUrlBuilder(client.EhUrl);
+            favUrlBuilder.setFavCat(5);
+            getFavorites = await client.GetFavorites(favUrlBuilder);
+            await client.ModifyFavorites(favUrlBuilder, getFavorites.galleryInfoList.Select(x => x.gid).ToArray(), 3);
 
             Console.ReadLine();
         }

@@ -477,7 +477,7 @@ namespace EHentaiAPI.Client
         }
 
         public static FavoritesParser.Result getFavorites(EhTask task, CookieContainer cookieContainer,
-                                                          string url, bool callApi)
+                                                          string url)
         {
             string referer = task.mEhUrl.getReferer();
             Log.d(TAG, url);
@@ -561,7 +561,7 @@ namespace EHentaiAPI.Client
                 code = (int)response.StatusCode;
                 headers = response.Headers;
                 body = new StreamReader(response.GetResponseStream()).ReadToEnd();
-                throwException(null, code, headers, body, null);
+                //throwException(null, code, headers, body, null);
             }
             catch (Exception e)
             {
@@ -585,7 +585,7 @@ namespace EHentaiAPI.Client
         }
 
         public static FavoritesParser.Result modifyFavorites(EhTask task, CookieContainer cookieContainer,
-                                                             string url, long[] gidArray, int dstCat, bool callApi)
+                                                             string url, long[] gidArray, int dstCat)
         {
             string catStr;
             if (dstCat == -1)
@@ -600,13 +600,13 @@ namespace EHentaiAPI.Client
             {
                 throw new EhException("Invalid dstCat: " + dstCat);
             }
-            var builder = new Dictionary<string, string>();
-            builder.Add("ddact", catStr);
+            var builder = new List<KeyValuePair<string, string>>();
+            builder.Add(KeyValuePair.Create("ddact", catStr));
             foreach (long gid in gidArray)
             {
-                builder.Add("modifygids[]", gid.ToString());
+                builder.Add(KeyValuePair.Create("modifygids[]", gid.ToString()));
             }
-            builder.Add("apply", "Apply");
+            builder.Add(KeyValuePair.Create("apply", "Apply"));
             string origin = task.mEhUrl.getOrigin();
             Log.d(TAG, url);
             var request = new EhRequestBuilder(url, url, origin)
@@ -753,7 +753,7 @@ namespace EHentaiAPI.Client
                 code = (int)response.StatusCode;
                 headers = response.Headers;
                 body = new StreamReader(response.GetResponseStream()).ReadToEnd();
-                throwException(null, code, headers, body, null);
+                //throwException(null, code, headers, body, null);
             }
             catch (Exception e)
             {

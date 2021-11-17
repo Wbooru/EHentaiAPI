@@ -15,6 +15,7 @@ namespace EHentaiAPI.UnitTest
     public class Gallery : IClassFixture<ShareClient>
     {
         private readonly EhClient client;
+        private const string myLove = "https://e-hentai.org/g/2062067/588c82702b/";
 
         public Gallery(ShareClient shareClient)
         {
@@ -39,13 +40,7 @@ namespace EHentaiAPI.UnitTest
         [Fact, Order(2)]
         public async void GetGalleryDetail()
         {
-            const string myLove = "https://e-hentai.org/g/2062067/588c82702b/";
-
-            var req = new EhRequest();
-            req.setArgs(myLove);
-            req.setMethod(EhClient.Method.METHOD_GET_GALLERY_DETAIL);
-
-            var info = await client.execute<GalleryDetail>(req);
+            var info = await client.GetGalleryDetail(myLove);
 
             Assert.Equal("2021-11-16 15:10", info.posted);
             Assert.Equal("Yes", info.visible);
@@ -57,6 +52,29 @@ namespace EHentaiAPI.UnitTest
             Assert.NotEmpty(info.comments.comments);
             Assert.Equal("Pokom", info.comments.comments.FirstOrDefault().user);
             Assert.True(info.comments.comments.FirstOrDefault().uploader);
+        }
+
+        [Fact, Order(3)]
+        public async void GetTorrentList()
+        {
+            var info = await client.GetGalleryDetail("https://e-hentai.org/g/2062872/fb6abc76c6/");
+            Assert.NotEmpty(await client.GetTorrentList(info));
+        }
+
+        [Fact, Order(3)]
+        public async void GetArchiveList()
+        {
+            await client.SignIn(TestSettings.UserName, TestSettings.Password);
+            var info = await client.GetGalleryDetail("https://e-hentai.org/g/2062872/fb6abc76c6/");
+            var archiveList = await client.GetArchiveList(info);
+            Assert.False(string.IsNullOrWhiteSpace(archiveList.Key));
+            Assert.NotEmpty(archiveList.Value);
+        }
+
+        [Fact, Order(3)]
+        public async void GetGalleryToken()
+        {
+            Assert.Equal("03037d8698", await client.GetGalleryToken("https://e-hentai.org/s/35142216f7/2062874-16"));
         }
     }
 }
