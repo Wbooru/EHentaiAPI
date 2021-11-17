@@ -38,6 +38,11 @@ namespace EHentaiAPI.Client
             }
         }
 
+        public EhClient(Settings setting = default)
+        {
+            Settings = setting ?? new Settings();
+        }
+
         public enum Method
         {
             METHOD_SIGN_IN,

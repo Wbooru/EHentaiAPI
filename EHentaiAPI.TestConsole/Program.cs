@@ -25,17 +25,12 @@ namespace EHentaiAPI.TestConsole
             };
             client.Settings.putGallerySite(EhUrl.SITE_E);
 
-            var request = new EhRequest()
-                .setMethod(EhClient.Method.METHOD_SIGN_IN)
-                .setArgs("DarkProjector", TestSettings.Password);
-            var userName = await client.execute<string>(request);
+            var req = new EhRequest();
+            req.setArgs("https://e-hentai.org");
+            req.setMethod(EhClient.Method.METHOD_GET_GALLERY_LIST);
 
-            request = new EhRequest()
-                .setMethod(EhClient.Method.METHOD_GET_GALLERY_DETAIL)
-                .setArgs("https://e-hentai.org/g/2062095/080e7efd64/");
+            var result = await client.execute<GalleryListParser.Result>(req);
 
-            var galleryList = await client.execute<GalleryDetail>(request);
-            
             Console.ReadLine();
         }
     }

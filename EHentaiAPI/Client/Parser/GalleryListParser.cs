@@ -114,7 +114,7 @@ namespace EHentaiAPI.Client.Parser
                 if (a == null)
                 {
                     var parent = glname.ParentElement;
-                    if (parent != null && "a".Equals(parent.TagName))
+                    if (parent != null && "a".Equals(parent.TagName, StringComparison.InvariantCultureIgnoreCase))
                     {
                         a = parent;
                     }
@@ -200,7 +200,7 @@ namespace EHentaiAPI.Client.Parser
                     {
                         url = null;
                     }
-                    gi.thumb = EhUtils.handleThumbUrlResolution(settings,url);
+                    gi.thumb = EhUtils.handleThumbUrlResolution(settings, url);
                 }
 
                 // Pages
@@ -242,7 +242,7 @@ namespace EHentaiAPI.Client.Parser
                             gi.thumbWidth = 0;
                             gi.thumbHeight = 0;
                         }
-                        gi.thumb = EhUtils.handleThumbUrlResolution(settings,img.GetAttribute("src"));
+                        gi.thumb = EhUtils.handleThumbUrlResolution(settings, img.GetAttribute("src"));
                     }
                 }
             }
@@ -323,7 +323,7 @@ namespace EHentaiAPI.Client.Parser
             return gi;
         }
 
-        public static Result parse(Settings settings,String body)
+        public static Result parse(Settings settings, String body)
         {
             var result = new Result();
             var d = Utils.Document.parse(body);
@@ -386,7 +386,7 @@ namespace EHentaiAPI.Client.Parser
                 // First one is table header, skip it
                 for (int i = 0; i < es.Length; i++)
                 {
-                    GalleryInfo gi = parseGalleryInfo(settings,es[(i)]);
+                    GalleryInfo gi = parseGalleryInfo(settings, es[(i)]);
                     if (null != gi)
                     {
                         list.Add(gi);
