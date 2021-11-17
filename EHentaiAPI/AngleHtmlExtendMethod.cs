@@ -29,5 +29,10 @@ namespace EHentaiAPI
 
             return default;
         }
+
+        public static string GetAttributeEx(this IElement d, string attr)
+        {
+            return d.GetAttribute(attr) ?? string.Empty;
+        }
     }
 }
