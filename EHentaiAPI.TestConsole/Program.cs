@@ -45,6 +45,8 @@ namespace EHentaiAPI.TestConsole
             
             */
 
+            var galleryToken = await client.GetGalleryToken("https://e-hentai.org/s/35142216f7/2062874-16");
+
             Console.ReadLine();
         }
     }

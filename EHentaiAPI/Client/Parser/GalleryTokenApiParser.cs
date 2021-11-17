@@ -19,15 +19,18 @@ namespace EHentaiAPI.Client.Parser
          * "gid":618395,
          * "token":"0439fa3666"
          * }
-         * ]
+         * ],
+         * "error":"maomao is moe~"
          * }
          */
         public static string parse(string body)
         {
-            var jo = JsonConvert.DeserializeObject<JObject>(body).getJSONArray("tokenlist")[0];
+            var jo = JsonConvert.DeserializeObject<JObject>(body);
+            var ja = jo.getJSONArray("tokenlist");
+
             try
             {
-                return jo.getString("token");
+                return ja[0].getString("token");
             }
             catch (Exception)
             {

@@ -25,6 +25,7 @@ namespace EHentaiAPI.Client.Data
         public GalleryCommentList comments;
         public int previewPages;
         public PreviewSet previewSet;
+        public string url;
 
         public GalleryDetail()
         {

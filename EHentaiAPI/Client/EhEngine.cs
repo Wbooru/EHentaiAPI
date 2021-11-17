@@ -286,7 +286,7 @@ namespace EHentaiAPI.Client
                     EhApplication.getInstance().showEventPane(html);
                 }
                 */
-                return GalleryDetailParser.parse(task.mEhUrl, body);
+                return GalleryDetailParser.parse(task.mEhUrl, body, url);
             }
             catch (Exception e)
             {
@@ -377,7 +377,7 @@ namespace EHentaiAPI.Client
         }
 
         public static GalleryCommentList commentGallery(EhTask task, CookieContainer cookieContainer,
-                                                         string url, string comment, string id)
+                                                         string url, string comment, long? id)
         {
             var bodyMap = new Dictionary<string, string>();
             if (id == null)
@@ -387,7 +387,7 @@ namespace EHentaiAPI.Client
             else
             {
                 bodyMap.Add("commenttext_edit", comment);
-                bodyMap.Add("edit_comment", id);
+                bodyMap.Add("edit_comment", id?.ToString());
             }
             string origin = task.mEhUrl.getOrigin();
             Log.d(TAG, url);
@@ -433,17 +433,14 @@ namespace EHentaiAPI.Client
         public static string getGalleryToken(EhTask task, CookieContainer cookieContainer,
                                              long gid, string gtoken, int page)
         {
-            var json = new JObject();
-            json.Add("method", "gtoken");
-            var json3 = new JArray();
-            json3.Add(gid);
-            json3.Add(gtoken);
-            json3.Add(page + 1);
-            var json2 = new JArray();
-            json2.Add(json3);
-            json.Add("pagelist", json3);
+            var obj = new
+            {
+                method = "gtoken",
+                pagelist = new[] { new object[] { gid, gtoken, page + 1 } }
+            };
+            var d = JsonConvert.SerializeObject(obj);
 
-            var requestBody = new StringContent(json.ToString(), Encoding.UTF8, MEDIA_TYPE_JSON);
+            var requestBody = new StringContent(d, Encoding.UTF8, MEDIA_TYPE_JSON);
             string url = task.mEhUrl.getApiUrl();
             string referer = task.mEhUrl.getReferer();
             string origin = task.mEhUrl.getOrigin();

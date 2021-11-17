@@ -36,7 +36,7 @@ namespace EHentaiAPI.Client.Parser
         private const string PINING_STRING =
                 "<p>This gallery is pining for the fjords.</p>";
 
-        public static GalleryDetail parse(EhUrl ehUrl, string body)
+        public static GalleryDetail parse(EhUrl ehUrl, string body,string url)
         {
             if (body.Contains(OFFENSIVE_STRING))
             {
@@ -56,6 +56,8 @@ namespace EHentaiAPI.Client.Parser
             }
 
             GalleryDetail galleryDetail = new GalleryDetail();
+            galleryDetail.url = url;
+
             var document = Utils.Document.parse(body);
             parseDetail(ehUrl.getSettings(), galleryDetail, document, body);
             galleryDetail.tags = parseTagGroups(document);

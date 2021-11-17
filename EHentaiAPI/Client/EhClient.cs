@@ -158,15 +158,46 @@ namespace EHentaiAPI.Client
                 .setArgs(apiUid, apiKey, gid, token, rating)
                 .setMethod(Method.METHOD_GET_RATE_GALLERY));
 
+        public Task<GalleryCommentList> CommentNewGallery(GalleryDetail detail, string commentContent)
+            => CommentNewGallery(detail.url, commentContent);
+
         public Task<GalleryCommentList> CommentNewGallery(string url, string commentContent)
             => execute<GalleryCommentList>(new EhRequest()
                 .setArgs(url, commentContent, null)
                 .setMethod(Method.METHOD_GET_COMMENT_GALLERY));
 
-        public Task<GalleryCommentList> ModifyCommentGallery(string url, string commentContent, string commendId)
+        public Task<GalleryCommentList> ModifyCommentGallery(GalleryDetail detail, string newCommentContent, GalleryComment comment)
+            => ModifyCommentGallery(detail.url, newCommentContent, comment.id);
+
+        public Task<GalleryCommentList> ModifyCommentGallery(string url, string commentContent, long commendId)
             => execute<GalleryCommentList>(new EhRequest()
-                .setArgs(url, commentContent, commendId ?? throw new EhException("ModifyCommentGallery() must provide param commendId."))
+                .setArgs(url, commentContent, commendId)
                 .setMethod(Method.METHOD_GET_COMMENT_GALLERY));
+
+        /// <summary>
+        /// 通过具体页面url获取画廊的token,比如
+        /// https://e-hentai.org/s/7b13386d6b/2062872-10
+        /// </summary>
+        /// <param name="url">具体页面url</param>
+        /// <returns></returns>
+        public Task<string> GetGalleryToken(string url)
+        {
+            var result2 = GalleryPageUrlParser.parse(url, false);
+            return GetGalleryToken(result2.gid, result2.pToken, result2.page);
+        }
+
+        /// <summary>
+        /// 通过具体页面url获取画廊的token,比如
+        /// https://e-hentai.org/s/7b13386d6b/2062872-10
+        /// </summary>
+        /// <param name="gid">2062872</param>
+        /// <param name="gtoken">7b13386d6b</param>
+        /// <param name="page">10</param>
+        /// <returns>token fb6abc76c6</returns>
+        public Task<string> GetGalleryToken(long gid, string gtoken, int page)
+            => execute<string>(new EhRequest()
+                .setArgs(gid, gtoken, page)
+                .setMethod(Method.METHOD_GET_GALLERY_TOKEN));
 
         #endregion
     }
