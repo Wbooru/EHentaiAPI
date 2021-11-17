@@ -1,4 +1,5 @@
 ﻿using EHentaiAPI.Client.Exceptions;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace EHentaiAPI.Client.Parser
         {
             try
             {
-                var jsonObject = new JObject(body);
+                var jsonObject = JsonConvert.DeserializeObject<JObject>(body);
                 Result result = new Result();
                 result.rating = jsonObject.Value<float>("rating_avg");
                 result.ratingCount = jsonObject.Value<int>("rating_cnt");

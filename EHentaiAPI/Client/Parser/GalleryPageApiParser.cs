@@ -1,4 +1,5 @@
 ﻿using EHentaiAPI.Client.Exceptions;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,7 @@ namespace EHentaiAPI.Client.Parser
                 Match m;
                 Result result = new Result();
 
-                var jo = new JObject(body);
+                var jo = JsonConvert.DeserializeObject<JObject>(body);
                 if (jo.ContainsKey("error"))
                 {
                     throw new ParseException(jo.getString("error"), body);
