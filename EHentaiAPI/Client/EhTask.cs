@@ -46,7 +46,7 @@ namespace EHentaiAPI.Client
                     case Method.METHOD_GET_RATE_GALLERY:
                         return EhEngine.rateGallery(this, mCookieContainer, (long)@params[0], (string)@params[1], (long)@params[2], (string)@params[3], (float)@params[4]);
                     case Method.METHOD_GET_COMMENT_GALLERY:
-                        return EhEngine.commentGallery(this, mCookieContainer, (string)@params[0], (string)@params[1], (string)@params[2]);
+                        return EhEngine.commentGallery(this, mCookieContainer, (string)@params[0], (string)@params[1], (long?)@params[2]);
                     case Method.METHOD_GET_GALLERY_TOKEN:
                         return EhEngine.getGalleryToken(this, mCookieContainer, (long)@params[0], (string)@params[1], (int)@params[2]);
                     case Method.METHOD_GET_FAVORITES:
