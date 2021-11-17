@@ -1,4 +1,5 @@
 ﻿using EHentaiAPI.Client.Exceptions;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,7 @@ namespace EHentaiAPI.Client.Parser
          */
         public static String parse(String body)
         {
-            var jo = new JObject(body).getJSONArray("tokenlist")[(0)];
+            var jo = JsonConvert.DeserializeObject<JObject>(body).getJSONArray("tokenlist")[(0)];
             try
             {
                 return jo.getString("token");

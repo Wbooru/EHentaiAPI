@@ -1,4 +1,5 @@
 ﻿using EHentaiAPI.Client.Data;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace EHentaiAPI.Client.Parser
 
         public static void parse(Settings settings, String body, List<GalleryInfo> galleryInfoList)
         {
-            var jo = new JObject(body);
+            var jo = JsonConvert.DeserializeObject<JObject>(body);
             var ja = jo.GetValue("gmetadata") as JArray;
 
             for (int i = 0, length = ja.Count; i < length; i++)

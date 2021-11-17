@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace EHentaiAPI.Client.Parser
         public static Result parse(String body, int vote)
         {
             var result = new Result();
-            var jo = new JObject(body);
+            var jo = JsonConvert.DeserializeObject<JObject>(body);
             result.id = jo.Value<long>("comment_id");
             result.score = jo.Value<int>("comment_score");
             result.vote = jo.Value<int>("comment_vote");
