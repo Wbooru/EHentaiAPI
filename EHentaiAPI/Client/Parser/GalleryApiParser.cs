@@ -13,7 +13,7 @@ namespace EHentaiAPI.Client.Parser
     public class GalleryApiParser
     {
 
-        public static void parse(Settings settings, string body, List<GalleryInfo> galleryInfoList)
+        public static void Parse(Settings settings, string body, List<GalleryInfo> galleryInfoList)
         {
             var jo = JsonConvert.DeserializeObject<JObject>(body);
             var ja = jo.GetValue("gmetadata") as JArray;
@@ -22,31 +22,31 @@ namespace EHentaiAPI.Client.Parser
             {
                 var g = ja[(i)] as JObject;
                 long gid = g[("gid")].ToObject<long>();
-                GalleryInfo gi = getGalleryInfoByGid(galleryInfoList, gid);
+                GalleryInfo gi = GetGalleryInfoByGid(galleryInfoList, gid);
                 if (gi == null)
                     continue;
-                gi.title = ParserUtils.trim(g.getString("title"));
-                gi.titleJpn = ParserUtils.trim(g.getString("title_jpn"));
-                gi.category = EhUtils.getCategory(g.getString("category"));
-                gi.thumb = EhUtils.handleThumbUrlResolution(settings,g.getString("thumb"));
-                gi.uploader = g.getString("uploader");
-                gi.posted = ParserUtils.formatDate(ParserUtils.parseLong(g.getString("posted"), 0) * 1000);
-                gi.rating = ParserUtils.parseFloat(g.getString("rating"), 0.0f);
+                gi.title = ParserUtils.Trim(g.GetString("title"));
+                gi.titleJpn = ParserUtils.Trim(g.GetString("title_jpn"));
+                gi.category = EhUtils.GetCategory(g.GetString("category"));
+                gi.thumb = EhUtils.HandleThumbUrlResolution(settings,g.GetString("thumb"));
+                gi.uploader = g.GetString("uploader");
+                gi.posted = ParserUtils.FormatDate(ParserUtils.ParseLong(g.GetString("posted"), 0) * 1000);
+                gi.rating = ParserUtils.ParseFloat(g.GetString("rating"), 0.0f);
                 // tags
-                var tagJa = g.getJSONArray("tags");
+                var tagJa = g.GetJSONArray("tags");
                 int tagLength = tagJa.Count;
                 string[] tags = new string[tagLength];
                 for (int j = 0; j < tagLength; j++)
                 {
-                    tags[j] = tagJa.getString(j.ToString());
+                    tags[j] = tagJa.GetString(j.ToString());
                 }
                 gi.simpleTags = tags;
-                gi.pages = ParserUtils.parseInt(g.getString("filecount"), 0);
-                gi.generateSLang();
+                gi.pages = ParserUtils.ParseInt(g.GetString("filecount"), 0);
+                gi.GenerateSLang();
             }
         }
 
-        private static GalleryInfo getGalleryInfoByGid(List<GalleryInfo> galleryInfoList, long gid)
+        private static GalleryInfo GetGalleryInfoByGid(List<GalleryInfo> galleryInfoList, long gid)
         {
             for (int i = 0, size = galleryInfoList.Count; i < size; i++)
             {

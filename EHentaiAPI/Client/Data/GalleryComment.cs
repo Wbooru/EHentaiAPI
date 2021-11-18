@@ -22,15 +22,5 @@ namespace EHentaiAPI.Client.Data
         public string user;
         public string comment;
         public long lastEdited;
-
-        public GalleryComment()
-        {
-        }
-
-
-        public int describeContents()
-        {
-            return 0;
-        }
     }
 }

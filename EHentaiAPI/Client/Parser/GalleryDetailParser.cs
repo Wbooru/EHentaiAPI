@@ -29,15 +29,15 @@ namespace EHentaiAPI.Client.Parser
         private readonly static Regex PATTERN_LARGE_PREVIEW = new Regex("<div class=\"gdtl\".+?<a href=\"(.+?)\"><img alt=\"([\\d,]+)\".+?src=\"(.+?)\"");
         private readonly static Regex PATTERN_NEWER_DATE = new Regex(", added (.+?)<br />");
 
-        private readonly static GalleryTagGroup[] EMPTY_GALLERY_TAG_GROUP_ARRAY = new GalleryTagGroup[0];
-        private readonly static GalleryCommentList EMPTY_GALLERY_COMMENT_ARRAY = new GalleryCommentList(new GalleryComment[0], false);
+        private readonly static GalleryTagGroup[] EMPTY_GALLERY_TAG_GROUP_ARRAY = Array.Empty<GalleryTagGroup>();
+        private readonly static GalleryCommentList EMPTY_GALLERY_COMMENT_ARRAY = new GalleryCommentList(Array.Empty<GalleryComment>(), false);
 
         private const string OFFENSIVE_STRING =
             "<p>(And if you choose to ignore this warning, you lose all rights to complain about it in the future.)</p>";
         private const string PINING_STRING =
                 "<p>This gallery is pining for the fjords.</p>";
 
-        public static GalleryDetail parse(EhUrl ehUrl, string body, string url)
+        public static GalleryDetail Parse(EhUrl ehUrl, string body, string url)
         {
             if (body.Contains(OFFENSIVE_STRING))
             {
@@ -59,23 +59,23 @@ namespace EHentaiAPI.Client.Parser
             GalleryDetail galleryDetail = new GalleryDetail();
             galleryDetail.url = url;
 
-            var document = Utils.Document.parse(body);
-            parseDetail(ehUrl.getSettings(), galleryDetail, document, body);
-            galleryDetail.tags = parseTagGroups(document);
-            galleryDetail.comments = parseComments(document);
-            galleryDetail.previewPages = parsePreviewPages(document, body);
-            galleryDetail.previewSet = parsePreviewSet(ehUrl, document, body);
+            var document = Utils.Document.Parse(body);
+            ParseDetail(ehUrl.GetSettings(), galleryDetail, document, body);
+            galleryDetail.tags = ParseTagGroups(document);
+            galleryDetail.comments = ParseComments(document);
+            galleryDetail.previewPages = ParsePreviewPages(document, body);
+            galleryDetail.previewSet = ParsePreviewSet(ehUrl, document, body);
             return galleryDetail;
         }
 
-        private static void parseDetail(Settings settings, GalleryDetail gd, Utils.Document d, string body)
+        private static void ParseDetail(Settings settings, GalleryDetail gd, Utils.Document d, string body)
         {
             var match = PATTERN_DETAIL.Match(body);
             if (match.Success)
             {
-                gd.gid = ParserUtils.parseLong(match.Groups[1].Value, -1L);
+                gd.gid = ParserUtils.ParseLong(match.Groups[1].Value, -1L);
                 gd.token = match.Groups[3].Value;
-                gd.apiUid = ParserUtils.parseLong(match.Groups[5].Value, -1L);
+                gd.apiUid = ParserUtils.ParseLong(match.Groups[5].Value, -1L);
                 gd.apiKey = match.Groups[7].Value;
             }
             else
@@ -90,8 +90,8 @@ namespace EHentaiAPI.Client.Parser
             match = PATTERN_TORRENT.Match(body);
             if (match.Success)
             {
-                gd.torrentUrl = ParserUtils.unescapeXml(ParserUtils.trim(match.Groups[1].Value));
-                gd.torrentCount = ParserUtils.parseInt(match.Groups[2].Value, 0);
+                gd.torrentUrl = ParserUtils.UnescapeXml(ParserUtils.Trim(match.Groups[1].Value));
+                gd.torrentCount = ParserUtils.ParseInt(match.Groups[2].Value, 0);
             }
             else
             {
@@ -102,7 +102,7 @@ namespace EHentaiAPI.Client.Parser
             match = PATTERN_ARCHIVE.Match(body);
             if (match.Success)
             {
-                gd.archiveUrl = ParserUtils.unescapeXml(ParserUtils.trim(match.Groups[1].Value));
+                gd.archiveUrl = ParserUtils.UnescapeXml(ParserUtils.Trim(match.Groups[1].Value));
             }
             else
             {
@@ -111,13 +111,13 @@ namespace EHentaiAPI.Client.Parser
 
             try
             {
-                var gm = d.getElementByClass("gm");
+                var gm = d.GetElementByClass("gm");
 
                 // Thumb url
                 var gd1 = gm.GetElementByIdRecursive("gd1");
                 try
                 {
-                    gd.thumb = parseCoverStyle(settings, ParserUtils.trim(gd1.Children[0].GetAttributeEx("style")));
+                    gd.thumb = ParseCoverStyle(settings, ParserUtils.Trim(gd1.Children[0].GetAttributeEx("style")));
                 }
                 catch
                 {
@@ -129,7 +129,7 @@ namespace EHentaiAPI.Client.Parser
                 var gn = gm.GetElementByIdRecursive("gn");
                 if (null != gn)
                 {
-                    gd.title = ParserUtils.trim(gn.Text());
+                    gd.title = ParserUtils.Trim(gn.Text());
                 }
                 else
                 {
@@ -140,7 +140,7 @@ namespace EHentaiAPI.Client.Parser
                 var gj = gm.GetElementByIdRecursive("gj");
                 if (null != gj)
                 {
-                    gd.titleJpn = ParserUtils.trim(gj.Text());
+                    gd.titleJpn = ParserUtils.Trim(gj.Text());
                 }
                 else
                 {
@@ -156,7 +156,7 @@ namespace EHentaiAPI.Client.Parser
                     {
                         ce = gdc.GetElementsByClassName("cs").FirstOrDefault();
                     }
-                    gd.category = EhUtils.getCategory(ce.Text());
+                    gd.category = EhUtils.GetCategory(ce.Text());
                 }
                 catch (Exception)
                 {
@@ -168,7 +168,7 @@ namespace EHentaiAPI.Client.Parser
                 var gdn = gm.GetElementByIdRecursive("gdn");
                 if (null != gdn)
                 {
-                    gd.uploader = ParserUtils.trim(gdn.Text());
+                    gd.uploader = ParserUtils.Trim(gdn.Text());
                 }
                 else
                 {
@@ -188,7 +188,7 @@ namespace EHentaiAPI.Client.Parser
                     var es = gdd.Children[0].Children[0].Children;
                     for (int i = 0, n = es.Length; i < n; i++)
                     {
-                        parseDetailInfo(gd, es[(i)], body);
+                        ParseDetailInfo(gd, es[(i)], body);
                     }
                 }
                 catch
@@ -201,7 +201,7 @@ namespace EHentaiAPI.Client.Parser
                 var rating_count = gm.GetElementByIdRecursive("rating_count");
                 if (null != rating_count)
                 {
-                    gd.ratingCount = ParserUtils.parseInt(rating_count.Text(), 0);
+                    gd.ratingCount = ParserUtils.ParseInt(rating_count.Text(), 0);
                 }
                 else
                 {
@@ -212,7 +212,7 @@ namespace EHentaiAPI.Client.Parser
                 var rating_label = gm.GetElementByIdRecursive("rating_label");
                 if (null != rating_label)
                 {
-                    string ratingStr = ParserUtils.trim(rating_label.Text());
+                    string ratingStr = ParserUtils.Trim(rating_label.Text());
                     if ("Not Yet Rated".Equals(ratingStr))
                     {
                         gd.rating = -1.0f;
@@ -226,7 +226,7 @@ namespace EHentaiAPI.Client.Parser
                         }
                         else
                         {
-                            gd.rating = ParserUtils.parseFloat(ratingStr.Substring(index + 1), 0f);
+                            gd.rating = ParserUtils.ParseFloat(ratingStr.Substring(index + 1), 0f);
                         }
                     }
                 }
@@ -237,17 +237,17 @@ namespace EHentaiAPI.Client.Parser
 
                 // isFavorited
                 var gdf = gm.GetElementByIdRecursive("gdf");
-                gd.isFavorited = null != gdf && !ParserUtils.trim(gdf.Text()).Equals("Add to Favorites");
+                gd.isFavorited = null != gdf && !ParserUtils.Trim(gdf.Text()).Equals("Add to Favorites");
                 if (gdf != null)
                 {
-                    var favoriteName = ParserUtils.trim(gdf.Text());
+                    var favoriteName = ParserUtils.Trim(gdf.Text());
                     if (favoriteName.Equals("Add to Favorites"))
                     {
                         gd.favoriteName = null;
                     }
                     else
                     {
-                        gd.favoriteName = ParserUtils.trim(gdf.Text());
+                        gd.favoriteName = ParserUtils.Trim(gdf.Text());
                     }
                 }
             }
@@ -260,7 +260,7 @@ namespace EHentaiAPI.Client.Parser
             // newer version
             try
             {
-                var gnd = d.getElementById("gnd");
+                var gnd = d.GetElementById("gnd");
                 if (gnd != null)
                 {
                     match = PATTERN_NEWER_DATE.Match(body);
@@ -274,12 +274,12 @@ namespace EHentaiAPI.Client.Parser
                     {
                         var element = elements[(i)];
                         var gi = new GalleryInfo();
-                        var result = GalleryDetailUrlParser.parse(element.GetAttributeEx("href"));
+                        var result = GalleryDetailUrlParser.Parse(element.GetAttributeEx("href"));
                         if (result != null)
                         {
                             gi.gid = result.gid;
                             gi.token = result.token;
-                            gi.title = ParserUtils.trim(element.Text());
+                            gi.title = ParserUtils.Trim(element.Text());
                             gi.posted = dates[(i)];
                             gd.newerVersions.Add(gi);
                         }
@@ -288,17 +288,17 @@ namespace EHentaiAPI.Client.Parser
             }
             catch (Exception e)
             {
-                e.printStackTrace();
+                e.PrintStackTrace();
             }
         }
 
         // width:250px; height:356px; background:transparent url(https://exhentai.org/t/fe/1f/fe1fcfa9bf8fba2f03982eda0aa347cc9d6a6372-145921-1050-1492-jpg_250.jpg) 0 0 no-repeat
-        private static string parseCoverStyle(Settings settings, string str)
+        private static string ParseCoverStyle(Settings settings, string str)
         {
             var match = PATTERN_COVER.Match(str);
             if (match.Success)
             {
-                return EhUtils.handleThumbUrlResolution(settings, match.Groups[3].Value);
+                return EhUtils.HandleThumbUrlResolution(settings, match.Groups[3].Value);
             }
             else
             {
@@ -306,7 +306,7 @@ namespace EHentaiAPI.Client.Parser
             }
         }
 
-        private static void parseDetailInfo(GalleryDetail gd, IElement e, string body)
+        private static void ParseDetailInfo(GalleryDetail gd, IElement e, string body)
         {
             var es = e.Children;
             if (es.Length < 2)
@@ -314,8 +314,8 @@ namespace EHentaiAPI.Client.Parser
                 return;
             }
 
-            string key = ParserUtils.trim(es[0].Text());
-            string value = ParserUtils.trim(es[1].TextContent);
+            string key = ParserUtils.Trim(es[0].Text());
+            string value = ParserUtils.Trim(es[1].TextContent);
             if (key.StartsWith("Posted"))
             {
                 gd.posted = value;
@@ -345,7 +345,7 @@ namespace EHentaiAPI.Client.Parser
                 int index = value.IndexOf(' ');
                 if (index >= 0)
                 {
-                    gd.pages = ParserUtils.parseInt(value.Substring(0, index - 0), 1);
+                    gd.pages = ParserUtils.ParseInt(value.Substring(0, index - 0), 1);
                 }
                 else
                 {
@@ -370,14 +370,14 @@ namespace EHentaiAPI.Client.Parser
                         }
                         else
                         {
-                            gd.favoriteCount = ParserUtils.parseInt(value.Substring(0, index - 0), 0);
+                            gd.favoriteCount = ParserUtils.ParseInt(value.Substring(0, index - 0), 0);
                         }
                         break;
                 }
             }
         }
 
-        private static GalleryTagGroup parseTagGroup(IElement element)
+        private static GalleryTagGroup ParseTagGroup(IElement element)
         {
             try
             {
@@ -398,15 +398,15 @@ namespace EHentaiAPI.Client.Parser
                     {
                         tag = tag.Substring(0, index).Trim();
                     }
-                    Group.addTag(tag);
+                    Group.AddTag(tag);
                 }
 
-                return Group.size() > 0 ? Group : null;
+                return Group.Size() > 0 ? Group : null;
             }
             catch (Exception e)
             {
                 //ExceptionUtils.throwIfFatal(e);
-                e.printStackTrace();
+                e.PrintStackTrace();
                 return null;
             }
         }
@@ -414,30 +414,30 @@ namespace EHentaiAPI.Client.Parser
         /**
          * Parse tag groups with html parser
          */
-        public static GalleryTagGroup[] parseTagGroups(Utils.Document document)
+        public static GalleryTagGroup[] ParseTagGroups(Utils.Document document)
         {
             try
             {
-                var taglist = document.getElementById("taglist");
+                var taglist = document.GetElementById("taglist");
                 var tagGroups = taglist.Children[0].Children[0].Children;
-                return parseTagGroups(tagGroups);
+                return ParseTagGroups(tagGroups);
             }
             catch (Exception e)
             {
                 //ExceptionUtils.throwIfFatal(e);
-                e.printStackTrace();
+                e.PrintStackTrace();
                 return EMPTY_GALLERY_TAG_GROUP_ARRAY;
             }
         }
 
-        public static GalleryTagGroup[] parseTagGroups(IEnumerable<IElement> trs)
+        public static GalleryTagGroup[] ParseTagGroups(IEnumerable<IElement> trs)
         {
             try
             {
                 List<GalleryTagGroup> list = new(trs.Count());
                 for (int i = 0, n = trs.Count(); i < n; i++)
                 {
-                    GalleryTagGroup Group = parseTagGroup(trs.ElementAt(i));
+                    GalleryTagGroup Group = ParseTagGroup(trs.ElementAt(i));
                     if (null != Group)
                     {
                         list.Add(Group);
@@ -448,7 +448,7 @@ namespace EHentaiAPI.Client.Parser
             catch (Exception e)
             {
                 //ExceptionUtils.throwIfFatal(e);
-                e.printStackTrace();
+                e.PrintStackTrace();
                 return EMPTY_GALLERY_TAG_GROUP_ARRAY;
             }
         }
@@ -456,7 +456,7 @@ namespace EHentaiAPI.Client.Parser
         /**
          * Parse tag groups with regular expressions
          */
-        private static GalleryTagGroup[] parseTagGroups(string body)
+        private static GalleryTagGroup[] ParseTagGroups(string body)
         {
             List<GalleryTagGroup> list = new();
 
@@ -464,8 +464,8 @@ namespace EHentaiAPI.Client.Parser
             while (m.Success)
             {
                 GalleryTagGroup tagGroup = new GalleryTagGroup();
-                tagGroup.groupName = ParserUtils.trim(m.Groups[1].Value);
-                parseGroup(tagGroup, m.Groups[0].Value);
+                tagGroup.groupName = ParserUtils.Trim(m.Groups[1].Value);
+                ParseGroup(tagGroup, m.Groups[0].Value);
                 list.Add(tagGroup);
 
                 m = m.NextMatch();
@@ -474,17 +474,17 @@ namespace EHentaiAPI.Client.Parser
             return list.ToArray();
         }
 
-        private static void parseGroup(GalleryTagGroup tagGroup, string body)
+        private static void ParseGroup(GalleryTagGroup tagGroup, string body)
         {
             var m = PATTERN_TAG.Match(body);
             while (m.Success)
             {
-                tagGroup.addTag(ParserUtils.trim(m.Groups[1].Value));
+                tagGroup.AddTag(ParserUtils.Trim(m.Groups[1].Value));
                 m = m.NextMatch();
             }
         }
 
-        public static GalleryComment parseComment(IElement element)
+        public static GalleryComment ParseComment(IElement element)
         {
             try
             {
@@ -492,7 +492,7 @@ namespace EHentaiAPI.Client.Parser
                 // Id
                 var a = element.PreviousElementSibling;
                 var name = a.GetAttributeEx("name");
-                comment.id = int.Parse(ParserUtils.trim(name).Substring(1));
+                comment.id = int.Parse(ParserUtils.Trim(name).Substring(1));
                 // Editable, vote up and vote down
                 var c4 = element.GetElementsByClassName("c4").FirstOrDefault();
                 if (null != c4)
@@ -507,11 +507,11 @@ namespace EHentaiAPI.Client.Parser
                         {
                             case "Vote+":
                                 comment.voteUpAble = true;
-                                comment.voteUpEd = !(ParserUtils.trim(e.GetAttributeEx("style")).Length == 0);
+                                comment.voteUpEd = !(ParserUtils.Trim(e.GetAttributeEx("style")).Length == 0);
                                 break;
                             case "Vote-":
                                 comment.voteDownAble = true;
-                                comment.voteDownEd = !(ParserUtils.trim(e.GetAttributeEx("style")).Length == 0);
+                                comment.voteDownEd = !(ParserUtils.Trim(e.GetAttributeEx("style")).Length == 0);
                                 break;
                             case "Edit":
                                 comment.editable = true;
@@ -523,7 +523,7 @@ namespace EHentaiAPI.Client.Parser
                 var c7 = element.GetElementsByClassName("c7").FirstOrDefault();
                 if (null != c7)
                 {
-                    comment.voteState = ParserUtils.trim(c7.Text());
+                    comment.voteState = ParserUtils.Trim(c7.Text());
                 }
                 // Score
                 var c5 = element.GetElementsByClassName("c5").FirstOrDefault();
@@ -532,7 +532,7 @@ namespace EHentaiAPI.Client.Parser
                     var es = c5.Children;
                     if (!(es.Length == 0))
                     {
-                        comment.score = ParserUtils.parseInt(ParserUtils.trim(es[0].Text()), 0);
+                        comment.score = ParserUtils.ParseInt(ParserUtils.Trim(es[0].Text()), 0);
                     }
                 }
                 // time
@@ -559,7 +559,7 @@ namespace EHentaiAPI.Client.Parser
             catch (Exception e)
             {
                 //ExceptionUtils.throwIfFatal(e);
-                e.printStackTrace();
+                e.PrintStackTrace();
                 return null;
             }
         }
@@ -567,17 +567,17 @@ namespace EHentaiAPI.Client.Parser
         /**
          * Parse comments with html parser
          */
-        public static GalleryCommentList parseComments(Utils.Document document)
+        public static GalleryCommentList ParseComments(Utils.Document document)
         {
             try
             {
-                var cdiv = document.getElementById("cdiv");
+                var cdiv = document.GetElementById("cdiv");
                 var c1s = cdiv.GetElementsByClassName("c1");
 
                 List<GalleryComment> list = new(c1s.Length);
                 for (int i = 0, n = c1s.Length; i < n; i++)
                 {
-                    GalleryComment comment = parseComment(c1s[(i)]);
+                    GalleryComment comment = ParseComment(c1s[(i)]);
                     if (null != comment)
                     {
                         list.Add(comment);
@@ -607,7 +607,7 @@ namespace EHentaiAPI.Client.Parser
             catch (Exception e)
             {
                 //ExceptionUtils.throwIfFatal(e);
-                e.printStackTrace();
+                e.PrintStackTrace();
                 return EMPTY_GALLERY_COMMENT_ARRAY;
             }
         }
@@ -615,14 +615,14 @@ namespace EHentaiAPI.Client.Parser
         /**
          * Parse comments with regular expressions
          */
-        public static GalleryComment[] parseComments(string body)
+        public static GalleryComment[] ParseComments(string body)
         {
             List<GalleryComment> list = new();
 
             Match m = PATTERN_COMMENT.Match(body);
             while (m.Success)
             {
-                string webDateString = ParserUtils.trim(m.Groups[1].Value);
+                string webDateString = ParserUtils.Trim(m.Groups[1].Value);
                 DateTime date;
                 try
                 {
@@ -634,7 +634,7 @@ namespace EHentaiAPI.Client.Parser
                 }
                 GalleryComment comment = new GalleryComment();
                 comment.time = date.ToUnixTimestamp();
-                comment.user = ParserUtils.trim(m.Groups[2].Value);
+                comment.user = ParserUtils.Trim(m.Groups[2].Value);
                 comment.comment = m.Groups[3].Value;
                 list.Add(comment);
 
@@ -647,17 +647,17 @@ namespace EHentaiAPI.Client.Parser
         /**
          * Parse preview pages with html parser
          */
-        public static int parsePreviewPages(EHentaiAPI.Utils.Document document, string body)
+        public static int ParsePreviewPages(EHentaiAPI.Utils.Document document, string body)
         {
             try
             {
-                var elements = document.getElementsByClass("ptt").FirstOrDefault().Children[0].Children[0].Children;
-                return int.Parse(elements[(elements.Length - 2)].Text());
+                var elements = document.GetElementsByClass("ptt").FirstOrDefault().Children[0].Children[0].Children;
+                return int.Parse(elements[elements.Length - 2].Text());
             }
             catch (Exception e)
             {
                 //ExceptionUtils.throwIfFatal(e);
-                e.printStackTrace();
+                e.PrintStackTrace();
                 throw new ParseException("Can't parse preview pages", body);
             }
         }
@@ -665,13 +665,13 @@ namespace EHentaiAPI.Client.Parser
         /**
          * Parse preview pages with regular expressions
          */
-        public static int parsePreviewPages(string body)
+        public static int ParsePreviewPages(string body)
         {
             Match m = PATTERN_PREVIEW_PAGES.Match(body);
             int previewPages = -1;
             if (m.Success)
             {
-                previewPages = ParserUtils.parseInt(m.Groups[1].Value, -1);
+                previewPages = ParserUtils.ParseInt(m.Groups[1].Value, -1);
             }
 
             if (previewPages <= 0)
@@ -685,14 +685,14 @@ namespace EHentaiAPI.Client.Parser
         /**
          * Parse pages with regular expressions
          */
-        public static int parsePages(string body)
+        public static int ParsePages(string body)
         {
             int pages = -1;
 
             Match m = PATTERN_PAGES.Match(body);
             if (m.Success)
             {
-                pages = ParserUtils.parseInt(m.Groups[1].Value, -1);
+                pages = ParserUtils.ParseInt(m.Groups[1].Value, -1);
             }
 
             if (pages < 0)
@@ -703,39 +703,39 @@ namespace EHentaiAPI.Client.Parser
             return pages;
         }
 
-        public static PreviewSet parsePreviewSet(EhUrl ehUrl, EHentaiAPI.Utils.Document d, string body)
+        public static PreviewSet ParsePreviewSet(EhUrl ehUrl, EHentaiAPI.Utils.Document d, string body)
         {
             try
             {
-                return parseLargePreviewSet(ehUrl, d, body);
+                return ParseLargePreviewSet(ehUrl, d, body);
             }
             catch (Exception)
             {
-                return parseNormalPreviewSet(body);
+                return ParseNormalPreviewSet(body);
             }
         }
 
-        public static PreviewSet parsePreviewSet(EhUrl ehUrl, string body)
+        public static PreviewSet ParsePreviewSet(EhUrl ehUrl, string body)
         {
             try
             {
-                return parseLargePreviewSet(ehUrl, body);
+                return ParseLargePreviewSet(ehUrl, body);
             }
             catch (Exception)
             {
-                return parseNormalPreviewSet(body);
+                return ParseNormalPreviewSet(body);
             }
         }
 
         /**
          * Parse large previews with regular expressions
          */
-        private static LargePreviewSet parseLargePreviewSet(EhUrl ehUrl, Utils.Document d, string body)
+        private static LargePreviewSet ParseLargePreviewSet(EhUrl ehUrl, Utils.Document d, string body)
         {
             try
             {
                 var largePreviewSet = new LargePreviewSet();
-                var gdt = d.getElementById("gdt");
+                var gdt = d.GetElementById("gdt");
                 var gdtls = gdt.GetElementsByClassName("gdtl");
                 int n = gdtls.Length;
                 if (n <= 0)
@@ -748,19 +748,19 @@ namespace EHentaiAPI.Client.Parser
                     var pageUrl = element.GetAttributeEx("href");
                     element = element.Children[0];
                     var imageUrl = element.GetAttributeEx("src");
-                    if (ehUrl.getSettings().getFixThumbUrl())
+                    if (ehUrl.GetSettings().GetFixThumbUrl())
                     {
-                        imageUrl = ehUrl.getFixedPreviewThumbUrl(imageUrl);
+                        imageUrl = ehUrl.GetFixedPreviewThumbUrl(imageUrl);
                     }
                     int index = int.Parse(element.GetAttributeEx("alt")) - 1;
-                    largePreviewSet.addItem(index, imageUrl, pageUrl);
+                    largePreviewSet.AddItem(index, imageUrl, pageUrl);
                 }
                 return largePreviewSet;
             }
             catch (Exception e)
             {
                 //ExceptionUtils.throwIfFatal(e);
-                e.printStackTrace();
+                e.PrintStackTrace();
                 throw new ParseException("Can't parse large preview", body);
             }
         }
@@ -768,29 +768,29 @@ namespace EHentaiAPI.Client.Parser
         /**
          * Parse large previews with regular expressions
          */
-        private static LargePreviewSet parseLargePreviewSet(EhUrl ehUrl, string body)
+        private static LargePreviewSet ParseLargePreviewSet(EhUrl ehUrl, string body)
         {
             Match m = PATTERN_LARGE_PREVIEW.Match(body);
             LargePreviewSet largePreviewSet = new LargePreviewSet();
 
             while (m.Success)
             {
-                int index = ParserUtils.parseInt(m.Groups[2].Value, 0) - 1;
+                int index = ParserUtils.ParseInt(m.Groups[2].Value, 0) - 1;
                 if (index < 0)
                 {
                     continue;
                 }
-                string imageUrl = ParserUtils.trim(m.Groups[3].Value);
-                string pageUrl = ParserUtils.trim(m.Groups[1].Value);
-                if (ehUrl.getSettings().getFixThumbUrl())
+                string imageUrl = ParserUtils.Trim(m.Groups[3].Value);
+                string pageUrl = ParserUtils.Trim(m.Groups[1].Value);
+                if (ehUrl.GetSettings().GetFixThumbUrl())
                 {
-                    imageUrl = ehUrl.getFixedPreviewThumbUrl(imageUrl);
+                    imageUrl = ehUrl.GetFixedPreviewThumbUrl(imageUrl);
                 }
-                largePreviewSet.addItem(index, imageUrl, pageUrl);
+                largePreviewSet.AddItem(index, imageUrl, pageUrl);
                 m = m.NextMatch();
             }
 
-            if (largePreviewSet.size() == 0)
+            if (largePreviewSet.Size() == 0)
             {
                 throw new ParseException("Can't parse large preview", body);
             }
@@ -801,37 +801,37 @@ namespace EHentaiAPI.Client.Parser
         /**
          * Parse normal previews with regular expressions
          */
-        private static NormalPreviewSet parseNormalPreviewSet(string body)
+        private static NormalPreviewSet ParseNormalPreviewSet(string body)
         {
             Match m = PATTERN_NORMAL_PREVIEW.Match(body);
             NormalPreviewSet normalPreviewSet = new NormalPreviewSet();
             while (m.Success)
             {
-                int position = ParserUtils.parseInt(m.Groups[6].Value, 0) - 1;
+                int position = ParserUtils.ParseInt(m.Groups[6].Value, 0) - 1;
                 if (position < 0)
                 {
                     continue;
                 }
-                string imageUrl = ParserUtils.trim(m.Groups[3].Value);
-                int xOffset = ParserUtils.parseInt(m.Groups[4].Value, 0);
+                string imageUrl = ParserUtils.Trim(m.Groups[3].Value);
+                int xOffset = ParserUtils.ParseInt(m.Groups[4].Value, 0);
                 int yOffset = 0;
-                int width = ParserUtils.parseInt(m.Groups[1].Value, 0);
+                int width = ParserUtils.ParseInt(m.Groups[1].Value, 0);
                 if (width <= 0)
                 {
                     continue;
                 }
-                int height = ParserUtils.parseInt(m.Groups[2].Value, 0);
+                int height = ParserUtils.ParseInt(m.Groups[2].Value, 0);
                 if (height <= 0)
                 {
                     continue;
                 }
-                string pageUrl = ParserUtils.trim(m.Groups[5].Value);
-                normalPreviewSet.addItem(position, imageUrl, xOffset, yOffset, width, height, pageUrl);
+                string pageUrl = ParserUtils.Trim(m.Groups[5].Value);
+                normalPreviewSet.AddItem(position, imageUrl, xOffset, yOffset, width, height, pageUrl);
 
                 m = m.NextMatch();
             }
 
-            if (normalPreviewSet.size() == 0)
+            if (normalPreviewSet.Size() == 0)
             {
                 throw new ParseException("Can't parse normal preview", body);
             }

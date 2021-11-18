@@ -9,9 +9,9 @@ namespace EHentaiAPI.Utils.ExtensionMethods
 {
     internal static class ExceptionExtensionMethod
     {
-        public static void printStackTrace(this Exception e)
+        public static void PrintStackTrace(this Exception e)
         {
-            Log.e("PrintStackTrace", e.StackTrace);
+            Log.E("PrintStackTrace", e.StackTrace);
         }
     }
 }

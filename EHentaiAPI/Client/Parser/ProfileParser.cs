@@ -15,13 +15,13 @@ namespace EHentaiAPI.Client.Parser
     {
         private const string TAG = nameof(ProfileParser);
 
-        public static Result parse(string body)
+        public static Result Parse(string body)
         {
             try
             {
                 var result = new Result();
-                var d = Utils.Document.parse(body);
-                var profilename = d.getElementById("profilename");
+                var d = Utils.Document.Parse(body);
+                var profilename = d.GetElementById("profilename");
                 result.displayName = profilename.Children[0].Text();
                 try
                 {
@@ -38,7 +38,7 @@ namespace EHentaiAPI.Client.Parser
                 catch (Exception)
                 {
                     //ExceptionUtils.throwIfFatal(e);
-                    Log.i(TAG, "No avatar");
+                    Log.I(TAG, "No avatar");
                 }
                 return result;
             }

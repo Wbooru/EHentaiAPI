@@ -20,7 +20,7 @@ namespace EHentaiAPI.Client.Exceptions
             mBody = body;
         }
 
-        public string getBody()
+        public string GetBody()
         {
             return mBody;
         }

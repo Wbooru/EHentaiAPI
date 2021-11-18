@@ -10,10 +10,10 @@ namespace EHentaiAPI.ExtendFunction
     {
         public static ILog LogImplement { get; set; } = new DefaultLogImpl();
 
-        internal static void d(string tag, string msg, Exception e = default) => LogImplement?.d(tag, msg, e);
-        internal static void i(string tag, string msg) => LogImplement?.i(tag, msg);
-        internal static void e(string tag, string msg) => LogImplement?.e(tag, msg);
-        internal static void w(string tag, string msg) => LogImplement?.w(tag, msg);
+        internal static void D(string tag, string msg, Exception e = default) => LogImplement?.D(tag, msg, e);
+        internal static void I(string tag, string msg) => LogImplement?.I(tag, msg);
+        internal static void E(string tag, string msg) => LogImplement?.E(tag, msg);
+        internal static void W(string tag, string msg) => LogImplement?.W(tag, msg);
     }
 
     internal class DefaultLogImpl : ILog
@@ -29,12 +29,12 @@ namespace EHentaiAPI.ExtendFunction
             Console.WriteLine(sb.ToString());
         }
 
-        public void d(string tag, string msg, Exception e) => Output("DEBUG", tag, msg, e);
+        public void D(string tag, string msg, Exception e) => Output("DEBUG", tag, msg, e);
 
-        public void e(string tag, string msg) => Output("ERROR", tag, msg);
+        public void E(string tag, string msg) => Output("ERROR", tag, msg);
 
-        public void i(string tag, string msg) => Output("INFO", tag, msg);
+        public void I(string tag, string msg) => Output("INFO", tag, msg);
 
-        public void w(string tag, string msg) => Output("WARN", tag, msg);
+        public void W(string tag, string msg) => Output("WARN", tag, msg);
     }
 }

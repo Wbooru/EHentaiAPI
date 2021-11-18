@@ -12,7 +12,7 @@ namespace EHentaiAPI.Client.Parser
         private readonly static Regex PATTERN_FORM = new Regex("<form id=\"hathdl_form\" action=\"[^\"]*?or=([^=\"]*?)\" method=\"post\">");
         private readonly static Regex PATTERN_ARCHIVE = new Regex("<a href=\"[^\"]*\" onclick=\"return do_hathdl\\('([0-9]+|org)'\\)\">([^<]+)</a>");
 
-        public static KeyValuePair<string, KeyValuePair<string, string>[]> parse(string body)
+        public static KeyValuePair<string, KeyValuePair<string, string>[]> Parse(string body)
         {
             var m = PATTERN_FORM.Match(body);
             if (!m.Success)
@@ -24,8 +24,8 @@ namespace EHentaiAPI.Client.Parser
             m = PATTERN_ARCHIVE.Match(body);
             while (m.Success)
             {
-                string res = ParserUtils.trim(m.Groups[1].Value);
-                string name = ParserUtils.trim(m.Groups[2].Value);
+                string res = ParserUtils.Trim(m.Groups[1].Value);
+                string name = ParserUtils.Trim(m.Groups[2].Value);
                 var item = KeyValuePair.Create(res, name);
                 archiveList.Add(item);
 

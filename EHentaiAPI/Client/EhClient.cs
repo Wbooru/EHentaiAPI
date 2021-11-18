@@ -68,23 +68,23 @@ namespace EHentaiAPI.Client
             METHOD_VOTE_TAG,
         }
 
-        public Task execute(EhRequest request) => execute<object>(request);
+        public Task Execute(EhRequest request) => Execute<object>(request);
 
-        public async Task<T> execute<T>(EhRequest request)
+        public async Task<T> Execute<T>(EhRequest request)
         {
-            if (!request.isCancelled())
+            if (!request.IsCancelled)
             {
-                var task = new EhTask(request.getMethod(), EhUrl, request.getCallback(), request.getEhConfig(), Cookies);
-                task.executeOnExecutor(Scheduler, request.getArgs());
-                request.task = task;
-                var r = await task.getTask();
+                var task = new EhTask(request.Method, EhUrl, request.Callback, Cookies);
+                task.ExecuteOnExecutor(Scheduler, request.Args);
+                request.SetTask(task);
+                var r = await task.Task;
                 if (r is Exception e)
                     throw e;
                 return (T)r;
             }
             else
             {
-                request.getCallback().OnCancel();
+                request.Callback.OnCancel();
                 return default;
             }
         }
@@ -92,51 +92,51 @@ namespace EHentaiAPI.Client
         #region New API Usages
 
         public Task<string> SignIn(string username, string password)
-            => execute<string>(new EhRequest()
-                .setArgs(username, password)
-                .setMethod(Method.METHOD_SIGN_IN));
+            => Execute<string>(new EhRequest()
+                .SetArgs(username, password)
+                .SetMethod(Method.METHOD_SIGN_IN));
 
         public Task<GalleryListParser.Result> GetGalleryList(string url)
-            => execute<GalleryListParser.Result>(new EhRequest()
-                .setArgs(url)
-                .setMethod(Method.METHOD_GET_GALLERY_LIST));
+            => Execute<GalleryListParser.Result>(new EhRequest()
+                .SetArgs(url)
+                .SetMethod(Method.METHOD_GET_GALLERY_LIST));
 
         public Task<GalleryDetail> GetGalleryDetail(string detailUrl)
-            => execute<GalleryDetail>(new EhRequest()
-                .setArgs(detailUrl)
-                .setMethod(Method.METHOD_GET_GALLERY_DETAIL));
+            => Execute<GalleryDetail>(new EhRequest()
+                .SetArgs(detailUrl)
+                .SetMethod(Method.METHOD_GET_GALLERY_DETAIL));
 
         public Task<VoteCommentParser.Result> VoteComment(GalleryDetail detail, GalleryComment comment, int vote)
             => VoteComment(detail.apiUid, detail.apiKey, detail.gid, detail.token, comment.id, vote);
 
         public Task<VoteCommentParser.Result> VoteComment(long apiUid, string apiKey, long gid, string token, long commentId, int commentVote)
-            => execute<VoteCommentParser.Result>(new EhRequest()
-                .setArgs(apiUid, apiKey, gid, token, commentId, commentVote)
-                .setMethod(Method.METHOD_VOTE_COMMENT));
+            => Execute<VoteCommentParser.Result>(new EhRequest()
+                .SetArgs(apiUid, apiKey, gid, token, commentId, commentVote)
+                .SetMethod(Method.METHOD_VOTE_COMMENT));
 
         public Task<Dictionary<string, string>> GetTorrentList(GalleryDetail detail)
             => GetTorrentList(detail.torrentUrl, detail.gid, detail.token);
 
         public Task<Dictionary<string, string>> GetTorrentList(string torrentUrl, long gid, string token)
-            => execute<Dictionary<string, string>>(new EhRequest()
-                .setArgs(torrentUrl, gid, token)
-                .setMethod(Method.METHOD_GET_TORRENT_LIST));
+            => Execute<Dictionary<string, string>>(new EhRequest()
+                .SetArgs(torrentUrl, gid, token)
+                .SetMethod(Method.METHOD_GET_TORRENT_LIST));
 
         public Task<KeyValuePair<string, KeyValuePair<string, string>[]>> GetArchiveList(GalleryDetail detail)
             => GetArchiveList(detail.archiveUrl, detail.gid, detail.token);
 
         public Task<KeyValuePair<string, KeyValuePair<string, string>[]>> GetArchiveList(string archiveUrl, long gid, string token)
-            => execute<KeyValuePair<string, KeyValuePair<string, string>[]>>(new EhRequest()
-                .setArgs(archiveUrl, gid, token)
-                .setMethod(Method.METHOD_ARCHIVE_LIST));
+            => Execute<KeyValuePair<string, KeyValuePair<string, string>[]>>(new EhRequest()
+                .SetArgs(archiveUrl, gid, token)
+                .SetMethod(Method.METHOD_ARCHIVE_LIST));
 
         public Task<VoteTagParser.Result> VoteTag(GalleryDetail detail, string tags, int vote)
             => VoteTag(detail.apiUid, detail.apiKey, detail.gid, detail.token, tags, vote);
 
         public Task<VoteTagParser.Result> VoteTag(long apiUid, string apiKey, long gid, string token, string tags, int vote)
-            => execute<VoteTagParser.Result>(new EhRequest()
-                .setArgs(apiUid, apiKey, gid, token, tags, vote)
-                .setMethod(Method.METHOD_VOTE_TAG));
+            => Execute<VoteTagParser.Result>(new EhRequest()
+                .SetArgs(apiUid, apiKey, gid, token, tags, vote)
+                .SetMethod(Method.METHOD_VOTE_TAG));
 
         /// <summary>
         /// 
@@ -154,25 +154,25 @@ namespace EHentaiAPI.Client
         /// <param name="rating">1~5 , also 3.5,etc.</param>
         /// <returns></returns>
         public Task<RateGalleryParser.Result> RateGallery(long apiUid, string apiKey, long gid, string token, float rating)
-            => execute<RateGalleryParser.Result>(new EhRequest()
-                .setArgs(apiUid, apiKey, gid, token, rating)
-                .setMethod(Method.METHOD_GET_RATE_GALLERY));
+            => Execute<RateGalleryParser.Result>(new EhRequest()
+                .SetArgs(apiUid, apiKey, gid, token, rating)
+                .SetMethod(Method.METHOD_GET_RATE_GALLERY));
 
         public Task<GalleryCommentList> CommentNewGallery(GalleryDetail detail, string commentContent)
             => CommentNewGallery(detail.url, commentContent);
 
         public Task<GalleryCommentList> CommentNewGallery(string url, string commentContent)
-            => execute<GalleryCommentList>(new EhRequest()
-                .setArgs(url, commentContent, null)
-                .setMethod(Method.METHOD_GET_COMMENT_GALLERY));
+            => Execute<GalleryCommentList>(new EhRequest()
+                .SetArgs(url, commentContent, null)
+                .SetMethod(Method.METHOD_GET_COMMENT_GALLERY));
 
         public Task<GalleryCommentList> ModifyCommentGallery(GalleryDetail detail, string newCommentContent, GalleryComment comment)
             => ModifyCommentGallery(detail.url, newCommentContent, comment.id);
 
         public Task<GalleryCommentList> ModifyCommentGallery(string url, string commentContent, long commendId)
-            => execute<GalleryCommentList>(new EhRequest()
-                .setArgs(url, commentContent, commendId)
-                .setMethod(Method.METHOD_GET_COMMENT_GALLERY));
+            => Execute<GalleryCommentList>(new EhRequest()
+                .SetArgs(url, commentContent, commendId)
+                .SetMethod(Method.METHOD_GET_COMMENT_GALLERY));
 
         /// <summary>
         /// 通过具体页面url获取画廊的token,比如
@@ -182,7 +182,7 @@ namespace EHentaiAPI.Client
         /// <returns></returns>
         public Task<string> GetGalleryToken(string url)
         {
-            var result2 = GalleryPageUrlParser.parse(url, false);
+            var result2 = GalleryPageUrlParser.Parse(url, false);
             return GetGalleryToken(result2.gid, result2.pToken, result2.page);
         }
 
@@ -195,9 +195,9 @@ namespace EHentaiAPI.Client
         /// <param name="page">10</param>
         /// <returns>token fb6abc76c6</returns>
         public Task<string> GetGalleryToken(long gid, string gtoken, int page)
-            => execute<string>(new EhRequest()
-                .setArgs(gid, gtoken, page)
-                .setMethod(Method.METHOD_GET_GALLERY_TOKEN));
+            => Execute<string>(new EhRequest()
+                .SetArgs(gid, gtoken, page)
+                .SetMethod(Method.METHOD_GET_GALLERY_TOKEN));
 
         /// <summary>
         /// 获取指定的收藏列表
@@ -205,48 +205,48 @@ namespace EHentaiAPI.Client
         /// <param name="url">获取列表的url地址,比如https://e-hentai.org/favorites.php?favcat=all&page=2 ,可通过<class>FavListUrlBuilder</class>快速构造</param>
         /// <returns></returns>
         public Task<FavoritesParser.Result> GetFavorites(string url)
-            => execute<FavoritesParser.Result>(new EhRequest()
-                .setArgs(url)
-                .setMethod(Method.METHOD_GET_FAVORITES));
+            => Execute<FavoritesParser.Result>(new EhRequest()
+                .SetArgs(url)
+                .SetMethod(Method.METHOD_GET_FAVORITES));
 
         public Task<FavoritesParser.Result> GetFavorites(FavListUrlBuilder urlBuilder)
-            => GetFavorites(urlBuilder.build());
+            => GetFavorites(urlBuilder.Build());
 
         public Task AddFavorite(GalleryDetail detail, int dstCat, string note)
             => AddFavorite(detail.gid, detail.token, dstCat, note);
 
         public Task AddFavorite(long gid, string token, int dstCat, string note)
-            => execute(new EhRequest()
-                .setArgs(gid, token, dstCat, note)
-                .setMethod(Method.METHOD_ADD_FAVORITES));
+            => Execute(new EhRequest()
+                .SetArgs(gid, token, dstCat, note)
+                .SetMethod(Method.METHOD_ADD_FAVORITES));
 
         public Task AddFavoritesRange(long[] gidArray, string[] tokenArray, int dstCat)
-            => execute(new EhRequest()
-                .setArgs(gidArray, tokenArray, dstCat)
-                .setMethod(Method.METHOD_ADD_FAVORITES_RANGE));
+            => Execute(new EhRequest()
+                .SetArgs(gidArray, tokenArray, dstCat)
+                .SetMethod(Method.METHOD_ADD_FAVORITES_RANGE));
 
         public Task ModifyFavorites(FavListUrlBuilder urlBuilder, long[] gidArray, int dstCat)
-            => ModifyFavorites(urlBuilder.build(), gidArray, dstCat);
+            => ModifyFavorites(urlBuilder.Build(), gidArray, dstCat);
 
         public Task ModifyFavorites(string url, long[] gidArray, int dstCat)
-            => execute(new EhRequest()
-                .setArgs(url, gidArray, dstCat)
-                .setMethod(Method.METHOD_MODIFY_FAVORITES));
+            => Execute(new EhRequest()
+                .SetArgs(url, gidArray, dstCat)
+                .SetMethod(Method.METHOD_MODIFY_FAVORITES));
 
         public Task<ProfileParser.Result> GetProfile()
-            => execute<ProfileParser.Result>(new EhRequest()
-                .setMethod(Method.METHOD_GET_PROFILE));
+            => Execute<ProfileParser.Result>(new EhRequest()
+                .SetMethod(Method.METHOD_GET_PROFILE));
 
         public Task<KeyValuePair<PreviewSet, int>> GetPreviewSet(GalleryDetail detail, int index)
             => GetPreviewSet(detail.gid, detail.token, index);
 
         public Task<KeyValuePair<PreviewSet, int>> GetPreviewSet(long gid, string token, int index)
-            => GetPreviewSet(EhUrl.getGalleryDetailUrl(gid, token, index, false));
+            => GetPreviewSet(EhUrl.GetGalleryDetailUrl(gid, token, index, false));
 
         public Task<KeyValuePair<PreviewSet, int>> GetPreviewSet(string url)
-            => execute<KeyValuePair<PreviewSet, int>>(new EhRequest()
-                .setArgs(url)
-                .setMethod(Method.METHOD_GET_PREVIEW_SET));
+            => Execute<KeyValuePair<PreviewSet, int>>(new EhRequest()
+                .SetArgs(url)
+                .SetMethod(Method.METHOD_GET_PREVIEW_SET));
 
         #endregion
     }

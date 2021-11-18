@@ -12,13 +12,13 @@ namespace EHentaiAPI.Client.Parser
 {
     public static class EventPaneParser
     {
-        public static string parse(string body)
+        public static string Parse(string body)
         {
             string @event = null;
             try
             {
-                Document d = Document.parse(body);
-                var eventpane = d.getElementById("eventpane");
+                Document d = Document.Parse(body);
+                var eventpane = d.GetElementById("eventpane");
                 if (eventpane != null)
                 {
                     @event = eventpane.ToHtml();
@@ -26,7 +26,7 @@ namespace EHentaiAPI.Client.Parser
             }
             catch (Exception e)
             {
-                e.printStackTrace();
+                e.PrintStackTrace();
             }
             return @event;
         }

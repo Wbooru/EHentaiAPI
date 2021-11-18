@@ -20,7 +20,7 @@ namespace EHentaiAPI.Client.Data
         public NormalPreviewSet()
         {
         }
-        private string getImageKey(string imageUrl)
+        private string GetImageKey(string imageUrl)
         {
             int index = imageUrl.IndexOf('/');
             if (index >= 0)
@@ -33,11 +33,11 @@ namespace EHentaiAPI.Client.Data
             }
         }
 
-        public void addItem(int position, string imageUrl, int xOffset, int yOffset, int width,
+        public void AddItem(int position, string imageUrl, int xOffset, int yOffset, int width,
                             int height, string pageUrl)
         {
             mPositionList.Add(position);
-            mImageKeyList.Add(getImageKey(imageUrl));
+            mImageKeyList.Add(GetImageKey(imageUrl));
             mImageUrlList.Add(imageUrl);
             mOffsetXList.Add(xOffset);
             mOffsetYList.Add(yOffset);
@@ -47,25 +47,25 @@ namespace EHentaiAPI.Client.Data
         }
 
 
-        public override int size()
+        public override int Size()
         {
             return mPositionList.Count;
         }
 
 
-        public override int getPosition(int index)
+        public override int GetPosition(int index)
         {
             return mPositionList[(index)];
         }
 
 
-        public override string getPageUrlAt(int index)
+        public override string GetPageUrlAt(int index)
         {
             return mPageUrlList[(index)];
         }
 
 
-        public override GalleryPreview getGalleryPreview(long gid, int index)
+        public override GalleryPreview GetGalleryPreview(long gid, int index)
         {
             GalleryPreview galleryPreview = new GalleryPreview();
             galleryPreview.position = mPositionList[(index)];
@@ -73,11 +73,6 @@ namespace EHentaiAPI.Client.Data
             galleryPreview.imageUrl = mImageUrlList[(index)];
             galleryPreview.pageUrl = mPageUrlList[(index)];
             return galleryPreview;
-        }
-
-        public int describeContents()
-        {
-            return 0;
         }
     }
 }

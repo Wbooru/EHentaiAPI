@@ -108,19 +108,19 @@ namespace EHentaiAPI.Client.Data
         public GalleryInfo()
         {
         }
-        public void generateSLang()
+        public void GenerateSLang()
         {
             if (simpleTags != null)
             {
-                generateSLangFromTags();
+                GenerateSLangFromTags();
             }
             if (simpleLanguage == null && title != null)
             {
-                generateSLangFromTitle();
+                GenerateSLangFromTitle();
             }
         }
 
-        private void generateSLangFromTags()
+        private void GenerateSLangFromTags()
         {
             foreach (string tag in simpleTags)
             {
@@ -135,7 +135,7 @@ namespace EHentaiAPI.Client.Data
             }
         }
 
-        private void generateSLangFromTitle()
+        private void GenerateSLangFromTitle()
         {
             for (int i = 0; i < S_LANGS.Length; i++)
             {

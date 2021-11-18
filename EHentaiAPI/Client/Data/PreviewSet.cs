@@ -8,12 +8,12 @@ namespace EHentaiAPI.Client.Data
 {
     public abstract class PreviewSet
     {
-        public abstract int size();
+        public abstract int Size();
 
-        public abstract int getPosition(int index);
+        public abstract int GetPosition(int index);
 
-        public abstract string getPageUrlAt(int index);
+        public abstract string GetPageUrlAt(int index);
 
-        public abstract GalleryPreview getGalleryPreview(long gid, int index);
+        public abstract GalleryPreview GetGalleryPreview(long gid, int index);
     }
 }

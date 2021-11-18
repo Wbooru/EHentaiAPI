@@ -11,12 +11,12 @@ namespace EHentaiAPI.Client.Parser
 {
     public class ForumsParser
     {
-        public static string parse(string body)
+        public static string Parse(string body)
         {
             try
             {
-                Document d = Document.parse(body, EhUrl.URL_FORUMS);
-                var userlinks = d.getElementById("userlinks");
+                Document d = Document.Parse(body, EhUrl.URL_FORUMS);
+                var userlinks = d.GetElementById("userlinks");
                 var child = userlinks.Children[0].Children[0].Children[0];
                 return child.GetAttributeEx("href");
             }

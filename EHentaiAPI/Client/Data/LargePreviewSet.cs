@@ -19,33 +19,33 @@ namespace EHentaiAPI.Client.Data
             mPageUrlList = new();
         }
 
-        public void addItem(int index, string imageUrl, string pageUrl)
+        public void AddItem(int index, string imageUrl, string pageUrl)
         {
             mPositionList.Add(index);
             mImageUrlList.Add(imageUrl);
             mPageUrlList.Add(pageUrl);
         }
 
-        public override int size()
+        public override int Size()
         {
             return mImageUrlList.Count;
         }
 
-        public override int getPosition(int index)
+        public override int GetPosition(int index)
         {
             return mPositionList[(index)];
         }
 
-        public override string getPageUrlAt(int index)
+        public override string GetPageUrlAt(int index)
         {
             return mPageUrlList[(index)];
         }
 
-        public override GalleryPreview getGalleryPreview(long gid, int index)
+        public override GalleryPreview GetGalleryPreview(long gid, int index)
         {
             GalleryPreview galleryPreview = new GalleryPreview();
             galleryPreview.position = mPositionList[(index)];
-            galleryPreview.imageKey = EhCacheKeyFactory.getLargePreviewKey(gid, galleryPreview.position);
+            galleryPreview.imageKey = EhCacheKeyFactory.GetLargePreviewKey(gid, galleryPreview.position);
             galleryPreview.imageUrl = mImageUrlList[(index)];
             galleryPreview.pageUrl = mPageUrlList[(index)];
             return galleryPreview;

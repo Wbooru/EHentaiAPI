@@ -57,14 +57,14 @@ namespace EHentaiAPI.Client
             this.settings = settings;
         }
 
-        public string getGalleryDetailUrl(long gid, string token)
+        public string GetGalleryDetailUrl(long gid, string token)
         {
-            return getGalleryDetailUrl(gid, token, 0, false);
+            return GetGalleryDetailUrl(gid, token, 0, false);
         }
 
-        public string getHost()
+        public string GetHost()
         {
-            switch (settings.getGallerySite())
+            switch (settings.GetGallerySite())
             {
                 default:
                 case SITE_E:
@@ -74,9 +74,9 @@ namespace EHentaiAPI.Client
             }
         }
 
-        public string getFavoritesUrl()
+        public string GetFavoritesUrl()
         {
-            switch (settings.getGallerySite())
+            switch (settings.GetGallerySite())
             {
                 default:
                 case SITE_E:
@@ -86,9 +86,9 @@ namespace EHentaiAPI.Client
             }
         }
 
-        public string getApiUrl()
+        public string GetApiUrl()
         {
-            switch (settings.getGallerySite())
+            switch (settings.GetGallerySite())
             {
                 default:
                 case SITE_E:
@@ -98,9 +98,9 @@ namespace EHentaiAPI.Client
             }
         }
 
-        public string getReferer()
+        public string GetReferer()
         {
-            switch (settings.getGallerySite())
+            switch (settings.GetGallerySite())
             {
                 default:
                 case SITE_E:
@@ -110,9 +110,9 @@ namespace EHentaiAPI.Client
             }
         }
 
-        public string getOrigin()
+        public string GetOrigin()
         {
-            switch (settings.getGallerySite())
+            switch (settings.GetGallerySite())
             {
                 default:
                 case SITE_E:
@@ -122,9 +122,9 @@ namespace EHentaiAPI.Client
             }
         }
 
-        public string getUConfigUrl()
+        public string GetUConfigUrl()
         {
-            switch (settings.getGallerySite())
+            switch (settings.GetGallerySite())
             {
                 default:
                 case SITE_E:
@@ -134,9 +134,9 @@ namespace EHentaiAPI.Client
             }
         }
 
-        public string getMyTagsUrl()
+        public string GetMyTagsUrl()
         {
-            switch (settings.getGallerySite())
+            switch (settings.GetGallerySite())
             {
                 default:
                 case SITE_E:
@@ -146,49 +146,49 @@ namespace EHentaiAPI.Client
             }
         }
 
-        public string getGalleryDetailUrl(long gid, string token, int index, bool allComment)
+        public string GetGalleryDetailUrl(long gid, string token, int index, bool allComment)
         {
-            UrlBuilder builder = new UrlBuilder(getHost() + "g/" + gid + '/' + token + '/');
+            UrlBuilder builder = new UrlBuilder(GetHost() + "g/" + gid + '/' + token + '/');
             if (index != 0)
             {
-                builder.addQuery("p", index);
+                builder.AddQuery("p", index);
             }
             if (allComment)
             {
-                builder.addQuery("hc", 1);
+                builder.AddQuery("hc", 1);
             }
-            return builder.build();
+            return builder.Build();
         }
 
-        public string getGalleryMultiPageViewerUrl(long gid, string token)
+        public string GetGalleryMultiPageViewerUrl(long gid, string token)
         {
-            UrlBuilder builder = new UrlBuilder(getHost() + "mpv/" + gid + '/' + token + '/');
-            return builder.build();
+            UrlBuilder builder = new UrlBuilder(GetHost() + "mpv/" + gid + '/' + token + '/');
+            return builder.Build();
         }
 
-        public string getPageUrl(long gid, int index, string pToken)
+        public string GetPageUrl(long gid, int index, string pToken)
         {
-            return getHost() + "s/" + pToken + '/' + gid + '-' + (index + 1);
+            return GetHost() + "s/" + pToken + '/' + gid + '-' + (index + 1);
         }
 
-        public string getAddFavorites(long gid, string token)
+        public string GetAddFavorites(long gid, string token)
         {
-            return getHost() + "gallerypopups.php?gid=" + gid + "&t=" + token + "&act=addfav";
+            return GetHost() + "gallerypopups.php?gid=" + gid + "&t=" + token + "&act=addfav";
         }
 
-        public string getDownloadArchive(long gid, string token, string or)
+        public string GetDownloadArchive(long gid, string token, string or)
         {
-            return getHost() + "archiver.php?gid=" + gid + "&token=" + token + "&or=" + or;
+            return GetHost() + "archiver.php?gid=" + gid + "&token=" + token + "&or=" + or;
         }
 
-        public string getTagDefinitionUrl(string tag)
+        public string GetTagDefinitionUrl(string tag)
         {
             return "https://ehwiki.org/wiki/" + tag.Replace(' ', '_');
         }
 
-        public string getPopularUrl()
+        public string GetPopularUrl()
         {
-            switch (settings.getGallerySite())
+            switch (settings.GetGallerySite())
             {
                 default:
                 case SITE_E:
@@ -198,9 +198,9 @@ namespace EHentaiAPI.Client
             }
         }
 
-        public string getImageSearchUrl()
+        public string GetImageSearchUrl()
         {
-            switch (settings.getGallerySite())
+            switch (settings.GetGallerySite())
             {
                 default:
                 case SITE_E:
@@ -210,9 +210,9 @@ namespace EHentaiAPI.Client
             }
         }
 
-        public string getWatchedUrl()
+        public string GetWatchedUrl()
         {
-            switch (settings.getGallerySite())
+            switch (settings.GetGallerySite())
             {
                 default:
                 case SITE_E:
@@ -222,9 +222,9 @@ namespace EHentaiAPI.Client
             }
         }
 
-        public string getThumbUrlPrefix()
+        public string GetThumbUrlPrefix()
         {
-            switch (settings.getGallerySite())
+            switch (settings.GetGallerySite())
             {
                 default:
                     //case SITE_E:
@@ -234,7 +234,7 @@ namespace EHentaiAPI.Client
             }
         }
 
-        public string getFixedPreviewThumbUrl(string originUrl)
+        public string GetFixedPreviewThumbUrl(string originUrl)
         {
             var url = new Uri(originUrl);
             if (url == null) return originUrl;
@@ -260,7 +260,7 @@ namespace EHentaiAPI.Client
                     && lastSegment.StartsWith(thirdLastSegment)
                     && lastSegment.StartsWith(thirdLastSegment + secondLastSegment))
             {
-                return getThumbUrlPrefix() + thirdLastSegment + "/" + secondLastSegment + "/" + lastSegment;
+                return GetThumbUrlPrefix() + thirdLastSegment + "/" + secondLastSegment + "/" + lastSegment;
             }
             else
             {
@@ -268,7 +268,7 @@ namespace EHentaiAPI.Client
             }
         }
 
-        public Settings getSettings()
+        public Settings GetSettings()
         {
             return settings;
         }

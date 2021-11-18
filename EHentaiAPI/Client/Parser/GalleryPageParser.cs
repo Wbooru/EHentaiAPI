@@ -18,24 +18,24 @@ namespace EHentaiAPI.Client.Parser
         private readonly static Regex PATTERN_SHOW_KEY = new Regex("var showkey=\"([0-9a-z]+)\";");
 
 
-        public static Result parse(string body)
+        public static Result Parse(string body)
         {
             Match m;
             Result result = new Result();
             m = PATTERN_IMAGE_URL.Match(body);
             if (m.Success)
             {
-                result.imageUrl = ParserUtils.unescapeXml(ParserUtils.trim(m.Groups[1].Value));
+                result.imageUrl = ParserUtils.UnescapeXml(ParserUtils.Trim(m.Groups[1].Value));
             }
             m = PATTERN_SKIP_HATH_KEY.Match(body);
             if (m.Success)
             {
-                result.skipHathKey = ParserUtils.unescapeXml(ParserUtils.trim(m.Groups[1].Value));
+                result.skipHathKey = ParserUtils.UnescapeXml(ParserUtils.Trim(m.Groups[1].Value));
             }
             m = PATTERN_ORIGIN_IMAGE_URL.Match(body);
             if (m.Success)
             {
-                result.originImageUrl = ParserUtils.unescapeXml(m.Groups[1].Value) + "fullimg.php" + ParserUtils.unescapeXml(m.Groups[2].Value);
+                result.originImageUrl = ParserUtils.UnescapeXml(m.Groups[1].Value) + "fullimg.php" + ParserUtils.UnescapeXml(m.Groups[2].Value);
             }
             m = PATTERN_SHOW_KEY.Match(body);
             if (m.Success)

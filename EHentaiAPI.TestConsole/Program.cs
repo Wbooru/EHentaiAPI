@@ -23,7 +23,7 @@ namespace EHentaiAPI.TestConsole
             {
                 SharedPreferences = new FileSharedPreferences()
             };
-            client.Settings.putGallerySite(EhUrl.SITE_E);
+            client.Settings.PutGallerySite(EhUrl.SITE_E);
 
             await client.SignIn(TestSettings.UserName, TestSettings.Password);
 

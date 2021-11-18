@@ -20,24 +20,24 @@ namespace EHentaiAPI.Utils
             document = d.ParseDocument(html);
         }
 
-        public IElement getElementById(string v)
+        public IElement GetElementById(string v)
         {
             return document.GetElementById(v);
         }
 
-        public static Document parse(string html, string baseUrl = default, string dasd = default) => new Document(html);
+        public static Document Parse(string html, string baseUrl = default, string dasd = default) => new Document(html);
 
-        public IElement getElementByClass(string v)
+        public IElement GetElementByClass(string v)
         {
-            return getElementsByClass(v).FirstOrDefault();
+            return GetElementsByClass(v).FirstOrDefault();
         }
 
-        public IHtmlCollection<IElement> getElementsByClass(string v)
+        public IHtmlCollection<IElement> GetElementsByClass(string v)
         {
             return document.GetElementsByClassName(v);
         }
 
-        public IHtmlCollection<IElement> select(string cssQuery)
+        public IHtmlCollection<IElement> Select(string cssQuery)
         {
             return document.QuerySelectorAll(cssQuery);
         }
