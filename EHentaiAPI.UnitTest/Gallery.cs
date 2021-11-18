@@ -50,8 +50,9 @@ namespace EHentaiAPI.UnitTest
             Assert.Equal("miwabe sakura", info.Tags.FirstOrDefault(x => x.TagGroupName == "artist")?.GetTagAt(0));
 
             Assert.NotEmpty(info.Comments.Comments);
-            Assert.Equal("Pokom", info.Comments.Comments.FirstOrDefault().User);
-            Assert.True(info.Comments.Comments.FirstOrDefault().Uploader);
+            Assert.Equal("Pokom", info.Comments.Comments.FirstOrDefault()?.User);
+            Assert.True(info.Comments.Comments.FirstOrDefault()?.Uploader);
+            Assert.True(info.Comments.Comments.FirstOrDefault()?.Comment.Length > 0);
         }
 
         [Fact, Order(3)]
