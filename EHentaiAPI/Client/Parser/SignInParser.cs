@@ -28,7 +28,7 @@ namespace EHentaiAPI.Client.Parser
                 m = ERROR_PATTERN.Match(body);
                 if (m.Success)
                 {
-                    throw new EhException(m.Groups[1].Value == null ? m.Groups[2].Value : m.Groups[1].Value);
+                    throw new EhException(m.Groups[1].Value ?? m.Groups[2].Value);
                 }
                 else
                 {

@@ -8,46 +8,43 @@ namespace EHentaiAPI.Client.Data
 {
     public class LargePreviewSet : PreviewSet
     {
-        private List<int> mPositionList;
-        private List<string> mImageUrlList;
-        private List<string> mPageUrlList;
+        public List<int> PositionList { get; private set; }
+        public List<string> ImageUrlList { get; private set; }
+        public List<string> PageUrlList { get; private set; }
 
         public LargePreviewSet()
         {
-            mPositionList = new();
-            mImageUrlList = new();
-            mPageUrlList = new();
+            PositionList = new();
+            ImageUrlList = new();
+            PageUrlList = new();
         }
 
         public void AddItem(int index, string imageUrl, string pageUrl)
         {
-            mPositionList.Add(index);
-            mImageUrlList.Add(imageUrl);
-            mPageUrlList.Add(pageUrl);
+            PositionList.Add(index);
+            ImageUrlList.Add(imageUrl);
+            PageUrlList.Add(pageUrl);
         }
 
-        public override int Size()
-        {
-            return mImageUrlList.Count;
-        }
+        public override int Size => ImageUrlList.Count;
 
         public override int GetPosition(int index)
         {
-            return mPositionList[(index)];
+            return PositionList[(index)];
         }
 
         public override string GetPageUrlAt(int index)
         {
-            return mPageUrlList[(index)];
+            return PageUrlList[(index)];
         }
 
         public override GalleryPreview GetGalleryPreview(long gid, int index)
         {
-            GalleryPreview galleryPreview = new GalleryPreview();
-            galleryPreview.position = mPositionList[(index)];
+            var galleryPreview = new GalleryPreview();
+            galleryPreview.position = PositionList[(index)];
             galleryPreview.imageKey = EhCacheKeyFactory.GetLargePreviewKey(gid, galleryPreview.position);
-            galleryPreview.imageUrl = mImageUrlList[(index)];
-            galleryPreview.pageUrl = mPageUrlList[(index)];
+            galleryPreview.imageUrl = ImageUrlList[(index)];
+            galleryPreview.pageUrl = PageUrlList[(index)];
             return galleryPreview;
         }
     }

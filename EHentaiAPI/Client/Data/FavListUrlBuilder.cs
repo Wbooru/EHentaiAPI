@@ -33,7 +33,7 @@ namespace EHentaiAPI.Client.Data
 
         public string Build()
         {
-            UrlBuilder ub = new UrlBuilder(ehUrl.GetFavoritesUrl());
+            var ub = new UrlBuilder(ehUrl.GetFavoritesUrl());
             if (IsValidFavCat(FavCat))
             {
                 ub.AddQuery("favcat", FavCat.ToString());

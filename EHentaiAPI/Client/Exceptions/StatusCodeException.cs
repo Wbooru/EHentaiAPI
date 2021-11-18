@@ -9,29 +9,16 @@ namespace EHentaiAPI.Client.Exceptions
 {
     public class StatusCodeException : Exception
     {
-        private int mResponseCode;
-        private string mMessage;
+        public int ResponseCode { get; init; }
 
-        public StatusCodeException(int responseCode)
+        public StatusCodeException(int responseCode) : base(Enum.Parse<HttpStatusCode>(responseCode.ToString()).ToString())
         {
-            mResponseCode = responseCode;
-            mMessage = Enum.Parse<HttpStatusCode>(responseCode.ToString()).ToString();
+            ResponseCode = responseCode;
         }
 
-        public StatusCodeException(int responseCode, string message)
+        public StatusCodeException(int responseCode, string message) : base(message)
         {
-            mResponseCode = responseCode;
-            mMessage = message;
-        }
-
-        public int GetResponseCode()
-        {
-            return mResponseCode;
-        }
-
-        public string GetMessage()
-        {
-            return mMessage;
+            ResponseCode = responseCode;
         }
     }
 }

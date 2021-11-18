@@ -56,7 +56,7 @@ namespace EHentaiAPI.Client.Parser
                 throw new EhException(m.Groups[1].Value);
             }
 
-            GalleryDetail galleryDetail = new GalleryDetail();
+            var galleryDetail = new GalleryDetail();
             galleryDetail.url = url;
 
             var document = Utils.Document.Parse(body);
@@ -188,7 +188,7 @@ namespace EHentaiAPI.Client.Parser
                     var es = gdd.Children[0].Children[0].Children;
                     for (int i = 0, n = es.Length; i < n; i++)
                     {
-                        ParseDetailInfo(gd, es[(i)], body);
+                        ParseDetailInfo(gd, es[(i)]);
                     }
                 }
                 catch
@@ -306,7 +306,7 @@ namespace EHentaiAPI.Client.Parser
             }
         }
 
-        private static void ParseDetailInfo(GalleryDetail gd, IElement e, string body)
+        private static void ParseDetailInfo(GalleryDetail gd, IElement e)
         {
             var es = e.Children;
             if (es.Length < 2)
@@ -386,7 +386,7 @@ namespace EHentaiAPI.Client.Parser
                 var nameSpace = element.Children[0].Text();
                 // Remove last ':'
                 nameSpace = nameSpace.Substring(0, nameSpace.Length - 1);
-                Group.groupName = nameSpace;
+                Group.TagGroupName = nameSpace;
 
                 var tags = element.Children[1].Children;
                 for (int i = 0, n = tags.Length; i < n; i++)
@@ -401,7 +401,7 @@ namespace EHentaiAPI.Client.Parser
                     Group.AddTag(tag);
                 }
 
-                return Group.Size() > 0 ? Group : null;
+                return Group.Size > 0 ? Group : null;
             }
             catch (Exception e)
             {
@@ -464,7 +464,7 @@ namespace EHentaiAPI.Client.Parser
             while (m.Success)
             {
                 GalleryTagGroup tagGroup = new GalleryTagGroup();
-                tagGroup.groupName = ParserUtils.Trim(m.Groups[1].Value);
+                tagGroup.TagGroupName = ParserUtils.Trim(m.Groups[1].Value);
                 ParseGroup(tagGroup, m.Groups[0].Value);
                 list.Add(tagGroup);
 
@@ -790,7 +790,7 @@ namespace EHentaiAPI.Client.Parser
                 m = m.NextMatch();
             }
 
-            if (largePreviewSet.Size() == 0)
+            if (largePreviewSet.Size == 0)
             {
                 throw new ParseException("Can't parse large preview", body);
             }
@@ -809,29 +809,22 @@ namespace EHentaiAPI.Client.Parser
             {
                 int position = ParserUtils.ParseInt(m.Groups[6].Value, 0) - 1;
                 if (position < 0)
-                {
                     continue;
-                }
                 string imageUrl = ParserUtils.Trim(m.Groups[3].Value);
-                int xOffset = ParserUtils.ParseInt(m.Groups[4].Value, 0);
-                int yOffset = 0;
+               
                 int width = ParserUtils.ParseInt(m.Groups[1].Value, 0);
                 if (width <= 0)
-                {
                     continue;
-                }
                 int height = ParserUtils.ParseInt(m.Groups[2].Value, 0);
                 if (height <= 0)
-                {
                     continue;
-                }
                 string pageUrl = ParserUtils.Trim(m.Groups[5].Value);
-                normalPreviewSet.AddItem(position, imageUrl, xOffset, yOffset, width, height, pageUrl);
+                normalPreviewSet.AddItem(position, imageUrl, pageUrl);
 
                 m = m.NextMatch();
             }
 
-            if (normalPreviewSet.Size() == 0)
+            if (normalPreviewSet.Size == 0)
             {
                 throw new ParseException("Can't parse normal preview", body);
             }

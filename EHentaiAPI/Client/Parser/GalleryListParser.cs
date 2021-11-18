@@ -70,12 +70,12 @@ namespace EHentaiAPI.Client.Parser
             {
                 return null;
             }
-            rate = rate - num1 / 16;
+            rate -= num1 / 16;
             if (num2 == 21)
             {
                 rate--;
                 re = rate.ToString();
-                re = re + ".5";
+                re += ".5";
             }
             else
                 re = rate.ToString();
@@ -146,9 +146,9 @@ namespace EHentaiAPI.Client.Parser
                     GalleryTagGroup[] groups = GalleryDetailParser.ParseTagGroups(tbody.Children);
                     foreach (GalleryTagGroup Groups in groups)
                     {
-                        for (int j = 0; j < Groups.Size(); j++)
+                        for (int j = 0; j < Groups.Size; j++)
                         {
-                            tags.Add(Groups.groupName + ":" + Groups.GetTagAt(j));
+                            tags.Add(Groups.TagGroupName + ":" + Groups.GetTagAt(j));
                         }
                     }
                     gi.simpleTags = tags.ToArray();
@@ -216,7 +216,7 @@ namespace EHentaiAPI.Client.Parser
                 }
             }
 
-            IElement gl = default;
+            IElement gl;
             // Try extended and thumbnail version
             if (gi.thumb == null)
             {
