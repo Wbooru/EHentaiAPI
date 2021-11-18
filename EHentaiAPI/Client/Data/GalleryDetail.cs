@@ -8,27 +8,23 @@ namespace EHentaiAPI.Client.Data
 {
     public class GalleryDetail : GalleryInfo
     {
-        public long apiUid = -1L;
-        public string apiKey;
-        public int torrentCount;
-        public string torrentUrl;
-        public string archiveUrl;
-        public string parent;
-        public List<GalleryInfo> newerVersions = new();
-        public string visible;
-        public string language;
-        public string size;
-        public int favoriteCount;
-        public bool isFavorited;
-        public int ratingCount;
-        public GalleryTagGroup[] tags;
-        public GalleryCommentList comments;
-        public int previewPages;
-        public PreviewSet previewSet;
-        public string url;
-
-        public GalleryDetail()
-        {
-        }
+        public long ApiUid { get; set; } = -1L;
+        public string ApiKey { get; set; }
+        public int TorrentCount { get; set; }
+        public string TorrentUrl { get; set; }
+        public string ArchiveUrl { get; set; }
+        public string Parent { get; set; }
+        public List<GalleryInfo> NewerVersions { get; set; } = new();
+        public string Visible { get; set; }
+        public string Language { get; set; }
+        public string Size { get; set; }
+        public int FavoriteCount { get; set; }
+        public bool IsFavorited { get; set; }
+        public int RatingCount { get; set; }
+        public GalleryTagGroup[] Tags { get; set; }
+        public GalleryCommentList Comments { get; set; }
+        public int PreviewPages { get; set; }
+        public PreviewSet PreviewSet { get; set; }
+        public string Url { get; set; }
     }
 }

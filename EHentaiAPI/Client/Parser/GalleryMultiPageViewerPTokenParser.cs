@@ -22,7 +22,7 @@ namespace EHentaiAPI.Client.Parser
                 var ja = new JArray(imagelist);
                 for (int i = 0; i < ja.Count; i++)
                 {
-                    var jo = ja[(i)];
+                    var jo = ja[i];
                     list.Add(jo.GetString("k"));
                 }
             }

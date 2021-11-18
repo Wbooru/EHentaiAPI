@@ -81,23 +81,23 @@ namespace EHentaiAPI.Client.Data
             "language:dutch",
     };
 
-        public long gid;
-        public string token;
-        public string title;
-        public string titleJpn;
-        public string thumb;
-        public int category;
-        public string posted;
-        public string uploader;
-        public float rating;
-        public bool rated;
-        public string[] simpleTags;
-        public int pages;
-        public int thumbWidth;
-        public int thumbHeight;
-        public int spanSize;
-        public int spanIndex;
-        public int spanGroupIndex;
+        public long Gid { get; set; }
+        public string Token { get; set; }
+        public string Title { get; set; }
+        public string TitleJpn { get; set; }
+        public string Thumb { get; set; }
+        public int Category { get; set; }
+        public string Posted { get; set; }
+        public string Uploader { get; set; }
+        public float Rating { get; set; }
+        public bool Rated { get; set; }
+        public string[] SimpleTags { get; set; }
+        public int Pages { get; set; }
+        public int ThumbWidth { get; set; }
+        public int ThumbHeight { get; set; }
+        public int SpanSize { get; set; }
+        public int SpanIndex { get; set; }
+        public int SpanGroupIndex { get; set; }
         /**
          * language from title
          */
@@ -110,11 +110,11 @@ namespace EHentaiAPI.Client.Data
         }
         public void GenerateSLang()
         {
-            if (simpleTags != null)
+            if (SimpleTags != null)
             {
                 GenerateSLangFromTags();
             }
-            if (simpleLanguage == null && title != null)
+            if (simpleLanguage == null && Title != null)
             {
                 GenerateSLangFromTitle();
             }
@@ -122,7 +122,7 @@ namespace EHentaiAPI.Client.Data
 
         private void GenerateSLangFromTags()
         {
-            foreach (string tag in simpleTags)
+            foreach (string tag in SimpleTags)
             {
                 for (int i = 0; i < S_LANGS.Length; i++)
                 {
@@ -139,7 +139,7 @@ namespace EHentaiAPI.Client.Data
         {
             for (int i = 0; i < S_LANGS.Length; i++)
             {
-                if (S_LANG_PATTERNS[i].Match(title)?.Success ?? false)
+                if (S_LANG_PATTERNS[i].Match(Title)?.Success ?? false)
                 {
                     simpleLanguage = S_LANGS[i];
                     return;
@@ -148,6 +148,6 @@ namespace EHentaiAPI.Client.Data
             simpleLanguage = null;
         }
 
-        public override string ToString() => $"{this.gid} {titleJpn ?? title}";
+        public override string ToString() => $"{this.Gid} {TitleJpn ?? Title}";
     }
 }

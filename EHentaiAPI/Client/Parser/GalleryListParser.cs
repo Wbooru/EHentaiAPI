@@ -125,8 +125,8 @@ namespace EHentaiAPI.Client.Parser
                     GalleryDetailUrlParser.Result result = GalleryDetailUrlParser.Parse(a.GetAttributeEx("href"));
                     if (result != null)
                     {
-                        gi.gid = result.gid;
-                        gi.token = result.token;
+                        gi.Gid = result.gid;
+                        gi.Token = result.token;
                     }
                 }
 
@@ -137,7 +137,7 @@ namespace EHentaiAPI.Client.Parser
                     Children = children[0];
                     children = Children.Children;
                 }
-                gi.title = Children.Text().Trim();
+                gi.Title = Children.Text().Trim();
 
                 var tbody = glname.GetElementsByTagName("tbody").FirstOrDefault();
                 if (tbody != null)
@@ -151,16 +151,16 @@ namespace EHentaiAPI.Client.Parser
                             tags.Add(Groups.TagGroupName + ":" + Groups.GetTagAt(j));
                         }
                     }
-                    gi.simpleTags = tags.ToArray();
+                    gi.SimpleTags = tags.ToArray();
                 }
             }
-            if (gi.title == null)
+            if (gi.Title == null)
             {
                 return null;
             }
 
             // Category
-            gi.category = EhUtils.UNKNOWN;
+            gi.Category = EhUtils.UNKNOWN;
             var ce = e.GetElementByIdRecursive("cn");
             if (ce == null)
             {
@@ -168,7 +168,7 @@ namespace EHentaiAPI.Client.Parser
             }
             if (ce != null)
             {
-                gi.category = EhUtils.GetCategory(ce.Text());
+                gi.Category = EhUtils.GetCategory(ce.Text());
             }
 
             // Thumb
@@ -182,14 +182,14 @@ namespace EHentaiAPI.Client.Parser
                     var m = PATTERN_THUMB_SIZE.Match(img.GetAttributeEx("style"));
                     if (m.Success)
                     {
-                        gi.thumbWidth = ParserUtils.ParseInt(m.Groups[2].Value, 0);
-                        gi.thumbHeight = ParserUtils.ParseInt(m.Groups[1].Value, 0);
+                        gi.ThumbWidth = ParserUtils.ParseInt(m.Groups[2].Value, 0);
+                        gi.ThumbHeight = ParserUtils.ParseInt(m.Groups[1].Value, 0);
                     }
                     else
                     {
                         Log.W(TAG, "Can't parse gallery info thumb size");
-                        gi.thumbWidth = 0;
-                        gi.thumbHeight = 0;
+                        gi.ThumbWidth = 0;
+                        gi.ThumbHeight = 0;
                     }
                     // Thumb url
                     var url = img.GetAttributeEx("data-src");
@@ -201,7 +201,7 @@ namespace EHentaiAPI.Client.Parser
                     {
                         url = null;
                     }
-                    gi.thumb = EhUtils.HandleThumbUrlResolution(settings, url);
+                    gi.Thumb = EhUtils.HandleThumbUrlResolution(settings, url);
                 }
 
                 // Pages
@@ -211,14 +211,14 @@ namespace EHentaiAPI.Client.Parser
                     var Match = PATTERN_PAGES.Match(div.Text());
                     if (Match.Success)
                     {
-                        gi.pages = ParserUtils.ParseInt(Match.Groups[1].Value, 0);
+                        gi.Pages = ParserUtils.ParseInt(Match.Groups[1].Value, 0);
                     }
                 }
             }
 
             IElement gl;
             // Try extended and thumbnail version
-            if (gi.thumb == null)
+            if (gi.Thumb == null)
             {
                 gl = e.GetElementsByClassName("gl1e").FirstOrDefault();
                 if (gl == null)
@@ -234,27 +234,27 @@ namespace EHentaiAPI.Client.Parser
                         var m = PATTERN_THUMB_SIZE.Match(img.GetAttributeEx("style"));
                         if (m.Success)
                         {
-                            gi.thumbWidth = ParserUtils.ParseInt(m.Groups[2].Value, 0);
-                            gi.thumbHeight = ParserUtils.ParseInt(m.Groups[1].Value, 0);
+                            gi.ThumbWidth = ParserUtils.ParseInt(m.Groups[2].Value, 0);
+                            gi.ThumbHeight = ParserUtils.ParseInt(m.Groups[1].Value, 0);
                         }
                         else
                         {
                             Log.W(TAG, "Can't parse gallery info thumb size");
-                            gi.thumbWidth = 0;
-                            gi.thumbHeight = 0;
+                            gi.ThumbWidth = 0;
+                            gi.ThumbHeight = 0;
                         }
-                        gi.thumb = EhUtils.HandleThumbUrlResolution(settings, img.GetAttributeEx("src"));
+                        gi.Thumb = EhUtils.HandleThumbUrlResolution(settings, img.GetAttributeEx("src"));
                     }
                 }
             }
 
             // Posted
             gi.favoriteSlot = -2;
-            var postedId = "posted_" + gi.gid;
+            var postedId = "posted_" + gi.Gid;
             var posted = e.GetElementByIdRecursive(postedId);
             if (posted != null)
             {
-                gi.posted = posted.Text().Trim();
+                gi.Posted = posted.Text().Trim();
                 gi.favoriteSlot = ParseFavoriteSlot(posted.GetAttributeEx("style"));
             }
 
@@ -262,9 +262,9 @@ namespace EHentaiAPI.Client.Parser
             var ir = e.GetElementsByClassName("ir").FirstOrDefault();
             if (ir != null)
             {
-                gi.rating = ParserUtils.ParseFloat(ParseRating(ir.GetAttributeEx("style")), -1.0f);
+                gi.Rating = ParserUtils.ParseFloat(ParseRating(ir.GetAttributeEx("style")), -1.0f);
                 // TODO The gallery may be rated even if it doesn't has one of these classes
-                gi.rated = ir.ClassList.Contains("irr") || ir.ClassList.Contains("irg") || ir.ClassList.Contains("irb");
+                gi.Rated = ir.ClassList.Contains("irr") || ir.ClassList.Contains("irg") || ir.ClassList.Contains("irb");
             }
 
             // Uploader and pages
@@ -283,18 +283,18 @@ namespace EHentaiAPI.Client.Parser
                 var children = gl.Children;
                 if (children.Length > uploaderIndex)
                 {
-                    var a = children[(uploaderIndex)].Children.FirstOrDefault();
+                    var a = children[uploaderIndex].Children.FirstOrDefault();
                     if (a != null)
                     {
-                        gi.uploader = a.Text().Trim();
+                        gi.Uploader = a.Text().Trim();
                     }
                 }
                 if (children.Length > pagesIndex)
                 {
-                    var Match = PATTERN_PAGES.Match(children[(pagesIndex)].Text());
+                    var Match = PATTERN_PAGES.Match(children[pagesIndex].Text());
                     if (Match.Success)
                     {
-                        gi.pages = ParserUtils.ParseInt(Match.Groups[1].Value, 0);
+                        gi.Pages = ParserUtils.ParseInt(Match.Groups[1].Value, 0);
                     }
                 }
             }
@@ -308,7 +308,7 @@ namespace EHentaiAPI.Client.Parser
                     var Match = PATTERN_PAGES.Match(div.Text());
                     if (Match.Success)
                     {
-                        gi.pages = ParserUtils.ParseInt(Match.Groups[1].Value, 0);
+                        gi.Pages = ParserUtils.ParseInt(Match.Groups[1].Value, 0);
                     }
                 }
             }
@@ -381,7 +381,7 @@ namespace EHentaiAPI.Client.Parser
                 // First one is table header, skip it
                 for (int i = 0; i < es.Length; i++)
                 {
-                    GalleryInfo gi = ParseGalleryInfo(settings, es[(i)]);
+                    GalleryInfo gi = ParseGalleryInfo(settings, es[i]);
                     if (null != gi)
                     {
                         list.Add(gi);

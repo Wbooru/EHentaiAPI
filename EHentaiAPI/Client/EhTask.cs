@@ -36,7 +36,7 @@ namespace EHentaiAPI.Client
                 switch (Method)
                 {
                     case Method.METHOD_SIGN_IN:
-                        return EhEngine.SignIn(this, cookieContainer, (string)@params[0], (string)@params[1]);
+                        return EhEngine.SignIn(cookieContainer, (string)@params[0], (string)@params[1]);
                     case Method.METHOD_GET_GALLERY_LIST:
                         return EhEngine.GetGalleryList(this, cookieContainer, (string)@params[0]);
                     case Method.METHOD_GET_GALLERY_DETAIL:
@@ -62,7 +62,7 @@ namespace EHentaiAPI.Client
                     case Method.METHOD_GET_TORRENT_LIST:
                         return EhEngine.GetTorrentList(this, cookieContainer, (string)@params[0], (long)@params[1], (string)@params[2]);
                     case Method.METHOD_GET_PROFILE:
-                        return EhEngine.GetProfile(this, cookieContainer);
+                        return EhEngine.GetProfile(cookieContainer);
                     case Method.METHOD_VOTE_COMMENT:
                         return EhEngine.VoteComment(this, cookieContainer, (long)@params[0], (string)@params[1], (long)@params[2], (string)@params[3], (long)@params[4], (int)@params[5]);
                     //case Method.METHOD_IMAGE_SEARCH:

@@ -107,7 +107,7 @@ namespace EHentaiAPI.Client
                 .SetMethod(Method.METHOD_GET_GALLERY_DETAIL));
 
         public Task<VoteCommentParser.Result> VoteComment(GalleryDetail detail, GalleryComment comment, int vote)
-            => VoteComment(detail.apiUid, detail.apiKey, detail.gid, detail.token, comment.id, vote);
+            => VoteComment(detail.ApiUid, detail.ApiKey, detail.Gid, detail.Token, comment.Id, vote);
 
         public Task<VoteCommentParser.Result> VoteComment(long apiUid, string apiKey, long gid, string token, long commentId, int commentVote)
             => Execute<VoteCommentParser.Result>(new EhRequest()
@@ -115,7 +115,7 @@ namespace EHentaiAPI.Client
                 .SetMethod(Method.METHOD_VOTE_COMMENT));
 
         public Task<Dictionary<string, string>> GetTorrentList(GalleryDetail detail)
-            => GetTorrentList(detail.torrentUrl, detail.gid, detail.token);
+            => GetTorrentList(detail.TorrentUrl, detail.Gid, detail.Token);
 
         public Task<Dictionary<string, string>> GetTorrentList(string torrentUrl, long gid, string token)
             => Execute<Dictionary<string, string>>(new EhRequest()
@@ -123,7 +123,7 @@ namespace EHentaiAPI.Client
                 .SetMethod(Method.METHOD_GET_TORRENT_LIST));
 
         public Task<KeyValuePair<string, KeyValuePair<string, string>[]>> GetArchiveList(GalleryDetail detail)
-            => GetArchiveList(detail.archiveUrl, detail.gid, detail.token);
+            => GetArchiveList(detail.ArchiveUrl, detail.Gid, detail.Token);
 
         public Task<KeyValuePair<string, KeyValuePair<string, string>[]>> GetArchiveList(string archiveUrl, long gid, string token)
             => Execute<KeyValuePair<string, KeyValuePair<string, string>[]>>(new EhRequest()
@@ -131,7 +131,7 @@ namespace EHentaiAPI.Client
                 .SetMethod(Method.METHOD_ARCHIVE_LIST));
 
         public Task<VoteTagParser.Result> VoteTag(GalleryDetail detail, string tags, int vote)
-            => VoteTag(detail.apiUid, detail.apiKey, detail.gid, detail.token, tags, vote);
+            => VoteTag(detail.ApiUid, detail.ApiKey, detail.Gid, detail.Token, tags, vote);
 
         public Task<VoteTagParser.Result> VoteTag(long apiUid, string apiKey, long gid, string token, string tags, int vote)
             => Execute<VoteTagParser.Result>(new EhRequest()
@@ -145,7 +145,7 @@ namespace EHentaiAPI.Client
         /// <param name="rating">1~5 , also 3.5,etc.</param>
         /// <returns></returns>
         public Task<RateGalleryParser.Result> RateGallery(GalleryDetail detail, float rating)
-            => RateGallery(detail.apiUid, detail.apiKey, detail.gid, detail.token, rating);
+            => RateGallery(detail.ApiUid, detail.ApiKey, detail.Gid, detail.Token, rating);
 
         /// <summary>
         /// 
@@ -159,7 +159,7 @@ namespace EHentaiAPI.Client
                 .SetMethod(Method.METHOD_GET_RATE_GALLERY));
 
         public Task<GalleryCommentList> CommentNewGallery(GalleryDetail detail, string commentContent)
-            => CommentNewGallery(detail.url, commentContent);
+            => CommentNewGallery(detail.Url, commentContent);
 
         public Task<GalleryCommentList> CommentNewGallery(string url, string commentContent)
             => Execute<GalleryCommentList>(new EhRequest()
@@ -167,7 +167,7 @@ namespace EHentaiAPI.Client
                 .SetMethod(Method.METHOD_GET_COMMENT_GALLERY));
 
         public Task<GalleryCommentList> ModifyCommentGallery(GalleryDetail detail, string newCommentContent, GalleryComment comment)
-            => ModifyCommentGallery(detail.url, newCommentContent, comment.id);
+            => ModifyCommentGallery(detail.Url, newCommentContent, comment.Id);
 
         public Task<GalleryCommentList> ModifyCommentGallery(string url, string commentContent, long commendId)
             => Execute<GalleryCommentList>(new EhRequest()
@@ -213,7 +213,7 @@ namespace EHentaiAPI.Client
             => GetFavorites(urlBuilder.Build());
 
         public Task AddFavorite(GalleryDetail detail, int dstCat, string note)
-            => AddFavorite(detail.gid, detail.token, dstCat, note);
+            => AddFavorite(detail.Gid, detail.Token, dstCat, note);
 
         public Task AddFavorite(long gid, string token, int dstCat, string note)
             => Execute(new EhRequest()
@@ -238,7 +238,7 @@ namespace EHentaiAPI.Client
                 .SetMethod(Method.METHOD_GET_PROFILE));
 
         public Task<KeyValuePair<PreviewSet, int>> GetPreviewSet(GalleryDetail detail, int index)
-            => GetPreviewSet(detail.gid, detail.token, index);
+            => GetPreviewSet(detail.Gid, detail.Token, index);
 
         public Task<KeyValuePair<PreviewSet, int>> GetPreviewSet(long gid, string token, int index)
             => GetPreviewSet(EhUrl.GetGalleryDetailUrl(gid, token, index, false));

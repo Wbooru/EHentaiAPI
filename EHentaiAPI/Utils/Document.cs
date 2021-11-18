@@ -25,7 +25,7 @@ namespace EHentaiAPI.Utils
             return document.GetElementById(v);
         }
 
-        public static Document Parse(string html, string baseUrl = default, string dasd = default) => new Document(html);
+        public static Document Parse(string html) => new Document(html);
 
         public IElement GetElementByClass(string v)
         {
