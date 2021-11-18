@@ -20,18 +20,18 @@ namespace EHentaiAPI.Client.Parser
 
             for (int i = 0, length = ja.Count; i < length; i++)
             {
-                var g = ja[(i)] as JObject;
+                var g = ja[i] as JObject;
                 long gid = g[("gid")].ToObject<long>();
                 GalleryInfo gi = GetGalleryInfoByGid(galleryInfoList, gid);
                 if (gi == null)
                     continue;
-                gi.title = ParserUtils.Trim(g.GetString("title"));
-                gi.titleJpn = ParserUtils.Trim(g.GetString("title_jpn"));
-                gi.category = EhUtils.GetCategory(g.GetString("category"));
-                gi.thumb = EhUtils.HandleThumbUrlResolution(settings,g.GetString("thumb"));
-                gi.uploader = g.GetString("uploader");
-                gi.posted = ParserUtils.FormatDate(ParserUtils.ParseLong(g.GetString("posted"), 0) * 1000);
-                gi.rating = ParserUtils.ParseFloat(g.GetString("rating"), 0.0f);
+                gi.Title = ParserUtils.Trim(g.GetString("title"));
+                gi.TitleJpn = ParserUtils.Trim(g.GetString("title_jpn"));
+                gi.Category = EhUtils.GetCategory(g.GetString("category"));
+                gi.Thumb = EhUtils.HandleThumbUrlResolution(settings,g.GetString("thumb"));
+                gi.Uploader = g.GetString("uploader");
+                gi.Posted = ParserUtils.FormatDate(ParserUtils.ParseLong(g.GetString("posted"), 0) * 1000);
+                gi.Rating = ParserUtils.ParseFloat(g.GetString("rating"), 0.0f);
                 // tags
                 var tagJa = g.GetJSONArray("tags");
                 int tagLength = tagJa.Count;
@@ -40,8 +40,8 @@ namespace EHentaiAPI.Client.Parser
                 {
                     tags[j] = tagJa.GetString(j.ToString());
                 }
-                gi.simpleTags = tags;
-                gi.pages = ParserUtils.ParseInt(g.GetString("filecount"), 0);
+                gi.SimpleTags = tags;
+                gi.Pages = ParserUtils.ParseInt(g.GetString("filecount"), 0);
                 gi.GenerateSLang();
             }
         }
@@ -50,8 +50,8 @@ namespace EHentaiAPI.Client.Parser
         {
             for (int i = 0, size = galleryInfoList.Count; i < size; i++)
             {
-                GalleryInfo gi = galleryInfoList[(i)];
-                if (gi.gid == gid)
+                GalleryInfo gi = galleryInfoList[i];
+                if (gi.Gid == gid)
                 {
                     return gi;
                 }

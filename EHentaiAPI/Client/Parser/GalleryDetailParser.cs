@@ -57,14 +57,14 @@ namespace EHentaiAPI.Client.Parser
             }
 
             var galleryDetail = new GalleryDetail();
-            galleryDetail.url = url;
+            galleryDetail.Url = url;
 
             var document = Utils.Document.Parse(body);
             ParseDetail(ehUrl.GetSettings(), galleryDetail, document, body);
-            galleryDetail.tags = ParseTagGroups(document);
-            galleryDetail.comments = ParseComments(document);
-            galleryDetail.previewPages = ParsePreviewPages(document, body);
-            galleryDetail.previewSet = ParsePreviewSet(ehUrl, document, body);
+            galleryDetail.Tags = ParseTagGroups(document);
+            galleryDetail.Comments = ParseComments(document);
+            galleryDetail.PreviewPages = ParsePreviewPages(document, body);
+            galleryDetail.PreviewSet = ParsePreviewSet(ehUrl, document, body);
             return galleryDetail;
         }
 
@@ -73,16 +73,16 @@ namespace EHentaiAPI.Client.Parser
             var match = PATTERN_DETAIL.Match(body);
             if (match.Success)
             {
-                gd.gid = ParserUtils.ParseLong(match.Groups[1].Value, -1L);
-                gd.token = match.Groups[3].Value;
-                gd.apiUid = ParserUtils.ParseLong(match.Groups[5].Value, -1L);
-                gd.apiKey = match.Groups[7].Value;
+                gd.Gid = ParserUtils.ParseLong(match.Groups[1].Value, -1L);
+                gd.Token = match.Groups[3].Value;
+                gd.ApiUid = ParserUtils.ParseLong(match.Groups[5].Value, -1L);
+                gd.ApiKey = match.Groups[7].Value;
             }
             else
             {
                 throw new ParseException("Can't parse gallery detail", body);
             }
-            if (gd.gid == -1L)
+            if (gd.Gid == -1L)
             {
                 throw new ParseException("Can't parse gallery detail", body);
             }
@@ -90,23 +90,23 @@ namespace EHentaiAPI.Client.Parser
             match = PATTERN_TORRENT.Match(body);
             if (match.Success)
             {
-                gd.torrentUrl = ParserUtils.UnescapeXml(ParserUtils.Trim(match.Groups[1].Value));
-                gd.torrentCount = ParserUtils.ParseInt(match.Groups[2].Value, 0);
+                gd.TorrentUrl = ParserUtils.UnescapeXml(ParserUtils.Trim(match.Groups[1].Value));
+                gd.TorrentCount = ParserUtils.ParseInt(match.Groups[2].Value, 0);
             }
             else
             {
-                gd.torrentCount = 0;
-                gd.torrentUrl = "";
+                gd.TorrentCount = 0;
+                gd.TorrentUrl = "";
             }
 
             match = PATTERN_ARCHIVE.Match(body);
             if (match.Success)
             {
-                gd.archiveUrl = ParserUtils.UnescapeXml(ParserUtils.Trim(match.Groups[1].Value));
+                gd.ArchiveUrl = ParserUtils.UnescapeXml(ParserUtils.Trim(match.Groups[1].Value));
             }
             else
             {
-                gd.archiveUrl = "";
+                gd.ArchiveUrl = "";
             }
 
             try
@@ -117,34 +117,34 @@ namespace EHentaiAPI.Client.Parser
                 var gd1 = gm.GetElementByIdRecursive("gd1");
                 try
                 {
-                    gd.thumb = ParseCoverStyle(settings, ParserUtils.Trim(gd1.Children[0].GetAttributeEx("style")));
+                    gd.Thumb = ParseCoverStyle(settings, ParserUtils.Trim(gd1.Children[0].GetAttributeEx("style")));
                 }
                 catch
                 {
                     //ExceptionUtils.throwIfFatal(e);
-                    gd.thumb = "";
+                    gd.Thumb = "";
                 }
 
                 // Title
                 var gn = gm.GetElementByIdRecursive("gn");
                 if (null != gn)
                 {
-                    gd.title = ParserUtils.Trim(gn.Text());
+                    gd.Title = ParserUtils.Trim(gn.Text());
                 }
                 else
                 {
-                    gd.title = "";
+                    gd.Title = "";
                 }
 
                 // Jpn title
                 var gj = gm.GetElementByIdRecursive("gj");
                 if (null != gj)
                 {
-                    gd.titleJpn = ParserUtils.Trim(gj.Text());
+                    gd.TitleJpn = ParserUtils.Trim(gj.Text());
                 }
                 else
                 {
-                    gd.titleJpn = "";
+                    gd.TitleJpn = "";
                 }
 
                 // Category
@@ -156,39 +156,39 @@ namespace EHentaiAPI.Client.Parser
                     {
                         ce = gdc.GetElementsByClassName("cs").FirstOrDefault();
                     }
-                    gd.category = EhUtils.GetCategory(ce.Text());
+                    gd.Category = EhUtils.GetCategory(ce.Text());
                 }
                 catch (Exception)
                 {
                     //ExceptionUtils.throwIfFatal(e);
-                    gd.category = EhUtils.UNKNOWN;
+                    gd.Category = EhUtils.UNKNOWN;
                 }
 
                 // Uploader
                 var gdn = gm.GetElementByIdRecursive("gdn");
                 if (null != gdn)
                 {
-                    gd.uploader = ParserUtils.Trim(gdn.Text());
+                    gd.Uploader = ParserUtils.Trim(gdn.Text());
                 }
                 else
                 {
-                    gd.uploader = "";
+                    gd.Uploader = "";
                 }
 
                 var gdd = gm.GetElementByIdRecursive("gdd");
-                gd.posted = "";
-                gd.parent = "";
-                gd.visible = "";
-                gd.visible = "";
-                gd.size = "";
-                gd.pages = 0;
-                gd.favoriteCount = 0;
+                gd.Posted = "";
+                gd.Parent = "";
+                gd.Visible = "";
+                gd.Visible = "";
+                gd.Size = "";
+                gd.Pages = 0;
+                gd.FavoriteCount = 0;
                 try
                 {
                     var es = gdd.Children[0].Children[0].Children;
                     for (int i = 0, n = es.Length; i < n; i++)
                     {
-                        ParseDetailInfo(gd, es[(i)]);
+                        ParseDetailInfo(gd, es[i]);
                     }
                 }
                 catch
@@ -201,11 +201,11 @@ namespace EHentaiAPI.Client.Parser
                 var rating_count = gm.GetElementByIdRecursive("rating_count");
                 if (null != rating_count)
                 {
-                    gd.ratingCount = ParserUtils.ParseInt(rating_count.Text(), 0);
+                    gd.RatingCount = ParserUtils.ParseInt(rating_count.Text(), 0);
                 }
                 else
                 {
-                    gd.ratingCount = 0;
+                    gd.RatingCount = 0;
                 }
 
                 // Rating
@@ -215,29 +215,29 @@ namespace EHentaiAPI.Client.Parser
                     string ratingStr = ParserUtils.Trim(rating_label.Text());
                     if ("Not Yet Rated".Equals(ratingStr))
                     {
-                        gd.rating = -1.0f;
+                        gd.Rating = -1.0f;
                     }
                     else
                     {
                         int index = ratingStr.IndexOf(' ');
                         if (index == -1 || index >= ratingStr.Length)
                         {
-                            gd.rating = 0f;
+                            gd.Rating = 0f;
                         }
                         else
                         {
-                            gd.rating = ParserUtils.ParseFloat(ratingStr.Substring(index + 1), 0f);
+                            gd.Rating = ParserUtils.ParseFloat(ratingStr.Substring(index + 1), 0f);
                         }
                     }
                 }
                 else
                 {
-                    gd.rating = -1.0f;
+                    gd.Rating = -1.0f;
                 }
 
                 // isFavorited
                 var gdf = gm.GetElementByIdRecursive("gdf");
-                gd.isFavorited = null != gdf && !ParserUtils.Trim(gdf.Text()).Equals("Add to Favorites");
+                gd.IsFavorited = null != gdf && !ParserUtils.Trim(gdf.Text()).Equals("Add to Favorites");
                 if (gdf != null)
                 {
                     var favoriteName = ParserUtils.Trim(gdf.Text());
@@ -272,16 +272,16 @@ namespace EHentaiAPI.Client.Parser
                     var elements = gnd.QuerySelectorAll("a");
                     for (int i = 0; i < elements.Length; i++)
                     {
-                        var element = elements[(i)];
+                        var element = elements[i];
                         var gi = new GalleryInfo();
                         var result = GalleryDetailUrlParser.Parse(element.GetAttributeEx("href"));
                         if (result != null)
                         {
-                            gi.gid = result.gid;
-                            gi.token = result.token;
-                            gi.title = ParserUtils.Trim(element.Text());
-                            gi.posted = dates[(i)];
-                            gd.newerVersions.Add(gi);
+                            gi.Gid = result.gid;
+                            gi.Token = result.token;
+                            gi.Title = ParserUtils.Trim(element.Text());
+                            gi.Posted = dates[i];
+                            gd.NewerVersions.Add(gi);
                         }
                     }
                 }
@@ -318,38 +318,38 @@ namespace EHentaiAPI.Client.Parser
             string value = ParserUtils.Trim(es[1].TextContent);
             if (key.StartsWith("Posted"))
             {
-                gd.posted = value;
+                gd.Posted = value;
             }
             else if (key.StartsWith("Parent"))
             {
                 var a = es[1].Children.FirstOrDefault();
                 if (a != null)
                 {
-                    gd.parent = a.GetAttributeEx("href");
+                    gd.Parent = a.GetAttributeEx("href");
                 }
             }
             else if (key.StartsWith("Visible"))
             {
-                gd.visible = value;
+                gd.Visible = value;
             }
             else if (key.StartsWith("Language"))
             {
-                gd.language = value;
+                gd.Language = value;
             }
             else if (key.StartsWith("File Size"))
             {
-                gd.size = value;
+                gd.Size = value;
             }
             else if (key.StartsWith("Length"))
             {
                 int index = value.IndexOf(' ');
                 if (index >= 0)
                 {
-                    gd.pages = ParserUtils.ParseInt(value.Substring(0, index - 0), 1);
+                    gd.Pages = ParserUtils.ParseInt(value.Substring(0, index - 0), 1);
                 }
                 else
                 {
-                    gd.pages = 1;
+                    gd.Pages = 1;
                 }
             }
             else if (key.StartsWith("Favorited"))
@@ -357,20 +357,20 @@ namespace EHentaiAPI.Client.Parser
                 switch (value)
                 {
                     case "Never":
-                        gd.favoriteCount = 0;
+                        gd.FavoriteCount = 0;
                         break;
                     case "Once":
-                        gd.favoriteCount = 1;
+                        gd.FavoriteCount = 1;
                         break;
                     default:
                         int index = value.IndexOf(' ');
                         if (index == -1)
                         {
-                            gd.favoriteCount = 0;
+                            gd.FavoriteCount = 0;
                         }
                         else
                         {
-                            gd.favoriteCount = ParserUtils.ParseInt(value.Substring(0, index - 0), 0);
+                            gd.FavoriteCount = ParserUtils.ParseInt(value.Substring(0, index - 0), 0);
                         }
                         break;
                 }
@@ -391,7 +391,7 @@ namespace EHentaiAPI.Client.Parser
                 var tags = element.Children[1].Children;
                 for (int i = 0, n = tags.Length; i < n; i++)
                 {
-                    string tag = tags[(i)].Text();
+                    string tag = tags[i].Text();
                     // Sometimes parody tag is followed with '|' and english translate, just remove them
                     int index = tag.IndexOf('|');
                     if (index >= 0)
@@ -492,29 +492,29 @@ namespace EHentaiAPI.Client.Parser
                 // Id
                 var a = element.PreviousElementSibling;
                 var name = a.GetAttributeEx("name");
-                comment.id = int.Parse(ParserUtils.Trim(name).Substring(1));
+                comment.Id = int.Parse(ParserUtils.Trim(name).Substring(1));
                 // Editable, vote up and vote down
                 var c4 = element.GetElementsByClassName("c4").FirstOrDefault();
                 if (null != c4)
                 {
                     if ("Uploader Comment".Equals(c4.Text()))
                     {
-                        comment.uploader = true;
+                        comment.Uploader = true;
                     }
                     foreach (var e in c4.Children)
                     {
                         switch (e.Text())
                         {
                             case "Vote+":
-                                comment.voteUpAble = true;
-                                comment.voteUpEd = !(ParserUtils.Trim(e.GetAttributeEx("style")).Length == 0);
+                                comment.VoteUpAble = true;
+                                comment.VoteUpEd = !(ParserUtils.Trim(e.GetAttributeEx("style")).Length == 0);
                                 break;
                             case "Vote-":
-                                comment.voteDownAble = true;
-                                comment.voteDownEd = !(ParserUtils.Trim(e.GetAttributeEx("style")).Length == 0);
+                                comment.VoteDownAble = true;
+                                comment.VoteDownEd = !(ParserUtils.Trim(e.GetAttributeEx("style")).Length == 0);
                                 break;
                             case "Edit":
-                                comment.editable = true;
+                                comment.Editable = true;
                                 break;
                         }
                     }
@@ -523,7 +523,7 @@ namespace EHentaiAPI.Client.Parser
                 var c7 = element.GetElementsByClassName("c7").FirstOrDefault();
                 if (null != c7)
                 {
-                    comment.voteState = ParserUtils.Trim(c7.Text());
+                    comment.VoteState = ParserUtils.Trim(c7.Text());
                 }
                 // Score
                 var c5 = element.GetElementsByClassName("c5").FirstOrDefault();
@@ -532,18 +532,18 @@ namespace EHentaiAPI.Client.Parser
                     var es = c5.Children;
                     if (!(es.Length == 0))
                     {
-                        comment.score = ParserUtils.ParseInt(ParserUtils.Trim(es[0].Text()), 0);
+                        comment.Score = ParserUtils.ParseInt(ParserUtils.Trim(es[0].Text()), 0);
                     }
                 }
                 // time
                 var c3 = element.GetElementsByClassName("c3").FirstOrDefault();
                 var match = PATTERN_COMMENT_DATETIME.Match(c3.TextContent);
                 var temp = match.Groups[1].Value;
-                comment.time = DateTime.Parse(temp).ToUnixTimestamp();
+                comment.Time = DateTime.Parse(temp).ToUnixTimestamp();
                 // user
-                comment.user = c3.Children[0].Text();
+                comment.User = c3.Children[0].Text();
                 // comment
-                comment.comment = element.GetElementsByClassName("c6").FirstOrDefault().Html();
+                comment.Comment = element.GetElementsByClassName("c6").FirstOrDefault().Html();
                 // last edited
                 var c8 = element.GetElementsByClassName("c8").FirstOrDefault();
                 if (c8 != null)
@@ -551,7 +551,7 @@ namespace EHentaiAPI.Client.Parser
                     var e = c8.Children.FirstOrDefault();
                     if (e != null)
                     {
-                        comment.lastEdited = DateTime.Parse(temp).ToUnixTimestamp();
+                        comment.LastEdited = DateTime.Parse(temp).ToUnixTimestamp();
                     }
                 }
                 return comment;
@@ -577,7 +577,7 @@ namespace EHentaiAPI.Client.Parser
                 List<GalleryComment> list = new(c1s.Length);
                 for (int i = 0, n = c1s.Length; i < n; i++)
                 {
-                    GalleryComment comment = ParseComment(c1s[(i)]);
+                    GalleryComment comment = ParseComment(c1s[i]);
                     if (null != comment)
                     {
                         list.Add(comment);
@@ -633,9 +633,9 @@ namespace EHentaiAPI.Client.Parser
                     date = new DateTime(0L);
                 }
                 GalleryComment comment = new GalleryComment();
-                comment.time = date.ToUnixTimestamp();
-                comment.user = ParserUtils.Trim(m.Groups[2].Value);
-                comment.comment = m.Groups[3].Value;
+                comment.Time = date.ToUnixTimestamp();
+                comment.User = ParserUtils.Trim(m.Groups[2].Value);
+                comment.Comment = m.Groups[3].Value;
                 list.Add(comment);
 
                 m = m.NextMatch();
@@ -744,7 +744,7 @@ namespace EHentaiAPI.Client.Parser
                 }
                 for (int i = 0; i < n; i++)
                 {
-                    var element = gdtls[(i)].Children[0];
+                    var element = gdtls[i].Children[0];
                     var pageUrl = element.GetAttributeEx("href");
                     element = element.Children[0];
                     var imageUrl = element.GetAttributeEx("src");

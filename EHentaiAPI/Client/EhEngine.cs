@@ -108,7 +108,7 @@ namespace EHentaiAPI.Client
             }
         }
 
-        public static string SignIn(EhTask task, CookieContainer cookieContainer,
+        public static string SignIn(CookieContainer cookieContainer,
                                     string username, string password)
         {
             string referer = "https://forums.e-hentai.org/index.php?act=Login&CODE=00";
@@ -199,15 +199,19 @@ namespace EHentaiAPI.Client
         private static void DoFillGalleryListByApi(EhTask task, CookieContainer cookieContainer,
                                                    List<GalleryInfo> galleryInfoList, string referer)
         {
-            var json = new JObject();
-            json.Add("method", "gdata");
+            var json = new JObject
+            {
+                { "method", "gdata" }
+            };
             var ja = new JArray();
             for (int i = 0, size = galleryInfoList.Count; i < size; i++)
             {
                 GalleryInfo gi = galleryInfoList.ElementAt(i);
-                var g = new JArray();
-                g.Add(gi.gid);
-                g.Add(gi.token);
+                var g = new JArray
+                {
+                    gi.Gid,
+                    gi.Token
+                };
                 ja.Add(g);
             }
             json.Add("gidlist", ja);
@@ -304,13 +308,15 @@ namespace EHentaiAPI.Client
                                                             long apiUid, string apiKey, long gid,
                                                            string token, float rating)
         {
-            var json = new JObject();
-            json.Add("method", "rategallery");
-            json.Add("apiuid", apiUid);
-            json.Add("apikey", apiKey);
-            json.Add("gid", gid);
-            json.Add("token", token);
-            json.Add("rating", (int)Math.Ceiling(rating * 2));
+            var json = new JObject
+            {
+                { "method", "rategallery" },
+                { "apiuid", apiUid },
+                { "apikey", apiKey },
+                { "gid", gid },
+                { "token", token },
+                { "rating", (int)Math.Ceiling(rating * 2) }
+            };
             var requestBody = new StringContent(json.ToString(), Encoding.UTF8, MEDIA_TYPE_JSON);
             string url = task.EhUrl.GetApiUrl();
             string referer = task.EhUrl.GetGalleryDetailUrl(gid, token);
@@ -475,12 +481,14 @@ namespace EHentaiAPI.Client
             {
                 throw new EhException("Invalid dstCat: " + dstCat);
             }
-            var builder = new Dictionary<string, string>();
-            builder.Add("favcat", catStr);
-            builder.Add("favnote", note ?? "");
-            // submit=Add+to+Favorites is not necessary, just use submit=Apply+Changes all the time
-            builder.Add("submit", "Apply Changes");
-            builder.Add("update", "1");
+            var builder = new Dictionary<string, string>
+            {
+                { "favcat", catStr },
+                { "favnote", note ?? "" },
+                // submit=Add+to+Favorites is not necessary, just use submit=Apply+Changes all the time
+                { "submit", "Apply Changes" },
+                { "update", "1" }
+            };
             string url = task.EhUrl.GetAddFavorites(gid, token);
             string origin = task.EhUrl.GetOrigin();
             Log.D(TAG, url);
@@ -537,8 +545,10 @@ namespace EHentaiAPI.Client
             {
                 throw new EhException("Invalid dstCat: " + dstCat);
             }
-            var builder = new List<KeyValuePair<string, string>>();
-            builder.Add(KeyValuePair.Create("ddact", catStr));
+            var builder = new List<KeyValuePair<string, string>>
+            {
+                KeyValuePair.Create("ddact", catStr)
+            };
             foreach (long gid in gidArray)
             {
                 builder.Add(KeyValuePair.Create("modifygids[]", gid.ToString()));
@@ -642,8 +652,10 @@ namespace EHentaiAPI.Client
             {
                 throw new EhException("Invalid res: " + res);
             }
-            var builder = new Dictionary<string, string>();
-            builder.Add("hathdl_xres", res);
+            var builder = new Dictionary<string, string>
+            {
+                { "hathdl_xres", res }
+            };
             string url = task.EhUrl.GetDownloadArchive(gid, token, or);
             string referer = task.EhUrl.GetGalleryDetailUrl(gid, token);
             string origin = task.EhUrl.GetOrigin();
@@ -703,7 +715,7 @@ namespace EHentaiAPI.Client
             }
         }
 
-        public static ProfileParser.Result GetProfile(EhTask task, CookieContainer cookieContainer)
+        public static ProfileParser.Result GetProfile(CookieContainer cookieContainer)
         {
             string url = EhUrl.URL_FORUMS;
             Log.D(TAG, url);
@@ -731,14 +743,16 @@ namespace EHentaiAPI.Client
         public static VoteCommentParser.Result VoteComment(EhTask task, CookieContainer cookieContainer,
                                                            long apiUid, string apiKey, long gid, string token, long commentId, int commentVote)
         {
-            var json = new JObject();
-            json.Add("method", "votecomment");
-            json.Add("apiuid", apiUid);
-            json.Add("apikey", apiKey);
-            json.Add("gid", gid);
-            json.Add("token", token);
-            json.Add("comment_id", commentId);
-            json.Add("comment_vote", commentVote);
+            var json = new JObject
+            {
+                { "method", "votecomment" },
+                { "apiuid", apiUid },
+                { "apikey", apiKey },
+                { "gid", gid },
+                { "token", token },
+                { "comment_id", commentId },
+                { "comment_vote", commentVote }
+            };
             var requestBody = new StringContent(json.ToString(), Encoding.UTF8, MEDIA_TYPE_JSON);
             string url = task.EhUrl.GetApiUrl();
             string referer = task.EhUrl.GetReferer();
@@ -771,14 +785,16 @@ namespace EHentaiAPI.Client
         public static VoteTagParser.Result VoteTag(EhTask task, CookieContainer cookieContainer,
                                                    long apiUid, string apiKey, long gid, string token, string tags, int vote)
         {
-            var json = new JObject();
-            json.Add("method", "taggallery");
-            json.Add("apiuid", apiUid);
-            json.Add("apikey", apiKey);
-            json.Add("gid", gid);
-            json.Add("token", token);
-            json.Add("tags", tags);
-            json.Add("vote", vote);
+            var json = new JObject
+            {
+                { "method", "taggallery" },
+                { "apiuid", apiUid },
+                { "apikey", apiKey },
+                { "gid", gid },
+                { "token", token },
+                { "tags", tags },
+                { "vote", vote }
+            };
             var requestBody = new StringContent(json.ToString(), Encoding.UTF8, MEDIA_TYPE_JSON);
             string url = task.EhUrl.GetApiUrl();
             string referer = task.EhUrl.GetReferer();
@@ -918,12 +934,14 @@ namespace EHentaiAPI.Client
         public static GalleryPageApiParser.Result GetGalleryPageApi(EhTask task, CookieContainer cookieContainer,
                                                                      long gid, int index, string pToken, string showKey, string previousPToken)
         {
-            var json = new JObject();
-            json.Add("method", "showpage");
-            json.Add("gid", gid);
-            json.Add("page", index + 1);
-            json.Add("imgkey", pToken);
-            json.Add("showkey", showKey);
+            var json = new JObject
+            {
+                { "method", "showpage" },
+                { "gid", gid },
+                { "page", index + 1 },
+                { "imgkey", pToken },
+                { "showkey", showKey }
+            };
             var requestBody = new StringContent(json.ToString(), Encoding.UTF8, MEDIA_TYPE_JSON);
             string url = task.EhUrl.GetApiUrl();
             string referer = null;

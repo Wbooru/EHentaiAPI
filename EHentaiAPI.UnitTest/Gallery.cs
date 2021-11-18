@@ -42,16 +42,16 @@ namespace EHentaiAPI.UnitTest
         {
             var info = await client.GetGalleryDetail(myLove);
 
-            Assert.Equal("2021-11-16 15:10", info.posted);
-            Assert.Equal("Yes", info.visible);
-            Assert.Equal("https://e-hentai.org/g/2056718/d0e47e5e3e/", info.parent);
-            Assert.Equal("[Pixiv] Miwabe Sakura (4816744)", info.title);
-            Assert.Equal("[Pixiv] みわべさくら (4816744)", info.titleJpn);
-            Assert.Equal("miwabe sakura", info.tags.FirstOrDefault(x=>x.groupName=="artist")?.GetTagAt(0));
+            Assert.Equal("2021-11-16 15:10", info.Posted);
+            Assert.Equal("Yes", info.Visible);
+            Assert.Equal("https://e-hentai.org/g/2056718/d0e47e5e3e/", info.Parent);
+            Assert.Equal("[Pixiv] Miwabe Sakura (4816744)", info.Title);
+            Assert.Equal("[Pixiv] みわべさくら (4816744)", info.TitleJpn);
+            Assert.Equal("miwabe sakura", info.Tags.FirstOrDefault(x => x.TagGroupName == "artist")?.GetTagAt(0));
 
-            Assert.NotEmpty(info.comments.comments);
-            Assert.Equal("Pokom", info.comments.comments.FirstOrDefault().user);
-            Assert.True(info.comments.comments.FirstOrDefault().uploader);
+            Assert.NotEmpty(info.Comments.Comments);
+            Assert.Equal("Pokom", info.Comments.Comments.FirstOrDefault().User);
+            Assert.True(info.Comments.Comments.FirstOrDefault().Uploader);
         }
 
         [Fact, Order(3)]
@@ -81,7 +81,7 @@ namespace EHentaiAPI.UnitTest
         public async void GetGalleryPreviewSet()
         {
             var info = await client.GetGalleryDetail("https://e-hentai.org/g/2062872/fb6abc76c6/");
-            Assert.True((await client.GetPreviewSet(info,0)).Key.Size() > 0);
+            Assert.True((await client.GetPreviewSet(info, 0)).Key.Size > 0);
         }
     }
 }

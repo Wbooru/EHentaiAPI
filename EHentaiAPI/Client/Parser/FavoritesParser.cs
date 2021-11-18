@@ -34,7 +34,7 @@ namespace EHentaiAPI.Client.Parser
 
                 for (int i = 0; i < 10; i++)
                 {
-                    var fp = fps[(i)];
+                    var fp = fps[i];
                     countArray[i] = ParserUtils.ParseInt(fp.Children[0].Text(), 0);
                     catArray[i] = ParserUtils.Trim(fp.Children[2].Text());
                 }

@@ -8,13 +8,13 @@ namespace EHentaiAPI.Client.Data
 {
     public class GalleryCommentList
     {
-        public GalleryComment[] comments;
-        public bool hasMore;
+        public GalleryComment[] Comments { get; set; }
+        public bool HasMore { get; set; }
 
         public GalleryCommentList(GalleryComment[] comments, bool hasMore)
         {
-            this.comments = comments;
-            this.hasMore = hasMore;
+            this.Comments = comments;
+            this.HasMore = hasMore;
         }
     }
 }

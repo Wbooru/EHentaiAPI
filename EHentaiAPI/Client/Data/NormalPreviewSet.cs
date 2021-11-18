@@ -38,21 +38,21 @@ namespace EHentaiAPI.Client.Data
 
         public override int GetPosition(int index)
         {
-            return PositionList[(index)];
+            return PositionList[index];
         }
 
         public override string GetPageUrlAt(int index)
         {
-            return PageUrlList[(index)];
+            return PageUrlList[index];
         }
 
         public override GalleryPreview GetGalleryPreview(long gid, int index)
         {
             var galleryPreview = new GalleryPreview();
-            galleryPreview.position = PositionList[(index)];
-            galleryPreview.imageKey = ImageKeyList[(index)];
-            galleryPreview.imageUrl = ImageUrlList[(index)];
-            galleryPreview.pageUrl = PageUrlList[(index)];
+            galleryPreview.Position = PositionList[index];
+            galleryPreview.ImageKey = ImageKeyList[index];
+            galleryPreview.ImageUrl = ImageUrlList[index];
+            galleryPreview.PageUrl = PageUrlList[index];
             return galleryPreview;
         }
     }
