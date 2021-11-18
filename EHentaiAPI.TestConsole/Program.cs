@@ -64,6 +64,9 @@ namespace EHentaiAPI.TestConsole
             var previewSet = await client.GetPreviewSet(detail, 0);
             */
 
+            var listUrlBuilder = new ListUrlBuilder(client.EhUrl);
+            
+
             Console.ReadLine();
         }
     }
