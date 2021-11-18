@@ -15,5 +15,7 @@ namespace EHentaiAPI.Client.Data
         public abstract string GetPageUrlAt(int index);
 
         public abstract GalleryPreview GetGalleryPreview(long gid, int index);
+
+        public override string ToString() => $"{Size} images";
     }
 }
