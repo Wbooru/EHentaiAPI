@@ -16,5 +16,7 @@ namespace EHentaiAPI.Client.Data
             this.Comments = comments;
             this.HasMore = hasMore;
         }
+
+        public override string ToString() => $"{Comments?.Length} comments {(HasMore ? "(...has more)" : "")}";
     }
 }

@@ -8,11 +8,13 @@ namespace EHentaiAPI.Client.Data
 {
     public class GalleryTagGroup
     {
-        public List<string> TagList { get; set; }
+        public List<string> TagList { get; set; } = new List<string>();
         public string TagGroupName { get; set; }
 
         public int Size => TagList.Count;
         public string GetTagAt(int index) => TagList.ElementAtOrDefault(index);
         public void AddTag(string tag) => TagList.Add(tag);
+
+        public override string ToString() => $"{TagGroupName} ({Size})";
     }
 }

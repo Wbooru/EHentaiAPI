@@ -22,5 +22,7 @@ namespace EHentaiAPI.Client.Data
         public string User { get; set; }
         public string Comment { get; set; }
         public long LastEdited { get; set; }
+
+        public override string ToString() => $"[{Score}]{User}:{Comment}";
     }
 }
