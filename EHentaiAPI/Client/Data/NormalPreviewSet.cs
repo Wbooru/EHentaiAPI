@@ -8,19 +8,12 @@ namespace EHentaiAPI.Client.Data
 {
     public class NormalPreviewSet : PreviewSet
     {
-        private List<int> mPositionList = new List<int>();
-        private List<string> mImageKeyList = new();
-        private List<string> mImageUrlList = new();
-        private List<int> mOffsetXList = new List<int>();
-        private List<int> mOffsetYList = new List<int>();
-        private List<int> mClipWidthList = new List<int>();
-        private List<int> mClipHeightList = new List<int>();
-        private List<string> mPageUrlList = new();
+        public List<int> PositionList { get; private set; } = new();
+        public List<string> ImageKeyList { get; private set; } = new();
+        public List<string> ImageUrlList { get; private set; } = new();
+        public List<string> PageUrlList { get; private set; } = new();
 
-        public NormalPreviewSet()
-        {
-        }
-        private string GetImageKey(string imageUrl)
+        private static string GetImageKey(string imageUrl)
         {
             int index = imageUrl.IndexOf('/');
             if (index >= 0)
@@ -33,45 +26,33 @@ namespace EHentaiAPI.Client.Data
             }
         }
 
-        public void AddItem(int position, string imageUrl, int xOffset, int yOffset, int width,
-                            int height, string pageUrl)
+        public void AddItem(int position, string imageUrl, string pageUrl)
         {
-            mPositionList.Add(position);
-            mImageKeyList.Add(GetImageKey(imageUrl));
-            mImageUrlList.Add(imageUrl);
-            mOffsetXList.Add(xOffset);
-            mOffsetYList.Add(yOffset);
-            mClipWidthList.Add(width);
-            mClipHeightList.Add(height);
-            mPageUrlList.Add(pageUrl);
+            PositionList.Add(position);
+            ImageKeyList.Add(GetImageKey(imageUrl));
+            ImageUrlList.Add(imageUrl);
+            PageUrlList.Add(pageUrl);
         }
 
-
-        public override int Size()
-        {
-            return mPositionList.Count;
-        }
-
+        public override int Size => PositionList.Count;
 
         public override int GetPosition(int index)
         {
-            return mPositionList[(index)];
+            return PositionList[(index)];
         }
-
 
         public override string GetPageUrlAt(int index)
         {
-            return mPageUrlList[(index)];
+            return PageUrlList[(index)];
         }
-
 
         public override GalleryPreview GetGalleryPreview(long gid, int index)
         {
-            GalleryPreview galleryPreview = new GalleryPreview();
-            galleryPreview.position = mPositionList[(index)];
-            galleryPreview.imageKey = mImageKeyList[(index)];
-            galleryPreview.imageUrl = mImageUrlList[(index)];
-            galleryPreview.pageUrl = mPageUrlList[(index)];
+            var galleryPreview = new GalleryPreview();
+            galleryPreview.position = PositionList[(index)];
+            galleryPreview.imageKey = ImageKeyList[(index)];
+            galleryPreview.imageUrl = ImageUrlList[(index)];
+            galleryPreview.pageUrl = PageUrlList[(index)];
             return galleryPreview;
         }
     }

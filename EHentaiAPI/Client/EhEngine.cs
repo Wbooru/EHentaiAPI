@@ -34,7 +34,7 @@ namespace EHentaiAPI.Client
 
         private readonly static Regex PATTERN_NEED_HATH_CLIENT = new Regex("(You must have a H@H client assigned to your account to use this feature\\.)");
 
-        private static void DoThrowException(HttpWebResponse call, int code, WebHeaderCollection headers,
+        private static void DoThrowException(int code, WebHeaderCollection headers,
                                              string body, Exception e)
         {
             // Check sad panda
@@ -67,7 +67,7 @@ namespace EHentaiAPI.Client
                 }
             }
 
-            if (e is ParseException z)
+            if (e is ParseException)
             {
                 if (body != null && !body.Contains("<"))
                 {
@@ -94,12 +94,12 @@ namespace EHentaiAPI.Client
             }
         }
 
-        private static void ThrowException(HttpWebResponse call, int code, WebHeaderCollection headers,
-                                            string body, Exception e)
+        private static void ThrowException(int code, WebHeaderCollection headers, string body,
+                                            Exception e)
         {
             try
             {
-                DoThrowException(call, code, headers, body, e);
+                DoThrowException(code, headers, body, e);
             }
             catch (Exception error)
             {
@@ -143,7 +143,7 @@ namespace EHentaiAPI.Client
             catch (Exception e)
             {
                 ////ExceptionUtils.throwIfFatal(e);
-                ThrowException(null, code, headers, body, e);
+                ThrowException(code, headers, body, e);
                 throw;
             }
         }
@@ -151,7 +151,7 @@ namespace EHentaiAPI.Client
         public static GalleryListParser.Result GetGalleryList(EhTask task, CookieContainer cookieContainer,
                                                               string url)
         {
-            string referer = task.mEhUrl.GetReferer();
+            string referer = task.EhUrl.GetReferer();
             Log.D(TAG, url);
             var request = new EhRequestBuilder(url, referer).cookies(cookieContainer).build();
 
@@ -165,12 +165,12 @@ namespace EHentaiAPI.Client
                 code = (int)response.StatusCode;
                 headers = response.Headers;
                 body = new StreamReader(response.GetResponseStream()).ReadToEnd();
-                result = GalleryListParser.Parse(task.mEhUrl.GetSettings(), body);
+                result = GalleryListParser.Parse(task.EhUrl.GetSettings(), body);
             }
             catch (Exception e)
             {
                 ////ExceptionUtils.throwIfFatal(e);
-                ThrowException(null, code, headers, body, e);
+                ThrowException(code, headers, body, e);
                 throw;
             }
 
@@ -212,8 +212,8 @@ namespace EHentaiAPI.Client
             }
             json.Add("gidlist", ja);
             json.Add("namespace", 1);
-            string url = task.mEhUrl.GetApiUrl();
-            string origin = task.mEhUrl.GetOrigin();
+            string url = task.EhUrl.GetApiUrl();
+            string origin = task.EhUrl.GetOrigin();
             Log.D(TAG, url);
             var request = new EhRequestBuilder(url, referer, origin)
                     .cookies(cookieContainer)
@@ -229,12 +229,12 @@ namespace EHentaiAPI.Client
                 code = (int)response.StatusCode;
                 headers = response.Headers;
                 body = new StreamReader(response.GetResponseStream()).ReadToEnd();
-                GalleryApiParser.Parse(task.mEhUrl.GetSettings(), body, galleryInfoList);
+                GalleryApiParser.Parse(task.EhUrl.GetSettings(), body, galleryInfoList);
             }
             catch (Exception e)
             {
                 ////ExceptionUtils.throwIfFatal(e);
-                ThrowException(null, code, headers, body, e);
+                ThrowException(code, headers, body, e);
                 throw;
             }
         }
@@ -242,7 +242,7 @@ namespace EHentaiAPI.Client
         public static GalleryDetail GetGalleryDetail(EhTask task, CookieContainer cookieContainer,
                                                      string url)
         {
-            string referer = task.mEhUrl.GetReferer();
+            string referer = task.EhUrl.GetReferer();
             Log.D(TAG, url);
             var request = new EhRequestBuilder(url, referer).cookies(cookieContainer).build();
 
@@ -262,12 +262,12 @@ namespace EHentaiAPI.Client
                     EhApplication.getInstance().showEventPane(html);
                 }
                 */
-                return GalleryDetailParser.Parse(task.mEhUrl, body, url);
+                return GalleryDetailParser.Parse(task.EhUrl, body, url);
             }
             catch (Exception e)
             {
                 ////ExceptionUtils.throwIfFatal(e);
-                ThrowException(null, code, headers, body, e);
+                ThrowException(code, headers, body, e);
                 throw;
             }
         }
@@ -276,7 +276,7 @@ namespace EHentaiAPI.Client
         public static KeyValuePair<PreviewSet, int> GetPreviewSet(
                  EhTask task, CookieContainer cookieContainer, string url)
         {
-            string referer = task.mEhUrl.GetReferer();
+            string referer = task.EhUrl.GetReferer();
             Log.D(TAG, url);
             var request = new EhRequestBuilder(url, referer).cookies(cookieContainer).build();
 
@@ -289,13 +289,13 @@ namespace EHentaiAPI.Client
                 code = (int)response.StatusCode;
                 headers = response.Headers;
                 body = new StreamReader(response.GetResponseStream()).ReadToEnd();
-                return KeyValuePair.Create(GalleryDetailParser.ParsePreviewSet(task.mEhUrl, body),
+                return KeyValuePair.Create(GalleryDetailParser.ParsePreviewSet(task.EhUrl, body),
                         GalleryDetailParser.ParsePreviewPages(body));
             }
             catch (Exception e)
             {
                 ////ExceptionUtils.throwIfFatal(e);
-                ThrowException(null, code, headers, body, e);
+                ThrowException(code, headers, body, e);
                 throw;
             }
         }
@@ -312,9 +312,9 @@ namespace EHentaiAPI.Client
             json.Add("token", token);
             json.Add("rating", (int)Math.Ceiling(rating * 2));
             var requestBody = new StringContent(json.ToString(), Encoding.UTF8, MEDIA_TYPE_JSON);
-            string url = task.mEhUrl.GetApiUrl();
-            string referer = task.mEhUrl.GetGalleryDetailUrl(gid, token);
-            string origin = task.mEhUrl.GetOrigin();
+            string url = task.EhUrl.GetApiUrl();
+            string referer = task.EhUrl.GetGalleryDetailUrl(gid, token);
+            string origin = task.EhUrl.GetOrigin();
             Log.D(TAG, url);
             var request = new EhRequestBuilder(url, referer, origin)
                     .post(requestBody)
@@ -335,7 +335,7 @@ namespace EHentaiAPI.Client
             catch (Exception e)
             {
                 //ExceptionUtils.throwIfFatal(e);
-                ThrowException(null, code, headers, body, e);
+                ThrowException(code, headers, body, e);
                 throw;
             }
         }
@@ -353,7 +353,7 @@ namespace EHentaiAPI.Client
                 bodyMap.Add("commenttext_edit", comment);
                 bodyMap.Add("edit_comment", id?.ToString());
             }
-            string origin = task.mEhUrl.GetOrigin();
+            string origin = task.EhUrl.GetOrigin();
             Log.D(TAG, url);
             var request = new EhRequestBuilder(url, url, origin)
                     .post(new FormUrlEncodedContent(bodyMap))
@@ -382,7 +382,7 @@ namespace EHentaiAPI.Client
             catch (Exception e)
             {
                 //ExceptionUtils.throwIfFatal(e);
-                ThrowException(null, code, headers, body, e);
+                ThrowException(code, headers, body, e);
                 throw;
             }
         }
@@ -398,9 +398,9 @@ namespace EHentaiAPI.Client
             var d = JsonConvert.SerializeObject(obj);
 
             var requestBody = new StringContent(d, Encoding.UTF8, MEDIA_TYPE_JSON);
-            string url = task.mEhUrl.GetApiUrl();
-            string referer = task.mEhUrl.GetReferer();
-            string origin = task.mEhUrl.GetOrigin();
+            string url = task.EhUrl.GetApiUrl();
+            string referer = task.EhUrl.GetReferer();
+            string origin = task.EhUrl.GetOrigin();
             Log.D(TAG, url);
             var request = new EhRequestBuilder(url, referer, origin)
                     .post(requestBody)
@@ -421,7 +421,7 @@ namespace EHentaiAPI.Client
             catch (Exception e)
             {
                 //ExceptionUtils.throwIfFatal(e);
-                ThrowException(null, code, headers, body, e);
+                ThrowException(code, headers, body, e);
                 throw;
             }
         }
@@ -429,7 +429,7 @@ namespace EHentaiAPI.Client
         public static FavoritesParser.Result GetFavorites(EhTask task, CookieContainer cookieContainer,
                                                           string url)
         {
-            string referer = task.mEhUrl.GetReferer();
+            string referer = task.EhUrl.GetReferer();
             Log.D(TAG, url);
             var request = new EhRequestBuilder(url, referer).cookies(cookieContainer).build();
 
@@ -443,12 +443,12 @@ namespace EHentaiAPI.Client
                 code = (int)response.StatusCode;
                 headers = response.Headers;
                 body = new StreamReader(response.GetResponseStream()).ReadToEnd();
-                result = FavoritesParser.Parse(task.mEhUrl.GetSettings(), body);
+                result = FavoritesParser.Parse(task.EhUrl.GetSettings(), body);
             }
             catch (Exception e)
             {
                 //ExceptionUtils.throwIfFatal(e);
-                ThrowException(null, code, headers, body, e);
+                ThrowException(code, headers, body, e);
                 throw;
             }
 
@@ -477,12 +477,12 @@ namespace EHentaiAPI.Client
             }
             var builder = new Dictionary<string, string>();
             builder.Add("favcat", catStr);
-            builder.Add("favnote", note != null ? note : "");
+            builder.Add("favnote", note ?? "");
             // submit=Add+to+Favorites is not necessary, just use submit=Apply+Changes all the time
             builder.Add("submit", "Apply Changes");
             builder.Add("update", "1");
-            string url = task.mEhUrl.GetAddFavorites(gid, token);
-            string origin = task.mEhUrl.GetOrigin();
+            string url = task.EhUrl.GetAddFavorites(gid, token);
+            string origin = task.EhUrl.GetOrigin();
             Log.D(TAG, url);
             var request = new EhRequestBuilder(url, url, origin)
                     .post(new FormUrlEncodedContent(builder))
@@ -503,7 +503,7 @@ namespace EHentaiAPI.Client
             catch (Exception e)
             {
                 //ExceptionUtils.throwIfFatal(e);
-                ThrowException(null, code, headers, body, e);
+                ThrowException(code, headers, body, e);
                 throw;
             }
 
@@ -544,7 +544,7 @@ namespace EHentaiAPI.Client
                 builder.Add(KeyValuePair.Create("modifygids[]", gid.ToString()));
             }
             builder.Add(KeyValuePair.Create("apply", "Apply"));
-            string origin = task.mEhUrl.GetOrigin();
+            string origin = task.EhUrl.GetOrigin();
             Log.D(TAG, url);
             var request = new EhRequestBuilder(url, url, origin)
                     .post(new FormUrlEncodedContent(builder))
@@ -561,12 +561,12 @@ namespace EHentaiAPI.Client
                 code = (int)response.StatusCode;
                 headers = response.Headers;
                 body = new StreamReader(response.GetResponseStream()).ReadToEnd();
-                result = FavoritesParser.Parse(task.mEhUrl.GetSettings(), body);
+                result = FavoritesParser.Parse(task.EhUrl.GetSettings(), body);
             }
             catch (Exception e)
             {
                 //ExceptionUtils.throwIfFatal(e);
-                ThrowException(null, code, headers, body, e);
+                ThrowException(code, headers, body, e);
                 throw;
             }
 
@@ -576,7 +576,7 @@ namespace EHentaiAPI.Client
         public static Dictionary<string, string> GetTorrentList(EhTask task, CookieContainer cookieContainer,
                                                             string url, long gid, string token)
         {
-            string referer = task.mEhUrl.GetGalleryDetailUrl(gid, token);
+            string referer = task.EhUrl.GetGalleryDetailUrl(gid, token);
             Log.D(TAG, url);
             var request = new EhRequestBuilder(url, referer).cookies(cookieContainer).build();
 
@@ -595,7 +595,7 @@ namespace EHentaiAPI.Client
             catch (Exception e)
             {
                 //ExceptionUtils.throwIfFatal(e);
-                ThrowException(null, code, headers, body, e);
+                ThrowException(code, headers, body, e);
                 throw;
             }
 
@@ -605,7 +605,7 @@ namespace EHentaiAPI.Client
         public static KeyValuePair<string, KeyValuePair<string, string>[]> GetArchiveList(EhTask task, CookieContainer cookieContainer,
                                                                           string url, long gid, string token)
         {
-            string referer = task.mEhUrl.GetGalleryDetailUrl(gid, token);
+            string referer = task.EhUrl.GetGalleryDetailUrl(gid, token);
             Log.D(TAG, url);
             var request = new EhRequestBuilder(url, referer).cookies(cookieContainer).build();
 
@@ -624,7 +624,7 @@ namespace EHentaiAPI.Client
             catch (Exception e)
             {
                 //ExceptionUtils.throwIfFatal(e);
-                ThrowException(null, code, headers, body, e);
+                ThrowException(code, headers, body, e);
                 throw;
             }
 
@@ -644,9 +644,9 @@ namespace EHentaiAPI.Client
             }
             var builder = new Dictionary<string, string>();
             builder.Add("hathdl_xres", res);
-            string url = task.mEhUrl.GetDownloadArchive(gid, token, or);
-            string referer = task.mEhUrl.GetGalleryDetailUrl(gid, token);
-            string origin = task.mEhUrl.GetOrigin();
+            string url = task.EhUrl.GetDownloadArchive(gid, token, or);
+            string referer = task.EhUrl.GetGalleryDetailUrl(gid, token);
+            string origin = task.EhUrl.GetOrigin();
             Log.D(TAG, url);
             var request = new EhRequestBuilder(url, referer, origin)
                     .post(new FormUrlEncodedContent(builder))
@@ -667,7 +667,7 @@ namespace EHentaiAPI.Client
             catch (Exception e)
             {
                 //ExceptionUtils.throwIfFatal(e);
-                ThrowException(null, code, headers, body, e);
+                ThrowException(code, headers, body, e);
                 throw;
             }
 
@@ -678,7 +678,7 @@ namespace EHentaiAPI.Client
             }
         }
 
-        private static ProfileParser.Result GetProfileInternal(EhTask task, CookieContainer cookieContainer,
+        private static ProfileParser.Result GetProfileInternal(CookieContainer cookieContainer,
                                                                 string url, string referer)
         {
             Log.D(TAG, url);
@@ -698,7 +698,7 @@ namespace EHentaiAPI.Client
             catch (Exception e)
             {
                 //ExceptionUtils.throwIfFatal(e);
-                ThrowException(null, code, headers, body, e);
+                ThrowException(code, headers, body, e);
                 throw;
             }
         }
@@ -718,12 +718,12 @@ namespace EHentaiAPI.Client
                 code = (int)response.StatusCode;
                 headers = response.Headers;
                 body = new StreamReader(response.GetResponseStream()).ReadToEnd();
-                return GetProfileInternal(task, cookieContainer, ForumsParser.Parse(body), url);
+                return GetProfileInternal(cookieContainer, ForumsParser.Parse(body), url);
             }
             catch (Exception e)
             {
                 //ExceptionUtils.throwIfFatal(e);
-                ThrowException(null, code, headers, body, e);
+                ThrowException(code, headers, body, e);
                 throw;
             }
         }
@@ -740,9 +740,9 @@ namespace EHentaiAPI.Client
             json.Add("comment_id", commentId);
             json.Add("comment_vote", commentVote);
             var requestBody = new StringContent(json.ToString(), Encoding.UTF8, MEDIA_TYPE_JSON);
-            string url = task.mEhUrl.GetApiUrl();
-            string referer = task.mEhUrl.GetReferer();
-            string origin = task.mEhUrl.GetOrigin();
+            string url = task.EhUrl.GetApiUrl();
+            string referer = task.EhUrl.GetReferer();
+            string origin = task.EhUrl.GetOrigin();
             Log.D(TAG, url);
             var request = new EhRequestBuilder(url, referer, origin)
                     .post(requestBody)
@@ -763,7 +763,7 @@ namespace EHentaiAPI.Client
             catch (Exception e)
             {
                 //ExceptionUtils.throwIfFatal(e);
-                ThrowException(null, code, headers, body, e);
+                ThrowException(code, headers, body, e);
                 throw;
             }
         }
@@ -780,9 +780,9 @@ namespace EHentaiAPI.Client
             json.Add("tags", tags);
             json.Add("vote", vote);
             var requestBody = new StringContent(json.ToString(), Encoding.UTF8, MEDIA_TYPE_JSON);
-            string url = task.mEhUrl.GetApiUrl();
-            string referer = task.mEhUrl.GetReferer();
-            string origin = task.mEhUrl.GetOrigin();
+            string url = task.EhUrl.GetApiUrl();
+            string referer = task.EhUrl.GetReferer();
+            string origin = task.EhUrl.GetOrigin();
             Log.D(TAG, url);
             var request = new EhRequestBuilder(url, referer, origin)
                     .post(requestBody)
@@ -803,7 +803,7 @@ namespace EHentaiAPI.Client
             catch (Exception e)
             {
                 //ExceptionUtils.throwIfFatal(e);
-                ThrowException(null, code, headers, body, e);
+                ThrowException(code, headers, body, e);
                 throw;
             }
         }
@@ -892,7 +892,7 @@ namespace EHentaiAPI.Client
         public static GalleryPageParser.Result GetGalleryPage(EhTask task, CookieContainer cookieContainer,
                                                                string url, long gid, string token)
         {
-            string referer = task.mEhUrl.GetGalleryDetailUrl(gid, token);
+            string referer = task.EhUrl.GetGalleryDetailUrl(gid, token);
             Log.D(TAG, url);
             var request = new EhRequestBuilder(url, referer).cookies(cookieContainer).build();
 
@@ -910,7 +910,7 @@ namespace EHentaiAPI.Client
             catch (Exception e)
             {
                 //ExceptionUtils.throwIfFatal(e);
-                ThrowException(null, code, headers, body, e);
+                ThrowException(code, headers, body, e);
                 throw;
             }
         }
@@ -925,13 +925,13 @@ namespace EHentaiAPI.Client
             json.Add("imgkey", pToken);
             json.Add("showkey", showKey);
             var requestBody = new StringContent(json.ToString(), Encoding.UTF8, MEDIA_TYPE_JSON);
-            string url = task.mEhUrl.GetApiUrl();
+            string url = task.EhUrl.GetApiUrl();
             string referer = null;
             if (index > 0 && previousPToken != null)
             {
-                referer = task.mEhUrl.GetPageUrl(gid, index - 1, previousPToken);
+                referer = task.EhUrl.GetPageUrl(gid, index - 1, previousPToken);
             }
-            string origin = task.mEhUrl.GetOrigin();
+            string origin = task.EhUrl.GetOrigin();
             Log.D(TAG, url);
             var request = new EhRequestBuilder(url, referer, origin)
                     .post(requestBody)
@@ -952,7 +952,7 @@ namespace EHentaiAPI.Client
             catch (Exception e)
             {
                 //ExceptionUtils.throwIfFatal(e);
-                ThrowException(null, code, headers, body, e);
+                ThrowException(code, headers, body, e);
                 throw;
             }
         }

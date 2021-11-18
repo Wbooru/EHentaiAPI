@@ -49,7 +49,8 @@ namespace EHentaiAPI.Client
         public const string URL_WATCHED_EX = HOST_EX + "watched";
 
         private const string URL_PREFIX_THUMB_E = "https://ehgt.org/";
-        private const string URL_PREFIX_THUMB_EX = "https://exhentai.org/t/";
+        //private const string URL_PREFIX_THUMB_EX = "https://exhentai.org/t/";
+
         private readonly Settings settings;
 
         public EhUrl(Settings settings)
@@ -64,86 +65,65 @@ namespace EHentaiAPI.Client
 
         public string GetHost()
         {
-            switch (settings.GetGallerySite())
+            return settings.GetGallerySite() switch
             {
-                default:
-                case SITE_E:
-                    return HOST_E;
-                case SITE_EX:
-                    return HOST_EX;
-            }
+                SITE_EX => HOST_EX,
+                _ => HOST_E,
+            };
         }
 
         public string GetFavoritesUrl()
         {
-            switch (settings.GetGallerySite())
+            return settings.GetGallerySite() switch
             {
-                default:
-                case SITE_E:
-                    return URL_FAVORITES_E;
-                case SITE_EX:
-                    return URL_FAVORITES_EX;
-            }
+                SITE_EX => URL_FAVORITES_EX,
+                _ => URL_FAVORITES_E,
+            };
         }
 
         public string GetApiUrl()
         {
-            switch (settings.GetGallerySite())
+            return settings.GetGallerySite() switch
             {
-                default:
-                case SITE_E:
-                    return API_E;
-                case SITE_EX:
-                    return API_EX;
-            }
+                SITE_EX => API_EX,
+                _ => API_E,
+            };
         }
 
         public string GetReferer()
         {
-            switch (settings.GetGallerySite())
+            return settings.GetGallerySite() switch
             {
-                default:
-                case SITE_E:
-                    return REFERER_E;
-                case SITE_EX:
-                    return REFERER_EX;
-            }
+                SITE_EX => REFERER_EX,
+                _ => REFERER_E,
+            };
         }
 
         public string GetOrigin()
         {
-            switch (settings.GetGallerySite())
+            return settings.GetGallerySite() switch
             {
-                default:
-                case SITE_E:
-                    return ORIGIN_E;
-                case SITE_EX:
-                    return ORIGIN_EX;
-            }
+                SITE_EX => ORIGIN_EX,
+                _ => ORIGIN_E,
+            };
         }
 
         public string GetUConfigUrl()
         {
-            switch (settings.GetGallerySite())
+            return settings.GetGallerySite() switch
             {
-                default:
-                case SITE_E:
-                    return URL_UCONFIG_E;
-                case SITE_EX:
-                    return URL_UCONFIG_EX;
-            }
+                SITE_EX => URL_UCONFIG_EX,
+                _ => URL_UCONFIG_E,
+            };
         }
 
         public string GetMyTagsUrl()
         {
-            switch (settings.GetGallerySite())
+            return settings.GetGallerySite() switch
             {
-                default:
-                case SITE_E:
-                    return URL_MY_TAGS_E;
-                case SITE_EX:
-                    return URL_MY_TAGS_EX;
-            }
+                SITE_EX => URL_MY_TAGS_EX,
+                _ => URL_MY_TAGS_E,
+            };
         }
 
         public string GetGalleryDetailUrl(long gid, string token, int index, bool allComment)
@@ -181,57 +161,44 @@ namespace EHentaiAPI.Client
             return GetHost() + "archiver.php?gid=" + gid + "&token=" + token + "&or=" + or;
         }
 
-        public string GetTagDefinitionUrl(string tag)
+        public static string GetTagDefinitionUrl(string tag)
         {
             return "https://ehwiki.org/wiki/" + tag.Replace(' ', '_');
         }
 
         public string GetPopularUrl()
         {
-            switch (settings.GetGallerySite())
+            return settings.GetGallerySite() switch
             {
-                default:
-                case SITE_E:
-                    return URL_POPULAR_E;
-                case SITE_EX:
-                    return URL_POPULAR_EX;
-            }
+                SITE_EX => URL_POPULAR_EX,
+                _ => URL_POPULAR_E,
+            };
         }
 
         public string GetImageSearchUrl()
         {
-            switch (settings.GetGallerySite())
+            return settings.GetGallerySite() switch
             {
-                default:
-                case SITE_E:
-                    return URL_IMAGE_SEARCH_E;
-                case SITE_EX:
-                    return URL_IMAGE_SEARCH_EX;
-            }
+                SITE_EX => URL_IMAGE_SEARCH_EX,
+                _ => URL_IMAGE_SEARCH_E,
+            };
         }
 
         public string GetWatchedUrl()
         {
-            switch (settings.GetGallerySite())
+            return settings.GetGallerySite() switch
             {
-                default:
-                case SITE_E:
-                    return URL_WATCHED_E;
-                case SITE_EX:
-                    return URL_WATCHED_EX;
-            }
+                SITE_EX => URL_WATCHED_EX,
+                _ => URL_WATCHED_E,
+            };
         }
 
         public string GetThumbUrlPrefix()
         {
-            switch (settings.GetGallerySite())
+            return settings.GetGallerySite() switch
             {
-                default:
-                    //case SITE_E:
-                    return URL_PREFIX_THUMB_E;
-                    //case SITE_EX:
-                    //    return URL_PREFIX_THUMB_EX;
-            }
+                _ => URL_PREFIX_THUMB_E,//case SITE_E:
+            };
         }
 
         public string GetFixedPreviewThumbUrl(string originUrl)

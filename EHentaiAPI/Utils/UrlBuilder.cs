@@ -31,14 +31,14 @@ namespace EHentaiAPI.Utils
             else
             {
                 StringBuilder sb = new StringBuilder(mRootUrl);
-                sb.Append("?");
+                sb.Append('?');
 
                 var c = 0;
                 foreach (var pair in mQueryMap)
                 {
                     if (c != 0)
-                        sb.Append("&");
-                    sb.Append(pair.Key).Append("=").Append(pair.Value);
+                        sb.Append('&');
+                    sb.Append(pair.Key).Append('=').Append(pair.Value);
                     c++;
                 }
                 return sb.ToString();

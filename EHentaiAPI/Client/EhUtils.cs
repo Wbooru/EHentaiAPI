@@ -89,31 +89,20 @@ namespace EHentaiAPI.Client
 
         public static uint GetCategoryColor(int category)
         {
-            switch (category)
+            return category switch
             {
-                case EhConfig.DOUJINSHI:
-                    return BG_COLOR_DOUJINSHI;
-                case EhConfig.MANGA:
-                    return BG_COLOR_MANGA;
-                case EhConfig.ARTIST_CG:
-                    return BG_COLOR_ARTIST_CG;
-                case EhConfig.GAME_CG:
-                    return BG_COLOR_GAME_CG;
-                case EhConfig.WESTERN:
-                    return BG_COLOR_WESTERN;
-                case EhConfig.NON_H:
-                    return BG_COLOR_NON_H;
-                case EhConfig.IMAGE_SET:
-                    return BG_COLOR_IMAGE_SET;
-                case EhConfig.COSPLAY:
-                    return BG_COLOR_COSPLAY;
-                case EhConfig.ASIAN_PORN:
-                    return BG_COLOR_ASIAN_PORN;
-                case EhConfig.MISC:
-                    return BG_COLOR_MISC;
-                default:
-                    return BG_COLOR_UNKNOWN;
-            }
+                EhConfig.DOUJINSHI => BG_COLOR_DOUJINSHI,
+                EhConfig.MANGA => BG_COLOR_MANGA,
+                EhConfig.ARTIST_CG => BG_COLOR_ARTIST_CG,
+                EhConfig.GAME_CG => BG_COLOR_GAME_CG,
+                EhConfig.WESTERN => BG_COLOR_WESTERN,
+                EhConfig.NON_H => BG_COLOR_NON_H,
+                EhConfig.IMAGE_SET => BG_COLOR_IMAGE_SET,
+                EhConfig.COSPLAY => BG_COLOR_COSPLAY,
+                EhConfig.ASIAN_PORN => BG_COLOR_ASIAN_PORN,
+                EhConfig.MISC => BG_COLOR_MISC,
+                _ => BG_COLOR_UNKNOWN,
+            };
         }
 
         public static string ExtractTitle(string title)

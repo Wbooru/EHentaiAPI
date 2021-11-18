@@ -8,7 +8,7 @@ namespace EHentaiAPI.Client.Data
 {
     public abstract class PreviewSet
     {
-        public abstract int Size();
+        public abstract int Size { get; }
 
         public abstract int GetPosition(int index);
 

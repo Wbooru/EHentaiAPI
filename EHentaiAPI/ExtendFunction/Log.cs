@@ -18,12 +18,12 @@ namespace EHentaiAPI.ExtendFunction
 
     internal class DefaultLogImpl : ILog
     {
-        private StringBuilder sb = new StringBuilder();
+        private readonly StringBuilder sb = new StringBuilder();
 
         private void Output(string prefix, string tag, string msg, Exception e = default)
         {
             sb.Clear();
-            sb.Append("[").Append("prefix").Append("]").Append(tag).Append(":").Append(msg);
+            sb.Append('[').Append(prefix).Append(']').Append(tag).Append(':').Append(msg);
             if (e != null)
                 sb.AppendLine().Append(e.StackTrace);
             Console.WriteLine(sb.ToString());

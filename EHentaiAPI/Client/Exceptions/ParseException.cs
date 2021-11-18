@@ -8,21 +8,16 @@ namespace EHentaiAPI.Client.Exceptions
 {
     public class ParseException : EhException
     {
-        private string mBody;
+        public string Body { get; init; }
 
         public ParseException(string detailMessage, string body) : base(detailMessage)
         {
-            mBody = body;
+            this.Body = body;
         }
 
         public ParseException(string detailMessage, string body, Exception cause) : base(detailMessage, cause)
         {
-            mBody = body;
-        }
-
-        public string GetBody()
-        {
-            return mBody;
+            this.Body = body;
         }
     }
 }
