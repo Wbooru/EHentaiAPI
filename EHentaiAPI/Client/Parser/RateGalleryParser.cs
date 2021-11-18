@@ -12,7 +12,7 @@ namespace EHentaiAPI.Client.Parser
     public class RateGalleryParser
     {
 
-        public static Result parse(string body)
+        public static Result Parse(string body)
         {
             try
             {

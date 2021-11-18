@@ -9,70 +9,57 @@ namespace EHentaiAPI.Client
 {
     public class EhRequest
     {
-        public EhTask task;
-        private EhRequestCallback mCallback;
-        private EhConfig mEhConfig;
-        private object[] mArgs;
-        private Method mMethod;
+        private EhTask task;
+        public EhRequestCallback Callback { get; set; }
+        public EhConfig EhConfig { get; set; }
+        public object[] Args { get; set; }
         private bool mCancel = false;
 
-        public Method getMethod() => mMethod;
+        public Method Method { get; set; }
 
-        public EhRequest setMethod(Method method)
+        public EhRequest SetMethod(Method method)
         {
-            mMethod = method;
+            Method = method;
             return this;
         }
 
-        public object[] getArgs()
+        public EhRequest SetArgs(params object[] args)
         {
-            return mArgs;
-        }
-
-        public EhRequest setArgs(params object[] args)
-        {
-            mArgs = args;
+            Args = args;
             return this;
         }
 
-        public EhRequestCallback getCallback()
+        public EhRequest SetCallback(EhRequestCallback callback)
         {
-            return mCallback;
-        }
-
-        public EhRequest setCallback(EhRequestCallback callback)
-        {
-            mCallback = callback;
+            Callback = callback;
             return this;
         }
 
-        public EhConfig getEhConfig()
+        public EhRequest SetEhConfig(EhConfig ehConfig)
         {
-            return mEhConfig;
-        }
-
-        public EhRequest setEhConfig(EhConfig ehConfig)
-        {
-            mEhConfig = ehConfig;
+            EhConfig = ehConfig;
             return this;
         }
 
-        public void cancel()
+        public EhRequest SetTask(EhTask task)
+        {
+            this.task = task;
+            return this;
+        }
+
+        public void Cancel()
         {
             if (!mCancel)
             {
                 mCancel = true;
                 if (task != null)
                 {
-                    task.stop();
+                    task.Stop();
                     task = null;
                 }
             }
         }
 
-        public bool isCancelled()
-        {
-            return mCancel;
-        }
+        public bool IsCancelled => mCancel;
     }
 }

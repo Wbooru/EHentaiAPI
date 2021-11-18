@@ -9,7 +9,7 @@ namespace EHentaiAPI.Utils.ExtensionMethods
 {
     internal static class JsonExtensionMethod
     {
-        public static string getString(this JToken o, string key) => o[key].ToString();
-        public static JArray getJSONArray(this JToken o, string key) => o[key] as JArray;
+        public static string GetString(this JToken o, string key) => o[key].ToString();
+        public static JArray GetJSONArray(this JToken o, string key) => o[key] as JArray;
     }
 }

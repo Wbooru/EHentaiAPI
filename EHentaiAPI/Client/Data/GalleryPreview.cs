@@ -18,14 +18,9 @@ namespace EHentaiAPI.Client.Data
 
         }
 
-        public int getPosition()
+        public int GetPosition()
         {
             return position;
-        }
-
-        public int describeContents()
-        {
-            return 0;
         }
     }
 }

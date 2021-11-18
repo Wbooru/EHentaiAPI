@@ -16,25 +16,19 @@ namespace EHentaiAPI.Client.Data
             mTagList = new List<string>();
         }
 
-        public void addTag(string tag)
+        public void AddTag(string tag)
         {
             mTagList.Add(tag);
         }
 
-        public int size()
+        public int Size()
         {
             return mTagList.Count;
         }
 
-        public string getTagAt(int position)
+        public string GetTagAt(int position)
         {
             return mTagList[(position)];
         }
-
-        public int describeContents()
-        {
-            return 0;
-        }
-
     }
 }

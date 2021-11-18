@@ -24,19 +24,19 @@ namespace EHentaiAPI.Client.Parser
          * "error":"maomao is moe~"
          * }
          */
-        public static string parse(string body)
+        public static string Parse(string body)
         {
             var jo = JsonConvert.DeserializeObject<JObject>(body);
-            var ja = jo.getJSONArray("tokenlist");
+            var ja = jo.GetJSONArray("tokenlist");
 
             try
             {
-                return ja[0].getString("token");
+                return ja[0].GetString("token");
             }
             catch (Exception)
             {
                 //ExceptionUtils.throwIfFatal(e);
-                throw new EhException(jo.getString("error"));
+                throw new EhException(jo.GetString("error"));
             }
         }
     }

@@ -11,7 +11,7 @@ namespace EHentaiAPI.Client.Parser
 {
     public class GalleryMultiPageViewerPTokenParser
     {
-        public static List<string> parse(string body)
+        public static List<string> Parse(string body)
         {
             var list = new List<string>();
             var pos = body.IndexOf("var imagelist = ") + 16;
@@ -23,7 +23,7 @@ namespace EHentaiAPI.Client.Parser
                 for (int i = 0; i < ja.Count; i++)
                 {
                     var jo = ja[(i)];
-                    list.Add(jo.getString("k"));
+                    list.Add(jo.GetString("k"));
                 }
             }
             catch

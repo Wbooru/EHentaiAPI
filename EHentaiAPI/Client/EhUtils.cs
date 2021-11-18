@@ -63,7 +63,7 @@ namespace EHentaiAPI.Client
             new string[] { "unknown" }
     };
 
-        public static int getCategory(string type)
+        public static int GetCategory(string type)
         {
             int i;
             for (i = 0; i < CATEGORY_STRINGS.Length - 1; i++)
@@ -76,7 +76,7 @@ namespace EHentaiAPI.Client
             return CATEGORY_VALUES[i];
         }
 
-        public static string getCategory(int type)
+        public static string GetCategory(int type)
         {
             int i;
             for (i = 0; i < CATEGORY_VALUES.Length - 1; i++)
@@ -87,7 +87,7 @@ namespace EHentaiAPI.Client
             return CATEGORY_STRINGS[i][0];
         }
 
-        public static uint getCategoryColor(int category)
+        public static uint GetCategoryColor(int category)
         {
             switch (category)
             {
@@ -116,7 +116,7 @@ namespace EHentaiAPI.Client
             }
         }
 
-        public static string extractTitle(string title)
+        public static string ExtractTitle(string title)
         {
             if (null == title)
             {
@@ -142,7 +142,7 @@ namespace EHentaiAPI.Client
             }
         }
 
-        public static string handleThumbUrlResolution(Settings settings, string url)
+        public static string HandleThumbUrlResolution(Settings settings, string url)
         {
             if (null == url)
             {
@@ -150,7 +150,7 @@ namespace EHentaiAPI.Client
             }
 
             string resolution;
-            switch (settings.getThumbResolution())
+            switch (settings.GetThumbResolution())
             {
                 default:
                 case 0: // Auto

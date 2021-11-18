@@ -14,7 +14,7 @@ namespace EHentaiAPI.Client.Parser
 {
     public class FavoritesParser
     {
-        public static Result parse(Settings settings, string body)
+        public static Result Parse(Settings settings, string body)
         {
             if (body.Contains("This page requires you to log on.</p>"))
             {
@@ -25,8 +25,8 @@ namespace EHentaiAPI.Client.Parser
 
             try
             {
-                var d = Utils.Document.parse(body);
-                var ido = d.getElementByClass("ido");
+                var d = Utils.Document.Parse(body);
+                var ido = d.GetElementByClass("ido");
                 //noinspection ConstantConditions
                 var fps = ido.GetElementsByClassName("fp").ToArray();
                 // Last one is "fp fps"
@@ -35,17 +35,17 @@ namespace EHentaiAPI.Client.Parser
                 for (int i = 0; i < 10; i++)
                 {
                     var fp = fps[(i)];
-                    countArray[i] = ParserUtils.parseInt(fp.Children[0].Text(), 0);
-                    catArray[i] = ParserUtils.trim(fp.Children[2].Text());
+                    countArray[i] = ParserUtils.ParseInt(fp.Children[0].Text(), 0);
+                    catArray[i] = ParserUtils.Trim(fp.Children[2].Text());
                 }
             }
             catch (Exception e)
             {
-                e.printStackTrace();
+                e.PrintStackTrace();
                 throw new ParseException("Parse favorites error", body);
             }
 
-            GalleryListParser.Result result = GalleryListParser.parse(settings, body);
+            GalleryListParser.Result result = GalleryListParser.Parse(settings, body);
 
             Result re = new Result();
             re.catArray = catArray;

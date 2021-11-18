@@ -18,7 +18,7 @@ namespace EHentaiAPI.Client.Parser
         private static readonly Regex PATTERN_ORIGIN_IMAGE_URL = new Regex("<a href=\"([^\"]+)fullimg.php([^\"]+)\">");
 
 
-        public static Result parse(string body)
+        public static Result Parse(string body)
         {
             try
             {
@@ -28,26 +28,26 @@ namespace EHentaiAPI.Client.Parser
                 var jo = JsonConvert.DeserializeObject<JObject>(body);
                 if (jo.ContainsKey("error"))
                 {
-                    throw new ParseException(jo.getString("error"), body);
+                    throw new ParseException(jo.GetString("error"), body);
                 }
 
-                string i3 = jo.getString("i3");
+                string i3 = jo.GetString("i3");
                 m = PATTERN_IMAGE_URL.Match(i3);
                 if (m.Success)
                 {
-                    result.imageUrl = ParserUtils.unescapeXml(ParserUtils.trim(m.Groups[1].Value));
+                    result.imageUrl = ParserUtils.UnescapeXml(ParserUtils.Trim(m.Groups[1].Value));
                 }
-                string i6 = jo.getString("i6");
+                string i6 = jo.GetString("i6");
                 m = PATTERN_SKIP_HATH_KEY.Match(i6);
                 if (m.Success)
                 {
-                    result.skipHathKey = ParserUtils.unescapeXml(ParserUtils.trim(m.Groups[1].Value));
+                    result.skipHathKey = ParserUtils.UnescapeXml(ParserUtils.Trim(m.Groups[1].Value));
                 }
-                string i7 = jo.getString("i7");
+                string i7 = jo.GetString("i7");
                 m = PATTERN_ORIGIN_IMAGE_URL.Match(i7);
                 if (m.Success)
                 {
-                    result.originImageUrl = ParserUtils.unescapeXml(m.Groups[1].Value) + "fullimg.php" + ParserUtils.unescapeXml(m.Groups[2].Value);
+                    result.originImageUrl = ParserUtils.UnescapeXml(m.Groups[1].Value) + "fullimg.php" + ParserUtils.UnescapeXml(m.Groups[2].Value);
                 }
 
                 if (!string.IsNullOrWhiteSpace(result.imageUrl))

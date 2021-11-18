@@ -22,17 +22,17 @@ namespace EHentaiAPI.UnitTest
             client = shareClient.Client;
 
             client.Cookies.Add(new System.Net.Cookie("sl", "dm_1", "/", "e-hentai.org"));
-            client.Settings.putGallerySite(EhUrl.SITE_E);
+            client.Settings.PutGallerySite(EhUrl.SITE_E);
         }
 
         [Fact, Order(1)]
         public async void GetGalleryList()
         {
             var req = new EhRequest();
-            req.setArgs("https://e-hentai.org");
-            req.setMethod(EhClient.Method.METHOD_GET_GALLERY_LIST);
+            req.SetArgs("https://e-hentai.org");
+            req.SetMethod(EhClient.Method.METHOD_GET_GALLERY_LIST);
 
-            var result = await client.execute<GalleryListParser.Result>(req);
+            var result = await client.Execute<GalleryListParser.Result>(req);
 
             Assert.NotEmpty(result.galleryInfoList);
         }
@@ -47,7 +47,7 @@ namespace EHentaiAPI.UnitTest
             Assert.Equal("https://e-hentai.org/g/2056718/d0e47e5e3e/", info.parent);
             Assert.Equal("[Pixiv] Miwabe Sakura (4816744)", info.title);
             Assert.Equal("[Pixiv] みわべさくら (4816744)", info.titleJpn);
-            Assert.Equal("miwabe sakura", info.tags.FirstOrDefault(x=>x.groupName=="artist")?.getTagAt(0));
+            Assert.Equal("miwabe sakura", info.tags.FirstOrDefault(x=>x.groupName=="artist")?.GetTagAt(0));
 
             Assert.NotEmpty(info.comments.comments);
             Assert.Equal("Pokom", info.comments.comments.FirstOrDefault().user);
@@ -81,7 +81,7 @@ namespace EHentaiAPI.UnitTest
         public async void GetGalleryPreviewSet()
         {
             var info = await client.GetGalleryDetail("https://e-hentai.org/g/2062872/fb6abc76c6/");
-            Assert.True((await client.GetPreviewSet(info,0)).Key.size() > 0);
+            Assert.True((await client.GetPreviewSet(info,0)).Key.Size() > 0);
         }
     }
 }

@@ -24,12 +24,12 @@ namespace EHentaiAPI.Client.Exceptions
             mMessage = message;
         }
 
-        public int getResponseCode()
+        public int GetResponseCode()
         {
             return mResponseCode;
         }
 
-        public string getMessage()
+        public string GetMessage()
         {
             return mMessage;
         }

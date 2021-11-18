@@ -16,11 +16,5 @@ namespace EHentaiAPI.Client.Data
             this.comments = comments;
             this.hasMore = hasMore;
         }
-
-
-        public int describeContents()
-        {
-            return 0;
-        }
     }
 }

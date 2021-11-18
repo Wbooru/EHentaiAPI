@@ -11,13 +11,13 @@ namespace EHentaiAPI.Client.Parser
 {
     public class GalleryNotAvailableParser
     {
-        public static string parse(string body)
+        public static string Parse(string body)
         {
             string error = null;
             try
             {
-                var document = Utils.Document.parse(body);
-                var d = document.getElementByClass("d");
+                var document = Utils.Document.Parse(body);
+                var d = document.GetElementByClass("d");
                 //noinspection ConstantConditions
                 error = d.Children[0].Html();
                 error = error.Replace("<br>", "\n");
@@ -25,7 +25,7 @@ namespace EHentaiAPI.Client.Parser
             catch (Exception e)
             {
                 //ExceptionUtils.throwIfFatal(e);
-                e.printStackTrace();
+                e.PrintStackTrace();
             }
             return error;
         }

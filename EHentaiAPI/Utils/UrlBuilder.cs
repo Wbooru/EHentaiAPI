@@ -17,12 +17,12 @@ namespace EHentaiAPI.Utils
             mRootUrl = rootUrl;
         }
 
-        public void addQuery(string key, Object value)
+        public void AddQuery(string key, Object value)
         {
             mQueryMap.Add(key, value);
         }
 
-        public string build()
+        public string Build()
         {
             if (mQueryMap.Count == 0)
             {
