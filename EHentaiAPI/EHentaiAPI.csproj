@@ -2,12 +2,29 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Version>0.5</Version>
+    <Authors>MikiraSora</Authors>
+    <Company />
+    <Description>.Net porting implementation of EhViewer</Description>
+    <PackageProjectUrl>https://github.com/MikiraSora/EHentaiAPI</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/MikiraSora/EHentaiAPI</RepositoryUrl>
+    <PackageTags>EHentai</PackageTags>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="AngleSharp" Version="1.0.0-alpha-844" />
     <PackageReference Include="AngleSharp.Css" Version="0.16.2" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
