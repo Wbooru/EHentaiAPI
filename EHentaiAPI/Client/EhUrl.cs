@@ -1,4 +1,5 @@
-﻿using EHentaiAPI.Utils;
+﻿using EHentaiAPI.Client.Data;
+using EHentaiAPI.Utils;
 using System;
 using System.Linq;
 
@@ -57,6 +58,8 @@ namespace EHentaiAPI.Client
         {
             this.settings = settings;
         }
+
+        public string GetGalleryDetailUrl(GalleryInfo info) => GetGalleryDetailUrl(info.Gid, info.Token);
 
         public string GetGalleryDetailUrl(long gid, string token)
         {

@@ -98,9 +98,12 @@ namespace EHentaiAPI.Client.Data
         public int SpanSize { get; set; }
         public int SpanIndex { get; set; }
         public int SpanGroupIndex { get; set; }
+
+        public string AvaliableTitle => string.IsNullOrWhiteSpace(TitleJpn) ? Title : TitleJpn;
+
         /**
-         * language from title
-         */
+* language from title
+*/
         public string simpleLanguage;
         public int favoriteSlot = -2;
         public string favoriteName;
