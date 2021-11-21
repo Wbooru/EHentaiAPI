@@ -27,15 +27,15 @@ namespace EHentaiAPI.UnitTest
         {
             CheckSettings();
 
-            var userName = await client.SignIn(TestSettings.UserName, TestSettings.Password);
+            var userName = await client.SignInAsync(TestSettings.UserName, TestSettings.Password);
             Assert.Equal(TestSettings.UserName, userName);
         }
 
         [Fact, Order(2)]
         public async void GetProfile()
         {
-            var userName = await client.SignIn(TestSettings.UserName, TestSettings.Password);
-            var profile = await client.GetProfile();
+            var userName = await client.SignInAsync(TestSettings.UserName, TestSettings.Password);
+            var profile = await client.GetProfileAsync();
             Assert.Equal(userName, profile.displayName);
         }
     }

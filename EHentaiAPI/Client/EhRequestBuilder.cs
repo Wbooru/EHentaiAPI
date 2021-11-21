@@ -1,4 +1,5 @@
-﻿using EHentaiAPI.Utils;
+﻿using EHentaiAPI.ExtendFunction;
+using EHentaiAPI.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,9 +53,9 @@ namespace EHentaiAPI.Client
             return this;
         }
 
-        public HttpWebRequest build()
+        public IRequest build()
         {
-            var req = WebRequest.Create(url) as HttpWebRequest;
+            var req = Request.Create(url);
             req.Method = method.ToUpper();
 
             foreach (var pair in headerMap)
@@ -64,14 +65,12 @@ namespace EHentaiAPI.Client
 
             if (content != null)
             {
-                content.CopyToAsync(req.GetRequestStream());
-                req.ContentType = content.Headers.ContentType.ToString();
-                req.ContentLength = content.Headers.ContentLength ?? 0;
+                req.Content = content;
             }
 
             if (cookie!=null)
             {
-                req.CookieContainer = cookie;
+                req.Cookies = cookie;
             }
 
             return req;

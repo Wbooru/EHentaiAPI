@@ -23,7 +23,6 @@ namespace EHentaiAPI.Client
 {
     public class EhEngine
     {
-
         public const string MEDIA_TYPE_JSON = "application/json";
         private const string TAG = nameof(EhEngine);
         private const string SAD_PANDA_DISPOSITION = "inline; filename=\"sadpanda.jpg\"";
@@ -32,7 +31,7 @@ namespace EHentaiAPI.Client
         private const string KOKOMADE_URL = "https://exhentai.org/img/kokomade.jpg";
         private const string MEDIA_TYPE_JPEG = "image/jpeg";
 
-        private readonly static Regex PATTERN_NEED_HATH_CLIENT = new Regex("(You must have a H@H client assigned to your account to use this feature\\.)");
+        private static readonly Regex PATTERN_NEED_HATH_CLIENT = new Regex("(You must have a H@H client assigned to your account to use this feature\\.)");
 
         private static void DoThrowException(int code, WebHeaderCollection headers,
                                              string body, Exception e)
@@ -108,7 +107,7 @@ namespace EHentaiAPI.Client
             }
         }
 
-        public static string SignIn(CookieContainer cookieContainer,
+        public static async Task<string> SignInAsync(CookieContainer cookieContainer,
                                     string username, string password)
         {
             string referer = "https://forums.e-hentai.org/index.php?act=Login&CODE=00";
@@ -134,10 +133,10 @@ namespace EHentaiAPI.Client
             int code = -1;
             try
             {
-                var response = request.GetResponse() as HttpWebResponse;
-                code = (int)response.StatusCode;
+                var response = await request.SendAsync();
+                code = response.StatusCode;
                 headers = response.Headers;
-                body = new StreamReader(response.GetResponseStream()).ReadToEnd();
+                body = await response.GetResponseContentAsStringAsync();
                 return SignInParser.Parse(body);
             }
             catch (Exception e)
@@ -148,7 +147,7 @@ namespace EHentaiAPI.Client
             }
         }
 
-        public static GalleryListParser.Result GetGalleryList(EhTask task, CookieContainer cookieContainer,
+        public static async Task<GalleryListParser.Result> GetGalleryListAsync(EhTask task, CookieContainer cookieContainer,
                                                               string url)
         {
             string referer = task.EhUrl.GetReferer();
@@ -161,10 +160,10 @@ namespace EHentaiAPI.Client
             int code = -1;
             try
             {
-                var response = request.GetResponse() as HttpWebResponse;
-                code = (int)response.StatusCode;
+                var response = await request.SendAsync();
+                code = response.StatusCode;
                 headers = response.Headers;
-                body = new StreamReader(response.GetResponseStream()).ReadToEnd();
+                body = await response.GetResponseContentAsStringAsync();
                 result = GalleryListParser.Parse(task.EhUrl.GetSettings(), body);
             }
             catch (Exception e)
@@ -178,7 +177,7 @@ namespace EHentaiAPI.Client
         }
 
         // At least, GalleryInfo contain valid gid and token
-        public static List<GalleryInfo> FillGalleryListByApi(EhTask task, CookieContainer cookieContainer,
+        public static async Task<List<GalleryInfo>> FillGalleryListByApiAsync(EhTask task, CookieContainer cookieContainer,
                                                              List<GalleryInfo> galleryInfoList, string referer)
         {
             // We can only request 25 items one time at most
@@ -189,14 +188,14 @@ namespace EHentaiAPI.Client
                 requestItems.Add(galleryInfoList.ElementAt(i));
                 if (requestItems.Count == MAX_REQUEST_SIZE || i == size - 1)
                 {
-                    DoFillGalleryListByApi(task, cookieContainer, requestItems, referer);
+                    await DoFillGalleryListByApiAsync(task, cookieContainer, requestItems, referer);
                     requestItems.Clear();
                 }
             }
             return galleryInfoList;
         }
 
-        private static void DoFillGalleryListByApi(EhTask task, CookieContainer cookieContainer,
+        private static async Task DoFillGalleryListByApiAsync(EhTask task, CookieContainer cookieContainer,
                                                    List<GalleryInfo> galleryInfoList, string referer)
         {
             var json = new JObject
@@ -229,10 +228,10 @@ namespace EHentaiAPI.Client
             int code = -1;
             try
             {
-                var response = request.GetResponse() as HttpWebResponse;
-                code = (int)response.StatusCode;
+                var response = await request.SendAsync();
+                code = response.StatusCode;
                 headers = response.Headers;
-                body = new StreamReader(response.GetResponseStream()).ReadToEnd();
+                body = await response.GetResponseContentAsStringAsync();
                 GalleryApiParser.Parse(task.EhUrl.GetSettings(), body, galleryInfoList);
             }
             catch (Exception e)
@@ -243,7 +242,7 @@ namespace EHentaiAPI.Client
             }
         }
 
-        public static GalleryDetail GetGalleryDetail(EhTask task, CookieContainer cookieContainer,
+        public static async Task<GalleryDetail> GetGalleryDetailAsync(EhTask task, CookieContainer cookieContainer,
                                                      string url)
         {
             string referer = task.EhUrl.GetReferer();
@@ -255,10 +254,10 @@ namespace EHentaiAPI.Client
             int code = -1;
             try
             {
-                var response = request.GetResponse() as HttpWebResponse;
-                code = (int)response.StatusCode;
+                var response = await request.SendAsync();
+                code = response.StatusCode;
                 headers = response.Headers;
-                body = new StreamReader(response.GetResponseStream()).ReadToEnd();
+                body = await response.GetResponseContentAsStringAsync();
                 string html = EventPaneParser.Parse(body);
                 /*
                 if (html != null)
@@ -277,7 +276,7 @@ namespace EHentaiAPI.Client
         }
 
 
-        public static KeyValuePair<PreviewSet, int> GetPreviewSet(
+        public static async Task<KeyValuePair<PreviewSet, int>> GetPreviewSetAsync(
                  EhTask task, CookieContainer cookieContainer, string url)
         {
             string referer = task.EhUrl.GetReferer();
@@ -289,10 +288,10 @@ namespace EHentaiAPI.Client
             int code = -1;
             try
             {
-                var response = request.GetResponse() as HttpWebResponse;
-                code = (int)response.StatusCode;
+                var response = await request.SendAsync();
+                code = response.StatusCode;
                 headers = response.Headers;
-                body = new StreamReader(response.GetResponseStream()).ReadToEnd();
+                body = await response.GetResponseContentAsStringAsync();
                 return KeyValuePair.Create(GalleryDetailParser.ParsePreviewSet(task.EhUrl, body),
                         GalleryDetailParser.ParsePreviewPages(body));
             }
@@ -304,7 +303,7 @@ namespace EHentaiAPI.Client
             }
         }
 
-        public static RateGalleryParser.Result RateGallery(EhTask task, CookieContainer cookieContainer,
+        public static async Task<RateGalleryParser.Result> RateGalleryAsync(EhTask task, CookieContainer cookieContainer,
                                                             long apiUid, string apiKey, long gid,
                                                            string token, float rating)
         {
@@ -332,10 +331,10 @@ namespace EHentaiAPI.Client
             int code = -1;
             try
             {
-                var response = request.GetResponse() as HttpWebResponse;
+                var response = await request.SendAsync();
                 code = (int)response.StatusCode;
                 headers = response.Headers;
-                body = new StreamReader(response.GetResponseStream()).ReadToEnd();
+                body = await response.GetResponseContentAsStringAsync();
                 return RateGalleryParser.Parse(body);
             }
             catch (Exception e)
@@ -346,7 +345,7 @@ namespace EHentaiAPI.Client
             }
         }
 
-        public static GalleryCommentList CommentGallery(EhTask task, CookieContainer cookieContainer,
+        public static async Task<GalleryCommentList> CommentGalleryAsync(EhTask task, CookieContainer cookieContainer,
                                                          string url, string comment, long? id)
         {
             var bodyMap = new Dictionary<string, string>();
@@ -371,10 +370,10 @@ namespace EHentaiAPI.Client
             int code = -1;
             try
             {
-                var response = request.GetResponse() as HttpWebResponse;
+                var response = await request.SendAsync();
                 code = (int)response.StatusCode;
                 headers = response.Headers;
-                body = new StreamReader(response.GetResponseStream()).ReadToEnd();
+                body = await response.GetResponseContentAsStringAsync();
                 var document = Utils.Document.Parse(body);
 
                 var elements = document.Select("#chd + p");
@@ -393,7 +392,7 @@ namespace EHentaiAPI.Client
             }
         }
 
-        public static string GetGalleryToken(EhTask task, CookieContainer cookieContainer,
+        public static async Task<string> GetGalleryTokenAsync(EhTask task, CookieContainer cookieContainer,
                                              long gid, string gtoken, int page)
         {
             var obj = new
@@ -418,10 +417,10 @@ namespace EHentaiAPI.Client
             int code = -1;
             try
             {
-                var response = request.GetResponse() as HttpWebResponse;
+                var response = await request.SendAsync();
                 code = (int)response.StatusCode;
                 headers = response.Headers;
-                body = new StreamReader(response.GetResponseStream()).ReadToEnd();
+                body = await response.GetResponseContentAsStringAsync();
                 return GalleryTokenApiParser.Parse(body);
             }
             catch (Exception e)
@@ -432,7 +431,7 @@ namespace EHentaiAPI.Client
             }
         }
 
-        public static FavoritesParser.Result GetFavorites(EhTask task, CookieContainer cookieContainer,
+        public static async Task<FavoritesParser.Result> GetFavoritesAsync(EhTask task, CookieContainer cookieContainer,
                                                           string url)
         {
             string referer = task.EhUrl.GetReferer();
@@ -445,10 +444,10 @@ namespace EHentaiAPI.Client
             int code = -1;
             try
             {
-                var response = request.GetResponse() as HttpWebResponse;
+                var response = await request.SendAsync();
                 code = (int)response.StatusCode;
                 headers = response.Headers;
-                body = new StreamReader(response.GetResponseStream()).ReadToEnd();
+                body = await response.GetResponseContentAsStringAsync();
                 result = FavoritesParser.Parse(task.EhUrl.GetSettings(), body);
             }
             catch (Exception e)
@@ -465,7 +464,7 @@ namespace EHentaiAPI.Client
          * @param dstCat -1 for delete, 0 - 9 for cloud favorite, others throw Exception
          * @param note   max 250 characters
          */
-        public static void AddFavorites(EhTask task, CookieContainer cookieContainer,
+        public static async Task AddFavoritesAsync(EhTask task, CookieContainer cookieContainer,
                                         long gid, string token, int dstCat, string note)
         {
             string catStr;
@@ -502,10 +501,10 @@ namespace EHentaiAPI.Client
             int code = -1;
             try
             {
-                var response = request.GetResponse() as HttpWebResponse;
+                var response = await request.SendAsync();
                 code = (int)response.StatusCode;
                 headers = response.Headers;
-                body = new StreamReader(response.GetResponseStream()).ReadToEnd();
+                body = await response.GetResponseContentAsStringAsync();
                 //throwException(null, code, headers, body, null);
             }
             catch (Exception e)
@@ -514,22 +513,19 @@ namespace EHentaiAPI.Client
                 ThrowException(code, headers, body, e);
                 throw;
             }
-
-            return;
         }
 
-        public static void AddFavoritesRange(EhTask task, CookieContainer cookieContainer,
+        public static async Task AddFavoritesRangeAsync(EhTask task, CookieContainer cookieContainer,
                                              long[] gidArray, string[] tokenArray, int dstCat)
         {
             Debug.Assert(gidArray.Length == tokenArray.Length);
             for (int i = 0, n = gidArray.Length; i < n; i++)
             {
-                AddFavorites(task, cookieContainer, gidArray[i], tokenArray[i], dstCat, null);
+                await AddFavoritesAsync(task, cookieContainer, gidArray[i], tokenArray[i], dstCat, null);
             }
-            return;
         }
 
-        public static FavoritesParser.Result ModifyFavorites(EhTask task, CookieContainer cookieContainer,
+        public static async Task<FavoritesParser.Result> ModifyFavoritesAsync(EhTask task, CookieContainer cookieContainer,
                                                              string url, long[] gidArray, int dstCat)
         {
             string catStr;
@@ -567,10 +563,10 @@ namespace EHentaiAPI.Client
             int code = -1;
             try
             {
-                var response = request.GetResponse() as HttpWebResponse;
+                var response = await request.SendAsync();
                 code = (int)response.StatusCode;
                 headers = response.Headers;
-                body = new StreamReader(response.GetResponseStream()).ReadToEnd();
+                body = await response.GetResponseContentAsStringAsync();
                 result = FavoritesParser.Parse(task.EhUrl.GetSettings(), body);
             }
             catch (Exception e)
@@ -583,7 +579,7 @@ namespace EHentaiAPI.Client
             return result;
         }
 
-        public static Dictionary<string, string> GetTorrentList(EhTask task, CookieContainer cookieContainer,
+        public static async Task<Dictionary<string, string>> GetTorrentListAsync(EhTask task, CookieContainer cookieContainer,
                                                             string url, long gid, string token)
         {
             string referer = task.EhUrl.GetGalleryDetailUrl(gid, token);
@@ -596,10 +592,10 @@ namespace EHentaiAPI.Client
             int code = -1;
             try
             {
-                var response = request.GetResponse() as HttpWebResponse;
+                var response = await request.SendAsync();
                 code = (int)response.StatusCode;
                 headers = response.Headers;
-                body = new StreamReader(response.GetResponseStream()).ReadToEnd();
+                body = await response.GetResponseContentAsStringAsync();
                 result = TorrentParser.Parse(body);
             }
             catch (Exception e)
@@ -612,7 +608,7 @@ namespace EHentaiAPI.Client
             return result.ToDictionary(k => k.Key, v => v.Value);
         }
 
-        public static KeyValuePair<string, KeyValuePair<string, string>[]> GetArchiveList(EhTask task, CookieContainer cookieContainer,
+        public static async Task<KeyValuePair<string, KeyValuePair<string, string>[]>> GetArchiveListAsync(EhTask task, CookieContainer cookieContainer,
                                                                           string url, long gid, string token)
         {
             string referer = task.EhUrl.GetGalleryDetailUrl(gid, token);
@@ -625,10 +621,10 @@ namespace EHentaiAPI.Client
             int code = -1;
             try
             {
-                var response = request.GetResponse() as HttpWebResponse;
+                var response = await request.SendAsync();
                 code = (int)response.StatusCode;
                 headers = response.Headers;
-                body = new StreamReader(response.GetResponseStream()).ReadToEnd();
+                body = await response.GetResponseContentAsStringAsync();
                 result = ArchiveParser.Parse(body);
             }
             catch (Exception e)
@@ -641,7 +637,7 @@ namespace EHentaiAPI.Client
             return result;
         }
 
-        public static void DownloadArchive(EhTask task, CookieContainer cookieContainer,
+        public static async Task DownloadArchiveAsync(EhTask task, CookieContainer cookieContainer,
                                            long gid, string token, string or, string res)
         {
             if (or == null || or.Length == 0)
@@ -670,10 +666,10 @@ namespace EHentaiAPI.Client
             int code = -1;
             try
             {
-                var response = request.GetResponse() as HttpWebResponse;
+                var response = await request.SendAsync();
                 code = (int)response.StatusCode;
                 headers = response.Headers;
-                body = new StreamReader(response.GetResponseStream()).ReadToEnd();
+                body = await response.GetResponseContentAsStringAsync();
                 //throwException(null, code, headers, body, null);
             }
             catch (Exception e)
@@ -690,7 +686,7 @@ namespace EHentaiAPI.Client
             }
         }
 
-        private static ProfileParser.Result GetProfileInternal(CookieContainer cookieContainer,
+        private static async Task<ProfileParser.Result> GetProfileInternalAsync(CookieContainer cookieContainer,
                                                                 string url, string referer)
         {
             Log.D(TAG, url);
@@ -701,10 +697,10 @@ namespace EHentaiAPI.Client
             int code = -1;
             try
             {
-                var response = request.GetResponse() as HttpWebResponse;
+                var response = await request.SendAsync();
                 code = (int)response.StatusCode;
                 headers = response.Headers;
-                body = new StreamReader(response.GetResponseStream()).ReadToEnd();
+                body = await response.GetResponseContentAsStringAsync();
                 return ProfileParser.Parse(body);
             }
             catch (Exception e)
@@ -715,7 +711,7 @@ namespace EHentaiAPI.Client
             }
         }
 
-        public static ProfileParser.Result GetProfile(CookieContainer cookieContainer)
+        public static async Task<ProfileParser.Result> GetProfileAsync(CookieContainer cookieContainer)
         {
             string url = EhUrl.URL_FORUMS;
             Log.D(TAG, url);
@@ -726,11 +722,11 @@ namespace EHentaiAPI.Client
             int code = -1;
             try
             {
-                var response = request.GetResponse() as HttpWebResponse;
+                var response = await request.SendAsync();
                 code = (int)response.StatusCode;
                 headers = response.Headers;
-                body = new StreamReader(response.GetResponseStream()).ReadToEnd();
-                return GetProfileInternal(cookieContainer, ForumsParser.Parse(body), url);
+                body = await response.GetResponseContentAsStringAsync();
+                return await GetProfileInternalAsync(cookieContainer, ForumsParser.Parse(body), url);
             }
             catch (Exception e)
             {
@@ -740,7 +736,7 @@ namespace EHentaiAPI.Client
             }
         }
 
-        public static VoteCommentParser.Result VoteComment(EhTask task, CookieContainer cookieContainer,
+        public static async Task<VoteCommentParser.Result> VoteCommentAsync(EhTask task, CookieContainer cookieContainer,
                                                            long apiUid, string apiKey, long gid, string token, long commentId, int commentVote)
         {
             var json = new JObject
@@ -768,10 +764,10 @@ namespace EHentaiAPI.Client
             int code = -1;
             try
             {
-                var response = request.GetResponse() as HttpWebResponse;
+                var response = await request.SendAsync();
                 code = (int)response.StatusCode;
                 headers = response.Headers;
-                body = new StreamReader(response.GetResponseStream()).ReadToEnd();
+                body = await response.GetResponseContentAsStringAsync();
                 return VoteCommentParser.Parse(body, commentVote);
             }
             catch (Exception e)
@@ -782,7 +778,7 @@ namespace EHentaiAPI.Client
             }
         }
 
-        public static VoteTagParser.Result VoteTag(EhTask task, CookieContainer cookieContainer,
+        public static async Task<VoteTagParser.Result> VoteTagAsync(EhTask task, CookieContainer cookieContainer,
                                                    long apiUid, string apiKey, long gid, string token, string tags, int vote)
         {
             var json = new JObject
@@ -810,10 +806,10 @@ namespace EHentaiAPI.Client
             int code = -1;
             try
             {
-                var response = request.GetResponse() as HttpWebResponse;
+                var response = await request.SendAsync();
                 code = (int)response.StatusCode;
                 headers = response.Headers;
-                body = new StreamReader(response.GetResponseStream()).ReadToEnd();
+                body = await response.GetResponseContentAsStringAsync();
                 return VoteTagParser.Parse(body);
             }
             catch (Exception e)
@@ -883,13 +879,13 @@ namespace EHentaiAPI.Client
             int code = -1;
             try
             {
-                var response = request.GetResponse() as HttpWebResponse;
+                var response =  await request.SendAsync();
 
                 Log.d(TAG, "" + request.RequestUri.ToString());
 
                 code = (int)response.StatusCode;
                 headers = response.Headers;
-                body = new StreamReader(response.GetResponseStream()).ReadToEnd();
+                body = await response.GetResponseContentAsStringAsync();
                 result = GalleryListParser.parse(body);
             }
             catch (Exception e)
@@ -905,7 +901,7 @@ namespace EHentaiAPI.Client
         }
         */
 
-        public static GalleryPageParser.Result GetGalleryPage(EhTask task, CookieContainer cookieContainer,
+        public static async Task<GalleryPageParser.Result> GetGalleryPageAsync(EhTask task, CookieContainer cookieContainer,
                                                                string url, long gid, string token)
         {
             string referer = task.EhUrl.GetGalleryDetailUrl(gid, token);
@@ -917,10 +913,10 @@ namespace EHentaiAPI.Client
             int code = -1;
             try
             {
-                var response = request.GetResponse() as HttpWebResponse;
+                var response = await request.SendAsync();
                 code = (int)response.StatusCode;
                 headers = response.Headers;
-                body = new StreamReader(response.GetResponseStream()).ReadToEnd();
+                body = await response.GetResponseContentAsStringAsync();
                 return GalleryPageParser.Parse(body);
             }
             catch (Exception e)
@@ -931,7 +927,7 @@ namespace EHentaiAPI.Client
             }
         }
 
-        public static GalleryPageApiParser.Result GetGalleryPageApi(EhTask task, CookieContainer cookieContainer,
+        public static async Task<GalleryPageApiParser.Result> GetGalleryPageApiAsync(EhTask task, CookieContainer cookieContainer,
                                                                      long gid, int index, string pToken, string showKey, string previousPToken)
         {
             var json = new JObject
@@ -961,10 +957,10 @@ namespace EHentaiAPI.Client
             int code = -1;
             try
             {
-                var response = request.GetResponse() as HttpWebResponse;
+                var response = await request.SendAsync();
                 code = (int)response.StatusCode;
                 headers = response.Headers;
-                body = new StreamReader(response.GetResponseStream()).ReadToEnd();
+                body = await response.GetResponseContentAsStringAsync();
                 return GalleryPageApiParser.Parse(body);
             }
             catch (Exception e)
