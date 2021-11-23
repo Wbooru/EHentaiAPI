@@ -28,7 +28,7 @@ namespace EHentaiAPI.TestConsole
 
             //await client.SignIn(TestSettings.UserName, TestSettings.Password);
 
-            var detail = await client.GetGalleryDetailAsync("https://e-hentai.org/g/2062874/03037d8698/");
+            var detail = await client.GetGalleryDetailAsync("https://e-hentai.org/g/2043816/abfa078bb5/");
 
             /*
             var voteResult = await client.VoteComment(detail.apiUid, detail.apiKey, detail.gid, detail.token, detail.comments.comments[1].id, 1);
@@ -64,9 +64,6 @@ namespace EHentaiAPI.TestConsole
 
             var previewSet = await client.GetPreviewSet(detail, 0);
             */
-
-            var listUrlBuilder = new ListUrlBuilder(client.EhUrl);
-            var list = await client.GetGalleryListAsync(listUrlBuilder.Build());
 
             Console.ReadLine();
         }

@@ -83,7 +83,7 @@ namespace EHentaiAPI.ExtendFunction
     }
 
 
-    internal class DefaultResponseImpl : IResponse
+    public class DefaultResponseImpl : IResponse
     {
         private HttpWebResponse response;
 
