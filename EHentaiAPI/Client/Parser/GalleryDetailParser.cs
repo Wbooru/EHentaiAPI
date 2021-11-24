@@ -740,7 +740,7 @@ namespace EHentaiAPI.Client.Parser
                 int n = gdtls.Length;
                 if (n <= 0)
                 {
-                    throw new ParseException("Can't parse large preview", body);
+                    throw new ParseException("Can't parse large preview (meybe need user sign in.)", body);
                 }
                 for (int i = 0; i < n; i++)
                 {
@@ -761,7 +761,7 @@ namespace EHentaiAPI.Client.Parser
             {
                 //ExceptionUtils.throwIfFatal(e);
                 e.PrintStackTrace();
-                throw new ParseException("Can't parse large preview", body);
+                throw new ParseException("Can't parse large preview (meybe need user sign in.)", body);
             }
         }
 

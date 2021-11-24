@@ -26,7 +26,7 @@ namespace EHentaiAPI.TestConsole
             client.Settings.PutGallerySite(EhUrl.SITE_E);
             client.Cookies.Add(new System.Net.Cookie("sl", "dm_1", "/", "e-hentai.org"));
 
-            //await client.SignIn(TestSettings.UserName, TestSettings.Password);
+            await client.SignInAsync(TestSettings.UserName, TestSettings.Password);
 
             var detail = await client.GetGalleryDetailAsync("https://e-hentai.org/g/2043816/abfa078bb5/");
 
