@@ -211,6 +211,14 @@ namespace EHentaiAPI.Client
         public Task<FavoritesParser.Result> GetFavoritesAsync(FavListUrlBuilder urlBuilder)
             => GetFavoritesAsync(urlBuilder.Build());
 
+        public Task RemoveFavoriteAsync(GalleryDetail detail)
+            => RemoveFavoriteAsync(detail.Gid, detail.Token);
+
+        public Task RemoveFavoriteAsync(long gid, string token)
+            => Execute(new EhRequest()
+                .SetArgs(gid, token, -1, string.Empty)
+                .SetMethod(Method.METHOD_ADD_FAVORITES));
+
         public Task AddFavoriteAsync(GalleryDetail detail, int dstCat, string note)
             => AddFavoriteAsync(detail.Gid, detail.Token, dstCat, note);
 
