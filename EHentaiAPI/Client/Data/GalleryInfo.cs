@@ -101,23 +101,17 @@ namespace EHentaiAPI.Client.Data
 
         public string AvaliableTitle => string.IsNullOrWhiteSpace(TitleJpn) ? Title : TitleJpn;
 
-        /**
-* language from title
-*/
-        public string simpleLanguage;
-        public int favoriteSlot = -2;
-        public string favoriteName;
+        public string SimpleLanguage { get; set; }
+        public int FavoriteSlot { get; set; } = -2;
+        public string FavoriteName { get; set; }
 
-        public GalleryInfo()
-        {
-        }
         public void GenerateSLang()
         {
             if (SimpleTags != null)
             {
                 GenerateSLangFromTags();
             }
-            if (simpleLanguage == null && Title != null)
+            if (SimpleLanguage == null && Title != null)
             {
                 GenerateSLangFromTitle();
             }
@@ -131,7 +125,7 @@ namespace EHentaiAPI.Client.Data
                 {
                     if (S_LANG_TAGS[i].Equals(tag))
                     {
-                        simpleLanguage = S_LANGS[i];
+                        SimpleLanguage = S_LANGS[i];
                         return;
                     }
                 }
@@ -144,11 +138,11 @@ namespace EHentaiAPI.Client.Data
             {
                 if (S_LANG_PATTERNS[i].Match(Title)?.Success ?? false)
                 {
-                    simpleLanguage = S_LANGS[i];
+                    SimpleLanguage = S_LANGS[i];
                     return;
                 }
             }
-            simpleLanguage = null;
+            SimpleLanguage = null;
         }
 
         public override string ToString() => $"{this.Gid} {TitleJpn ?? Title}";

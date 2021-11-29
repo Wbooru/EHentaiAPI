@@ -249,13 +249,13 @@ namespace EHentaiAPI.Client.Parser
             }
 
             // Posted
-            gi.favoriteSlot = -2;
+            gi.FavoriteSlot = -2;
             var postedId = "posted_" + gi.Gid;
             var posted = e.GetElementByIdRecursive(postedId);
             if (posted != null)
             {
                 gi.Posted = posted.Text().Trim();
-                gi.favoriteSlot = ParseFavoriteSlot(posted.GetAttributeEx("style"));
+                gi.FavoriteSlot = ParseFavoriteSlot(posted.GetAttributeEx("style"));
             }
 
             // Rating

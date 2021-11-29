@@ -238,16 +238,17 @@ namespace EHentaiAPI.Client.Parser
                 // isFavorited
                 var gdf = gm.GetElementByIdRecursive("gdf");
                 gd.IsFavorited = null != gdf && !ParserUtils.Trim(gdf.Text()).Equals("Add to Favorites");
+                gd.FavoriteSlot = int.TryParse(ParserUtils.Trim(gdf.Text().Replace("Favorites", string.Empty)), out var favid) ? favid : gd.FavoriteSlot;
                 if (gdf != null)
                 {
                     var favoriteName = ParserUtils.Trim(gdf.Text());
                     if (favoriteName.Equals("Add to Favorites"))
                     {
-                        gd.favoriteName = null;
+                        gd.FavoriteName = null;
                     }
                     else
                     {
-                        gd.favoriteName = ParserUtils.Trim(gdf.Text());
+                        gd.FavoriteName = ParserUtils.Trim(gdf.Text());
                     }
                 }
             }
@@ -811,7 +812,7 @@ namespace EHentaiAPI.Client.Parser
                 if (position < 0)
                     continue;
                 string imageUrl = ParserUtils.Trim(m.Groups[3].Value);
-               
+
                 int width = ParserUtils.ParseInt(m.Groups[1].Value, 0);
                 if (width <= 0)
                     continue;
