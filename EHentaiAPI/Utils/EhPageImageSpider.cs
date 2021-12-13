@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace EHentaiAPI.Utils
 {
-    public class EhPageImageSpider
+    public class EhPageImageSpider<T>
     {
         private static readonly string[] URL_509_SUFFIX_ARRAY = {
             "/509.gif",
@@ -106,10 +106,10 @@ namespace EHentaiAPI.Utils
             }
 
             internal TaskCompletionSource<SpiderInfo> PreviewTaskSource { get; set; } = new();
-            internal TaskCompletionSource<object> DownloadTaskSouce { get; set; } = new();
+            internal TaskCompletionSource<T> DownloadTaskSouce { get; set; } = new();
 
             internal Task<SpiderInfo> PreviewTask => PreviewTaskSource.Task;
-            public Task<object> DownloadTask => DownloadTaskSouce.Task;
+            public Task<T> DownloadTask => DownloadTaskSouce.Task;
 
             public GalleryPreview Preview { get; set; }
 
@@ -140,21 +140,21 @@ namespace EHentaiAPI.Utils
             public override string ToString() => $"{CurrentStatus} ({1.0 * CurrentDownloadingLength / TotalDownloadLength * 100:F2}%) PreviewPosition:{Preview?.Position}";
         }
 
-        public EhPageImageSpider(EhClient client, GalleryDetail detail, Func<string, DownloadReporter, Task<object>> imageDownloadFunc)
+        public EhPageImageSpider(EhClient client, GalleryDetail detail, Func<string, DownloadReporter, Task<T>> imageDownloadFunc)
         {
             this.client = client;
             this.detail = detail;
             this.imageDownloadFunc = imageDownloadFunc;
             this.detail = detail;
-            previews = new(client, detail);
+            Previews = new(client, detail);
         }
 
         private Dictionary<int, SpiderTask> tasks = new();
         private readonly EhClient client;
         private readonly GalleryDetail detail;
-        private readonly Func<string, DownloadReporter, Task<object>> imageDownloadFunc;
+        private readonly Func<string, DownloadReporter, Task<T>> imageDownloadFunc;
         private Dictionary<int, string> skipHathKeys = new();
-        private FullPreviewSetCollection previews;
+        public FullPreviewSetCollection Previews { get; private set; }
         private TaskCompletionSource<string> showKey = new TaskCompletionSource<string>();
 
         public SpiderTask RequestPage(int index)
@@ -222,7 +222,7 @@ namespace EHentaiAPI.Utils
             log("Started");
 
             var prevTask = tasks.TryGetValue(index - 1, out var d) ? d : default;
-            var curPreview = await previews.GetAsync(index);
+            var curPreview = await Previews.GetAsync(index);
             task.Preview = curPreview;
 
             if (prevTask is null)
