@@ -77,10 +77,10 @@ namespace EHentaiAPI.TestConsole
                 await Task.Delay(2000);
                 return null;
             });
-            client.Settings.SpiderBackPreloadCount = 0;
+            client.Settings.SpiderBackPreloadCount = 6;
             client.Settings.SpiderFrontPreloadCount = 6;
 
-            var task = spider.RequestPage(10);
+            var task = spider.RequestPage(2);
             await task.DownloadTask;
 
             /*

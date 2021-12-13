@@ -165,7 +165,7 @@ namespace EHentaiAPI.Utils
             var backCount = client.Settings.SpiderBackPreloadCount;
             var frontCount = client.Settings.SpiderFrontPreloadCount;
 
-            for (int i = 1; i <= backCount; i++)
+            for (int i = backCount; i >= 0; i--)
                 PreloadPage(index - i);
             PreloadPage(index);
             for (int i = 1; i <= frontCount; i++)
