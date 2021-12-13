@@ -23,7 +23,7 @@
   <ItemGroup>
     <PackageReference Include="AngleSharp" Version="0.16.1" />
     <PackageReference Include="AngleSharp.Css" Version="0.16.2" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2"/>
   </ItemGroup>
 
   <ItemGroup>
