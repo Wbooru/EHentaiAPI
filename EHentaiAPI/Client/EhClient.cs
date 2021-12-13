@@ -65,6 +65,10 @@ namespace EHentaiAPI.Client
             METHOD_ARCHIVE_LIST,
             METHOD_DOWNLOAD_ARCHIVE,
             METHOD_VOTE_TAG,
+
+            //Added by EHentaiAPI.
+            METHOD_GET_GALLERY_PAGE_API,
+            METHOD_GET_GALLERY_PAGE,
         }
 
         public Task Execute(EhRequest request) => Execute<object>(request);
@@ -254,6 +258,19 @@ namespace EHentaiAPI.Client
             => Execute<KeyValuePair<PreviewSet, int>>(new EhRequest()
                 .SetArgs(url)
                 .SetMethod(Method.METHOD_GET_PREVIEW_SET));
+
+        public Task<GalleryPageParser.Result> GetGalleryPageAsync(GalleryDetail detail,GalleryPreview preview)
+            => GetGalleryPageAsync(preview.PageUrl, detail.Gid, detail.Token);
+
+        public Task<GalleryPageParser.Result> GetGalleryPageAsync(string pageUrl, long gid, string token)
+            => Execute<GalleryPageParser.Result>(new EhRequest()
+                .SetArgs(pageUrl, gid, token)
+                .SetMethod(Method.METHOD_GET_GALLERY_PAGE));
+
+        public Task<GalleryPageApiParser.Result> GetGalleryPageApiAsync(long gid, int index, string pToken, string showKey, string previousPToken)
+            => Execute<GalleryPageApiParser.Result>(new EhRequest()
+                .SetArgs(gid, index, pToken, showKey, previousPToken)
+                .SetMethod(Method.METHOD_GET_GALLERY_PAGE_API));
 
         #endregion
     }

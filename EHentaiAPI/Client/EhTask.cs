@@ -74,6 +74,10 @@ namespace EHentaiAPI.Client
                         break;
                     case Method.METHOD_VOTE_TAG:
                         return await EhEngine.VoteTagAsync(this, cookieContainer, (long)@params[0], (string)@params[1], (long)@params[2], (string)@params[3], (string)@params[4], (int)@params[5]);
+                    case Method.METHOD_GET_GALLERY_PAGE_API:
+                        return await EhEngine.GetGalleryPageApiAsync(this, cookieContainer, (long)@params[0], (int)@params[1], (string)@params[2], (string)@params[3], (string)@params[4]);
+                    case Method.METHOD_GET_GALLERY_PAGE:
+                        return await EhEngine.GetGalleryPageAsync(this, cookieContainer, (string)@params[0], (long)@params[1], (string)@params[2]);
                     default:
                         throw new InvalidOperationException("Can't detect method :" + Method);
                 }
