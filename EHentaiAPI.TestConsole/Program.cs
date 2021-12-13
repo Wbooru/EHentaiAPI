@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using static EHentaiAPI.Settings;
 
 namespace EHentaiAPI.TestConsole
 {
@@ -23,12 +24,12 @@ namespace EHentaiAPI.TestConsole
             {
                 SharedPreferences = new FileSharedPreferences()
             };
-            client.Settings.PutGallerySite(EhUrl.SITE_E);
+            client.Settings.GallerySite = GallerySites.SITE_E;
             client.Cookies.Add(new System.Net.Cookie("sl", "dm_1", "/", "e-hentai.org"));
 
             await client.SignInAsync(TestSettings.UserName, TestSettings.Password);
 
-            var detail = await client.GetGalleryDetailAsync("https://e-hentai.org/g/2043816/abfa078bb5/");
+            var detail = await client.GetGalleryDetailAsync("https://e-hentai.org/g/2083629/7adc18a5eb/");
 
             /*
             var voteResult = await client.VoteComment(detail.apiUid, detail.apiKey, detail.gid, detail.token, detail.comments.comments[1].id, 1);
@@ -62,8 +63,33 @@ namespace EHentaiAPI.TestConsole
             
             var profile = await client.GetProfile();
 
-            var previewSet = await client.GetPreviewSet(detail, 0);
+            var preview = detail.PreviewSet.GetGalleryPreview(detail.Gid, 1);
+            var nextPreview = detail.PreviewSet.GetGalleryPreview(detail.Gid, 2);
+            var page = await client.GetGalleryPageAsync(detail, preview);
+            var nextPage = await client.GetGalleryPageApiAsync(detail.Gid, nextPreview.Position, nextPreview.PToken, page.showKey, preview.PToken);
+            
+            var collection = new FullPreviewSetCollection(client, detail);
+            var d10 = await collection.GetAsync(10);
+            var d11 = await collection.GetAsync(40);
+             */
+            var spider = new EhPageImageSpider(client, detail, async (downloadUrl, reporter) =>
+            {
+                await Task.Delay(2000);
+                return null;
+            });
+            client.Settings.SpiderBackPreloadCount = 0;
+            client.Settings.SpiderFrontPreloadCount = 6;
+
+            var task = spider.RequestPage(10);
+            await task.DownloadTask;
+
+            /*
+            task = spider.RequestPage(6);
+            task = spider.RequestPage(7);
+            task = spider.RequestPage(8);
             */
+
+            await Task.Delay(10000);
 
             Console.ReadLine();
         }

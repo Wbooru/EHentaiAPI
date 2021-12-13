@@ -19,7 +19,7 @@ namespace EHentaiAPI.TestConsole
         {
             if (File.Exists(FILE_PATH))
             {
-                Log.LogImplement.I("FileSharedPreferences", $"Load config from {FILE_PATH}");
+                //Log.LogImplement.I("FileSharedPreferences", $"Load config from {FILE_PATH}");
                 store = JsonConvert.DeserializeObject<Dictionary<string, object>>(File.ReadAllText(FILE_PATH));
             }
         }
@@ -27,13 +27,13 @@ namespace EHentaiAPI.TestConsole
         public T getValue<T>(string key, T defValue = default)
         {
             var value = store.TryGetValue(key, out var d) ? (T)d : defValue;
-            Log.LogImplement.I("FileSharedPreferences", $"Get {key} ===> {value} {(defValue.Equals(value) ? "(DEFAULT)" : "")}");
+            //Log.LogImplement.I("FileSharedPreferences", $"Get {key} ===> {value} {(defValue.Equals(value) ? "(DEFAULT)" : "")}");
             return value;
         }
 
         public ISharedPreferences setValue<T>(string key, T value = default)
         {
-            Log.LogImplement.I("FileSharedPreferences", $"Set {key} = {value}");
+            //Log.LogImplement.I("FileSharedPreferences", $"Set {key} = {value}");
             store[key] = value;
             File.WriteAllText(FILE_PATH, JsonConvert.SerializeObject(store, Formatting.Indented));
             return this;
