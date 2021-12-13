@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EHentaiAPI.Client.Parser;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -45,6 +46,7 @@ namespace EHentaiAPI.Client.Data
             galleryPreview.ImageKey = EhCacheKeyFactory.GetLargePreviewKey(gid, galleryPreview.Position);
             galleryPreview.ImageUrl = ImageUrlList[index];
             galleryPreview.PageUrl = PageUrlList[index];
+            galleryPreview.PToken = GalleryPageUrlParser.Parse(galleryPreview.PageUrl).pToken;
             return galleryPreview;
         }
     }

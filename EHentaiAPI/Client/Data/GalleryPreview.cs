@@ -13,6 +13,9 @@ namespace EHentaiAPI.Client.Data
         public string PageUrl { get; set; }
         public int Position { get; set; }
 
+        //Added by EHentaiAPI
+        public string PToken { get; set; }
+
         public override string ToString() => $"[{Position}]{ImageUrl}";
     }
 }
