@@ -749,7 +749,7 @@ namespace EHentaiAPI.Client.Parser
                     var pageUrl = element.GetAttributeEx("href");
                     element = element.Children[0];
                     var imageUrl = element.GetAttributeEx("src");
-                    if (ehUrl.GetSettings().GetFixThumbUrl())
+                    if (ehUrl.GetSettings().FixThumbUrl)
                     {
                         imageUrl = ehUrl.GetFixedPreviewThumbUrl(imageUrl);
                     }
@@ -783,7 +783,7 @@ namespace EHentaiAPI.Client.Parser
                 }
                 string imageUrl = ParserUtils.Trim(m.Groups[3].Value);
                 string pageUrl = ParserUtils.Trim(m.Groups[1].Value);
-                if (ehUrl.GetSettings().GetFixThumbUrl())
+                if (ehUrl.GetSettings().FixThumbUrl)
                 {
                     imageUrl = ehUrl.GetFixedPreviewThumbUrl(imageUrl);
                 }

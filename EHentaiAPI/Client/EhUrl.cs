@@ -2,6 +2,7 @@
 using EHentaiAPI.Utils;
 using System;
 using System.Linq;
+using static EHentaiAPI.Settings;
 
 namespace EHentaiAPI.Client
 {
@@ -68,63 +69,63 @@ namespace EHentaiAPI.Client
 
         public string GetHost()
         {
-            return settings.GetGallerySite() switch
+            return settings.GallerySite switch
             {
-                SITE_EX => HOST_EX,
+                GallerySites.SITE_EX => HOST_EX,
                 _ => HOST_E,
             };
         }
 
         public string GetFavoritesUrl()
         {
-            return settings.GetGallerySite() switch
+            return settings.GallerySite switch
             {
-                SITE_EX => URL_FAVORITES_EX,
+                GallerySites.SITE_EX => URL_FAVORITES_EX,
                 _ => URL_FAVORITES_E,
             };
         }
 
         public string GetApiUrl()
         {
-            return settings.GetGallerySite() switch
+            return settings.GallerySite switch
             {
-                SITE_EX => API_EX,
+                GallerySites.SITE_EX => API_EX,
                 _ => API_E,
             };
         }
 
         public string GetReferer()
         {
-            return settings.GetGallerySite() switch
+            return settings.GallerySite switch
             {
-                SITE_EX => REFERER_EX,
+                GallerySites.SITE_EX => REFERER_EX,
                 _ => REFERER_E,
             };
         }
 
         public string GetOrigin()
         {
-            return settings.GetGallerySite() switch
+            return settings.GallerySite switch
             {
-                SITE_EX => ORIGIN_EX,
+                GallerySites.SITE_EX => ORIGIN_EX,
                 _ => ORIGIN_E,
             };
         }
 
         public string GetUConfigUrl()
         {
-            return settings.GetGallerySite() switch
+            return settings.GallerySite switch
             {
-                SITE_EX => URL_UCONFIG_EX,
+                GallerySites.SITE_EX => URL_UCONFIG_EX,
                 _ => URL_UCONFIG_E,
             };
         }
 
         public string GetMyTagsUrl()
         {
-            return settings.GetGallerySite() switch
+            return settings.GallerySite switch
             {
-                SITE_EX => URL_MY_TAGS_EX,
+                GallerySites.SITE_EX => URL_MY_TAGS_EX,
                 _ => URL_MY_TAGS_E,
             };
         }
@@ -171,34 +172,34 @@ namespace EHentaiAPI.Client
 
         public string GetPopularUrl()
         {
-            return settings.GetGallerySite() switch
+            return settings.GallerySite switch
             {
-                SITE_EX => URL_POPULAR_EX,
+                GallerySites.SITE_EX => URL_POPULAR_EX,
                 _ => URL_POPULAR_E,
             };
         }
 
         public string GetImageSearchUrl()
         {
-            return settings.GetGallerySite() switch
+            return settings.GallerySite switch
             {
-                SITE_EX => URL_IMAGE_SEARCH_EX,
+                GallerySites.SITE_EX => URL_IMAGE_SEARCH_EX,
                 _ => URL_IMAGE_SEARCH_E,
             };
         }
 
         public string GetWatchedUrl()
         {
-            return settings.GetGallerySite() switch
+            return settings.GallerySite switch
             {
-                SITE_EX => URL_WATCHED_EX,
+                GallerySites.SITE_EX => URL_WATCHED_EX,
                 _ => URL_WATCHED_E,
             };
         }
 
         public string GetThumbUrlPrefix()
         {
-            return settings.GetGallerySite() switch
+            return settings.GallerySite switch
             {
                 _ => URL_PREFIX_THUMB_E,//case SITE_E:
             };

@@ -139,7 +139,7 @@ namespace EHentaiAPI.Client
             }
 
             string resolution;
-            switch (settings.GetThumbResolution())
+            switch (settings.ThumbResolution)
             {
                 default:
                 case 0: // Auto

@@ -22,7 +22,7 @@ namespace EHentaiAPI.UnitTest
             client = shareClient.Client;
 
             client.Cookies.Add(new System.Net.Cookie("sl", "dm_1", "/", "e-hentai.org"));
-            client.Settings.PutGallerySite(EhUrl.SITE_E);
+            client.Settings.GallerySite = Settings.GallerySites.SITE_E;
         }
 
         [Fact, Order(1)]

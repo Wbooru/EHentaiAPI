@@ -239,6 +239,10 @@ namespace EHentaiAPI
         private const string KEY_REQUEST_NEWS = "request_news";
         private const bool DEFAULT_REQUEST_NEWS = true;
 
+        //Added by EHentaiAPI
+        public const string KEY_SPIDER_FRONT_PRELOAD_COUNT = "spider_front_preload_count";
+        public const string KEY_SPIDER_BACK_PRELOAD_COUNT = "spider_back_preload_count";
+
         public ISharedPreferences SharedPreferences { get; set; } = new DefaultTemporaryMemorySharedPreferences();
 
         public bool GetBoolean(string key, bool defValue)
@@ -331,47 +335,45 @@ namespace EHentaiAPI
             SharedPreferences.setValue(key, value);
         }
 
-        public int GetIntFromStr(string key, int defValue)
-        {
-            try
-            {
-                return int.TryParse(SharedPreferences.getValue(key, defValue.ToString()), out var d) ? d : defValue;
-            }
-            catch (InvalidCastException e)
-            {
-                Log.D(TAG, "Get ClassCastException when get " + key + " value", e);
-                return defValue;
-            }
-        }
-
         public void PutIntToStr(string key, int value)
         {
             SharedPreferences.setValue(key, value.ToString());
         }
 
-        public int GetGallerySite()
+        public enum GallerySites
         {
-            return GetIntFromStr(KEY_GALLERY_SITE, DEFAULT_GALLERY_SITE);
+            SITE_E = 0,
+            SITE_EX = 1,
         }
 
-        public void PutGallerySite(int value)
+        public GallerySites GallerySite
         {
-            PutIntToStr(KEY_GALLERY_SITE, value);
+            get { return (GallerySites)GetInt(KEY_GALLERY_SITE, DEFAULT_GALLERY_SITE); }
+            set { SetInt(KEY_GALLERY_SITE, (int)value); }
         }
 
-        public int GetThumbResolution()
+        public int SpiderFrontPreloadCount
         {
-            return GetIntFromStr(KEY_THUMB_RESOLUTION, DEFAULT_THUMB_RESOLUTION);
+            get { return GetInt(KEY_SPIDER_FRONT_PRELOAD_COUNT, 5); }
+            set { SetInt(KEY_SPIDER_FRONT_PRELOAD_COUNT, value); }
         }
 
-        public void SetThumbResolution(int value)
+        public int SpiderBackPreloadCount
         {
-            SetInt(KEY_THUMB_RESOLUTION, value);
+            get { return GetInt(KEY_SPIDER_BACK_PRELOAD_COUNT, 1); }
+            set { SetInt(KEY_SPIDER_BACK_PRELOAD_COUNT, value); }
         }
 
-        public bool GetFixThumbUrl()
+        public int ThumbResolution
         {
-            return GetBoolean(KEY_FIX_THUMB_URL, DEFAULT_FIX_THUMB_URL);
+            get { return GetInt(KEY_THUMB_RESOLUTION, DEFAULT_THUMB_RESOLUTION); }
+            set { SetInt(KEY_THUMB_RESOLUTION, value); }
+        }
+
+        public bool FixThumbUrl
+        {
+            get { return GetBoolean(KEY_FIX_THUMB_URL, DEFAULT_FIX_THUMB_URL); }
+            set { SetBoolean(KEY_FIX_THUMB_URL, value); }
         }
     }
 }
