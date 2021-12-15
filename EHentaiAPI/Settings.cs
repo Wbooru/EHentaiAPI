@@ -242,6 +242,8 @@ namespace EHentaiAPI
         //Added by EHentaiAPI
         public const string KEY_SPIDER_FRONT_PRELOAD_COUNT = "spider_front_preload_count";
         public const string KEY_SPIDER_BACK_PRELOAD_COUNT = "spider_back_preload_count";
+        public const int DEFAULT_SPIDER_FRONT_PRELOAD_COUNT = 5;
+        public const int DEFAULT_SPIDER_BACK_PRELOAD_COUNT = 1;
 
         public ISharedPreferences SharedPreferences { get; set; } = new DefaultTemporaryMemorySharedPreferences();
 
@@ -354,13 +356,13 @@ namespace EHentaiAPI
 
         public int SpiderFrontPreloadCount
         {
-            get { return GetInt(KEY_SPIDER_FRONT_PRELOAD_COUNT, 5); }
+            get { return GetInt(KEY_SPIDER_FRONT_PRELOAD_COUNT, DEFAULT_SPIDER_FRONT_PRELOAD_COUNT); }
             set { SetInt(KEY_SPIDER_FRONT_PRELOAD_COUNT, value); }
         }
 
         public int SpiderBackPreloadCount
         {
-            get { return GetInt(KEY_SPIDER_BACK_PRELOAD_COUNT, 1); }
+            get { return GetInt(KEY_SPIDER_BACK_PRELOAD_COUNT, DEFAULT_SPIDER_BACK_PRELOAD_COUNT); }
             set { SetInt(KEY_SPIDER_BACK_PRELOAD_COUNT, value); }
         }
 
