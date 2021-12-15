@@ -140,7 +140,7 @@ namespace EHentaiAPI.Utils
             public override string ToString() => $"{CurrentStatus} ({1.0 * CurrentDownloadingLength / TotalDownloadLength * 100:F2}%) PreviewPosition:{Preview?.Position}";
         }
 
-        public EhPageImageSpider(EhClient client, GalleryDetail detail, Func<string, DownloadReporter, Task<T>> imageDownloadFunc)
+        public EhPageImageSpider(EhClient client, GalleryDetail detail, Func<GalleryPreview, DownloadReporter, Task<T>> imageDownloadFunc)
         {
             this.client = client;
             this.detail = detail;
@@ -152,7 +152,7 @@ namespace EHentaiAPI.Utils
         private Dictionary<int, SpiderTask> tasks = new();
         private readonly EhClient client;
         private readonly GalleryDetail detail;
-        private readonly Func<string, DownloadReporter, Task<T>> imageDownloadFunc;
+        private readonly Func<GalleryPreview, DownloadReporter, Task<T>> imageDownloadFunc;
         private Dictionary<int, string> skipHathKeys = new();
         public FullPreviewSetCollection Previews { get; private set; }
         private TaskCompletionSource<string> showKey = new TaskCompletionSource<string>();
@@ -249,7 +249,7 @@ namespace EHentaiAPI.Utils
                     task.PreviewTaskSource.SetResult(curSpiderInfo);
                     if (!showKey.Task.IsCompleted)
                         showKey.SetResult(curSpiderInfo.ShowKey);
-                    var obj = await imageDownloadFunc(curSpiderInfo.ImageUrl, new DownloadReporter(task));
+                    var obj = await imageDownloadFunc(curPreview, new DownloadReporter(task));
                     task.DownloadTaskSouce.SetResult(obj);
                 }
             }
@@ -274,7 +274,7 @@ namespace EHentaiAPI.Utils
                 if (!string.IsNullOrWhiteSpace(pageResult.skipHathKey))
                     skipHathKeys[curPreview.Position] = pageResult.skipHathKey;
                 task.PreviewTaskSource.SetResult(curSpiderInfo);
-                var obj = await imageDownloadFunc(curSpiderInfo.ImageUrl, new DownloadReporter(task));
+                var obj = await imageDownloadFunc(curPreview, new DownloadReporter(task));
                 task.DownloadTaskSouce.SetResult(obj);
             }
 
